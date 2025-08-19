@@ -602,7 +602,7 @@
             } else {
                 alert('Invalid credentials. Please try again.');
             }
-        });
+        }
         
         // Toggle Edit Mode
         function toggleEditMode(enable) {
@@ -781,24 +781,25 @@
             }
         }
         
-        // Load itch.io games
+        // Load itch.io games using RSS feed
         async function loadItchIoGames() {
-            const apiKey = document.getElementById('itchio-api').value;
-            const profileUrl = document.getElementById('itchio-url').value;
-            
             const gamesContainer = document.getElementById('games-container');
             gamesContainer.innerHTML = '<div class="spinner"></div>';
             
             try {
-                // Using itch.io API to get user's games
-                const response = await fetch(`https://itch.io/api/1/${apiKey}/my-games`);
-                const data = await response.json();
+                // Use CORS proxy to fetch itch.io RSS feed
+                const rssUrl = 'https://corsproxy.io/?https://soupper.itch.io/feed.xml';
+                const response = await fetch(rssUrl);
+                const text = await response.text();
                 
-                if (data.errors) {
-                    throw new Error(data.errors.join(', '));
-                }
+                // Parse the XML response
+                const parser = new DOMParser();
+                const xml = parser.parseFromString(text, 'application/xml');
                 
-                if (!data.games || data.games.length === 0) {
+                // Get all game items
+                const items = xml.querySelectorAll('item');
+                
+                if (!items || items.length === 0) {
                     gamesContainer.innerHTML = '<div class="error-message">No games found on your itch.io profile</div>';
                     return;
                 }
@@ -807,20 +808,38 @@
                 gamesContainer.innerHTML = '';
                 
                 // Show up to 6 games
-                const gamesToShow = data.games.slice(0, 6);
+                const gamesToShow = Array.from(items).slice(0, 6);
                 
-                gamesToShow.forEach(game => {
+                gamesToShow.forEach(item => {
+                    const title = item.querySelector('title').textContent;
+                    const link = item.querySelector('link').textContent;
+                    const description = item.querySelector('description').textContent;
+                    
+                    // Extract image from description
+                    let imageUrl = 'https://placehold.co/400x200/8a79ff/ffffff?text=Game+Image';
+                    const imgMatch = description.match(/<img[^>]+src="([^">]+)"/);
+                    if (imgMatch && imgMatch[1]) {
+                        imageUrl = imgMatch[1];
+                    }
+                    
+                    // Extract short description
+                    let shortText = 'No description available';
+                    const textMatch = description.match(/<p>([^<]+)</);
+                    if (textMatch && textMatch[1]) {
+                        shortText = textMatch[1];
+                    }
+                    
                     const gameElement = document.createElement('div');
                     gameElement.className = 'card';
                     gameElement.innerHTML = `
-                        <img class="card-img" src="${game.cover_url || 'https://placehold.co/400x200/8a79ff/ffffff?text=Game+Image'}" alt="${game.title}">
+                        <img class="card-img" src="${imageUrl}" alt="${title}">
                         <div class="card-content">
-                            <h3>${game.title}</h3>
-                            <p>${game.short_text || 'No description available'}</p>
+                            <h3>${title}</h3>
+                            <p>${shortText}</p>
                         </div>
                     `;
                     gameElement.addEventListener('click', () => {
-                        window.open(game.url, '_blank');
+                        window.open(link, '_blank');
                     });
                     gamesContainer.appendChild(gameElement);
                 });
