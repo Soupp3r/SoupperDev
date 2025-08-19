@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Developer Portfolio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #0a0a1a;
+            color: #ffffff;
+            line-height: 1.6;
+        }
+        
+        /* Header and Banner */
+        header {
+            position: relative;
+            width: 100%;
+            height: 300px;
+            overflow: hidden;
+        }
+        
+        #banner {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        /* Login Form */
+        #login-container {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+        }
+        
+        #login-btn {
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            border: 1px solid #6e45e2;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        #login-btn:hover {
+            background: rgba(110, 69, 226, 0.5);
+        }
+        
+        #login-form {
+            display: none;
+            position: absolute;
+            top: 40px;
+            right: 0;
+            background: rgba(20, 20, 40, 0.95);
+            padding: 20px;
+            border-radius: 8px;
+            width: 300px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            border: 1px solid #6e45e2;
+        }
+        
+        #login-form input {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border: 1px solid #6e45e2;
+            border-radius: 4px;
+            background: rgba(10, 10, 25, 0.8);
+            color: white;
+        }
+        
+        #login-form button {
+            width: 100%;
+            padding: 10px;
+            background: #6e45e2;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        
+        /* Social Links */
+        #social-links {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            gap: 15px;
+            z-index: 100;
+        }
+        
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .social-icon:hover {
+            transform: scale(1.1);
+            background: rgba(110, 69, 226, 0.7);
+        }
+        
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        section {
+            margin-bottom: 60px;
+        }
+        
+        h2 {
+            font-size: 2.2rem;
+            margin-bottom: 25px;
+            color: #6e45e2;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .view-all {
+            font-size: 1rem;
+            color: #8a79ff;
+            text-decoration: none;
+        }
+        
+        .view-all:hover {
+            text-decoration: underline;
+        }
+        
+        /* About Section */
+        #about {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+        }
+        
+        #about-logo {
+            flex: 1;
+            max-width: 300px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        #about-logo img {
+            width: 100%;
+            display: block;
+        }
+        
+        #about-content {
+            flex: 2;
+        }
+        
+        /* Content Grids */
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+        
+        .card {
+            background: rgba(20, 20, 40, 0.6);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(110, 69, 226, 0.3);
+        }
+        
+        .card-img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+        }
+        
+        .card-content {
+            padding: 15px;
+        }
+        
+        .card h3 {
+            margin-bottom: 10px;
+            color: #a594ff;
+        }
+        
+        .card p {
+            color: #ccccdd;
+            font-size: 0.9rem;
+        }
+        
+        /* Edit Mode Styles */
+        .editable {
+            position: relative;
+            border: 2px dashed transparent;
+            transition: border-color 0.3s;
+        }
+        
+        .edit-mode .editable {
+            border-color: #6e45e2;
+        }
+        
+        .edit-btn {
+            display: none;
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: rgba(110, 69, 226, 0.8);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 5px 10px;
+            cursor: pointer;
+            z-index: 10;
+        }
+        
+        .edit-mode .edit-btn {
+            display: block;
+        }
+        
+        /* Customization Panel */
+        #customization-panel {
+            position: fixed;
+            top: 0;
+            right: -350px;
+            width: 350px;
+            height: 100vh;
+            background: rgba(20, 20, 40, 0.98);
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            overflow-y: auto;
+            transition: right 0.3s ease;
+            z-index: 1000;
+            border-left: 2px solid #6e45e2;
+        }
+        
+        #customization-panel.open {
+            right: 0;
+        }
+        
+        #panel-toggle {
+            position: absolute;
+            left: -40px;
+            top: 50%;
+            background: #6e45e2;
+            color: white;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px 0 0 8px;
+            cursor: pointer;
+        }
+        
+        .panel-section {
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #333355;
+        }
+        
+        .panel-section h3 {
+            color: #a594ff;
+            margin-bottom: 15px;
+        }
+        
+        .panel-input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #6e45e2;
+            border-radius: 4px;
+            background: rgba(10, 10, 25, 0.8);
+            color: white;
+        }
+        
+        .panel-btn {
+            width: 100%;
+            padding: 10px;
+            background: #6e45e2;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        
+        /* Footer */
+        footer {
+            background: rgba(10, 10, 25, 0.9);
+            padding: 20px;
+            text-align: center;
+            margin-top: 40px;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            #about {
+                flex-direction: column;
+            }
+            
+            #about-logo {
+                max-width: 100%;
+            }
+            
+            header {
+                height: 200px;
+            }
+            
+            #customization-panel {
+                width: 300px;
+                right: -300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header with Banner -->
+    <header>
+        <img id="banner" src="https://placehold.co/1200x300/6e45e2/ffffff?text=Developer+Banner" alt="Banner">
+        
+        <!-- Login Container -->
+        <div id="login-container">
+            <button id="login-btn"><i class="fas fa-lock"></i> Developer Login</button>
+            <div id="login-form">
+                <input type="text" id="username" placeholder="Username">
+                <input type="password" id="password" placeholder="Password">
+                <button id="submit-login">Login</button>
+            </div>
+        </div>
+        
+        <!-- Social Links -->
+        <div id="social-links">
+            <div class="social-icon" id="youtube-link">
+                <i class="fab fa-youtube" style="font-size: 20px;"></i>
+            </div>
+            <div class="social-icon" id="itchio-link">
+                <i class="fas fa-gamepad" style="font-size: 18px;"></i>
+            </div>
+        </div>
+    </header>
+    
+    <div class="container">
+        <!-- About Section -->
+        <section id="about">
+            <div id="about-logo" class="editable">
+                <img src="https://placehold.co/300x300/8a79ff/ffffff?text=Dev+Logo" alt="Logo">
+                <button class="edit-btn">Change Image</button>
+            </div>
+            <div id="about-content">
+                <h2>About Me</h2>
+                <p class="editable">Hello! I'm a passionate game developer and content creator. I love creating immersive experiences through games and sharing my development journey on YouTube. My goal is to build engaging games that bring joy to players and to share my knowledge with the developer community.</p>
+                <button class="edit-btn">Edit Text</button>
+            </div>
+        </section>
+        
+        <!-- Videos Section -->
+        <section id="videos">
+            <h2>
+                Latest Videos
+                <a href="#" class="view-all">View All</a>
+            </h2>
+            <div class="content-grid" id="videos-container">
+                <!-- Video cards will be dynamically loaded from YouTube API -->
+                <div class="card">
+                    <img class="card-img" src="https://placehold.co/400x200/6e45e2/ffffff?text=Loading+Videos..." alt="Video 1">
+                    <div class="card-content">
+                        <h3>Video Title</h3>
+                        <p>Video description will appear here</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Games Section -->
+        <section id="games">
+            <h2>
+                My Games
+                <a href="#" class="view-all">View All</a>
+            </h2>
+            <div class="content-grid" id="games-container">
+                <!-- Game cards will be dynamically loaded from itch.io API -->
+                <div class="card">
+                    <img class="card-img" src="https://placehold.co/400x200/8a79ff/ffffff?text=Loading+Games..." alt="Game 1">
+                    <div class="card-content">
+                        <h3>Game Title</h3>
+                        <p>Game description will appear here</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <!-- Customization Panel -->
+    <div id="customization-panel">
+        <div id="panel-toggle">
+            <i class="fas fa-cog"></i>
+        </div>
+        <h2>Customization Panel</h2>
+        
+        <div class="panel-section">
+            <h3>Banner Image</h3>
+            <input type="text" id="banner-url" class="panel-input" placeholder="Banner Image URL">
+            <button class="panel-btn" id="update-banner">Update Banner</button>
+        </div>
+        
+        <div class="panel-section">
+            <h3>Logo Image</h3>
+            <input type="text" id="logo-url" class="panel-input" placeholder="Logo Image URL">
+            <button class="panel-btn" id="update-logo">Update Logo</button>
+        </div>
+        
+        <div class="panel-section">
+            <h3>About Text</h3>
+            <textarea id="about-text" class="panel-input" placeholder="About Text" rows="4"></textarea>
+            <button class="panel-btn" id="update-about">Update About Text</button>
+        </div>
+        
+        <div class="panel-section">
+            <h3>Social Links</h3>
+            <input type="text" id="youtube-url" class="panel-input" placeholder="YouTube Channel URL">
+            <input type="text" id="itchio-url" class="panel-input" placeholder="Itch.io Profile URL">
+            <button class="panel-btn" id="update-links">Update Social Links</button>
+        </div>
+        
+        <div class="panel-section">
+            <h3>API Configuration</h3>
+            <input type="text" id="youtube-api" class="panel-input" placeholder="YouTube API Key">
+            <input type="text" id="itchio-api" class="panel-input" placeholder="Itch.io API Key">
+            <button class="panel-btn" id="update-apis">Save API Keys</button>
+        </div>
+        
+        <button class="panel-btn" id="save-all">Save All Changes</button>
+        <button class="panel-btn" id="reset-all" style="background: #ff4757;">Reset to Default</button>
+    </div>
+    
+    <footer>
+        <p>© 2023 Developer Portfolio. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // DOM Elements
+        const loginBtn = document.getElementById('login-btn');
+        const loginForm = document.getElementById('login-form');
+        const submitLogin = document.getElementById('submit-login');
+        const usernameInput = document.getElementById('username');
+        const passwordInput = document.getElementById('password');
+        const panelToggle = document.getElementById('panel-toggle');
+        const customizationPanel = document.getElementById('customization-panel');
+        
+        // Edit Mode State
+        let editMode = false;
+        let isLoggedIn = false;
+        
+        // Load saved data from localStorage
+        function loadSavedData() {
+            const savedData = localStorage.getItem('portfolioData');
+            if (savedData) {
+                const data = JSON.parse(savedData);
+                
+                // Apply saved banner
+                if (data.bannerUrl) {
+                    document.getElementById('banner').src = data.bannerUrl;
+                    document.getElementById('banner-url').value = data.bannerUrl;
+                }
+                
+                // Apply saved logo
+                if (data.logoUrl) {
+                    document.querySelector('#about-logo img').src = data.logoUrl;
+                    document.getElementById('logo-url').value = data.logoUrl;
+                }
+                
+                // Apply saved about text
+                if (data.aboutText) {
+                    document.querySelector('#about-content p').textContent = data.aboutText;
+                    document.getElementById('about-text').value = data.aboutText;
+                }
+                
+                // Apply saved social links
+                if (data.youtubeUrl) {
+                    document.getElementById('youtube-url').value = data.youtubeUrl;
+                }
+                if (data.itchioUrl) {
+                    document.getElementById('itchio-url').value = data.itchioUrl;
+                }
+                
+                // Apply saved API keys
+                if (data.youtubeApiKey) {
+                    document.getElementById('youtube-api').value = data.youtubeApiKey;
+                }
+                if (data.itchioApiKey) {
+                    document.getElementById('itchio-api').value = data.itchioApiKey;
+                }
+            }
+        }
+        
+        // Save data to localStorage
+        function saveData() {
+            const data = {
+                bannerUrl: document.getElementById('banner-url').value,
+                logoUrl: document.getElementById('logo-url').value,
+                aboutText: document.getElementById('about-text').value,
+                youtubeUrl: document.getElementById('youtube-url').value,
+                itchioUrl: document.getElementById('itchio-url').value,
+                youtubeApiKey: document.getElementById('youtube-api').value,
+                itchioApiKey: document.getElementById('itchio-api').value
+            };
+            
+            localStorage.setItem('portfolioData', JSON.stringify(data));
+            alert('All changes saved successfully!');
+        }
+        
+        // Toggle Login Form
+        loginBtn.addEventListener('click', () => {
+            if (isLoggedIn) {
+                toggleEditMode(false);
+                isLoggedIn = false;
+                loginBtn.innerHTML = '<i class="fas fa-lock"></i> Developer Login';
+            } else {
+                loginForm.style.display = loginForm.style.display === 'block' ? 'none' : 'block';
+            }
+        });
+        
+        // Login Functionality
+        submitLogin.addEventListener('click', () => {
+            const username = usernameInput.value;
+            const password = passwordInput.value;
+            
+            if (username === 'Soupper' && password === '402warrenRd') {
+                toggleEditMode(true);
+                loginForm.style.display = 'none';
+                isLoggedIn = true;
+                alert('Developer mode activated! You can now customize the website.');
+            } else {
+                alert('Invalid credentials. Please try again.');
+            }
+        });
+        
+        // Toggle Edit Mode
+        function toggleEditMode(enable) {
+            editMode = enable;
+            document.body.classList.toggle('edit-mode', enable);
+            
+            // Change login button text
+            if (enable) {
+                loginBtn.innerHTML = '<i class="fas fa-unlock"></i> Logout';
+            }
+        }
+        
+        // Toggle customization panel
+        panelToggle.addEventListener('click', () => {
+            customizationPanel.classList.toggle('open');
+        });
+        
+        // Social Links
+        document.getElementById('youtube-link').addEventListener('click', () => {
+            const youtubeUrl = document.getElementById('youtube-url').value || 'https://youtube.com';
+            window.open(youtubeUrl, '_blank');
+        });
+        
+        document.getElementById('itchio-link').addEventListener('click', () => {
+            const itchioUrl = document.getElementById('itchio-url').value || 'https://itch.io';
+            window.open(itchioUrl, '_blank');
+        });
+        
+        // Update banner
+        document.getElementById('update-banner').addEventListener('click', () => {
+            const bannerUrl = document.getElementById('banner-url').value;
+            if (bannerUrl) {
+                document.getElementById('banner').src = bannerUrl;
+            }
+        });
+        
+        // Update logo
+        document.getElementById('update-logo').addEventListener('click', () => {
+            const logoUrl = document.getElementById('logo-url').value;
+            if (logoUrl) {
+                document.querySelector('#about-logo img').src = logoUrl;
+            }
+        });
+        
+        // Update about text
+        document.getElementById('update-about').addEventListener('click', () => {
+            const aboutText = document.getElementById('about-text').value;
+            if (aboutText) {
+                document.querySelector('#about-content p').textContent = aboutText;
+            }
+        });
+        
+        // Save all changes
+        document.getElementById('save-all').addEventListener('click', saveData);
+        
+        // Reset all changes
+        document.getElementById('reset-all').addEventListener('click', () => {
+            if (confirm('Are you sure you want to reset all changes?')) {
+                localStorage.removeItem('portfolioData');
+                location.reload();
+            }
+        });
+        
+        // Edit functionality for editable elements
+        document.addEventListener('click', (e) => {
+            if (editMode && e.target.classList.contains('edit-btn')) {
+                const parent = e.target.parentElement;
+                
+                if (parent.id === 'about-logo' || parent.classList.contains('editable-img')) {
+                    const newImageUrl = prompt('Enter new image URL:');
+                    if (newImageUrl) {
+                        const img = parent.querySelector('img');
+                        img.src = newImageUrl;
+                        document.getElementById('logo-url').value = newImageUrl;
+                    }
+                } else if (parent.classList.contains('editable')) {
+                    const currentText = parent.querySelector('p').textContent;
+                    const newText = prompt('Edit text:', currentText);
+                    if (newText !== null) {
+                        parent.querySelector('p').textContent = newText;
+                        document.getElementById('about-text').value = newText;
+                    }
+                }
+            }
+        });
+        
+        // Load YouTube videos
+        async function loadYouTubeVideos() {
+            const apiKey = document.getElementById('youtube-api').value || 'AIzaSyA9nChvnwmM_JcV4qAvM4fxNK2rRRTKUBo';
+            const channelUrl = document.getElementById('youtube-url').value || 'https://www.youtube.com/channel/UC_x5XG1OV2P6uZZ5FSM9Ttw';
+            
+            if (!apiKey) {
+                console.error('YouTube API key is required');
+                return;
+            }
+            
+            try {
+                // This is a simplified example - in a real implementation, you would use the YouTube API
+                // to fetch actual videos from the channel
+                
+                // For demonstration, we'll create some placeholder videos
+                const videosContainer = document.getElementById('videos-container');
+                videosContainer.innerHTML = '';
+                
+                const placeholderVideos = [
+                    { title: 'Game Development Journey', description: 'Join me as I share my game development process and challenges.', image: 'https://placehold.co/400x200/6e45e2/ffffff?text=Video+1' },
+                    { title: 'Unity Tutorial: Enemy AI', description: 'Learn how to create a simple enemy AI system in Unity.', image: 'https://placehold.co/400x200/6e45e2/ffffff?text=Video+2' },
+                    { title: 'Devlog #3: New Mechanics', description: 'Check out the new mechanics I\'ve implemented in my current project.', image: 'https://placehold.co/400x200/6e45e2/ffffff?text=Video+3' }
+                ];
+                
+                placeholderVideos.forEach(video => {
+                    const videoElement = document.createElement('div');
+                    videoElement.className = 'card';
+                    videoElement.innerHTML = `
+                        <img class="card-img" src="${video.image}" alt="${video.title}">
+                        <div class="card-content">
+                            <h3>${video.title}</h3>
+                            <p>${video.description}</p>
+                        </div>
+                    `;
+                    videosContainer.appendChild(videoElement);
+                });
+            } catch (error) {
+                console.error('Error loading YouTube videos:', error);
+            }
+        }
+        
+        // Load itch.io games
+        async function loadItchIoGames() {
+            const apiKey = document.getElementById('itchio-api').value;
+            const profileUrl = document.getElementById('itchio-url').value || 'https://soupper.itch.io/';
+            
+            if (!apiKey) {
+                console.warn('Itch.io API key is not set. Using placeholder data.');
+            }
+            
+            try {
+                // This is a simplified example - in a real implementation, you would use the itch.io API
+                // to fetch actual games from the profile
+                
+                // For demonstration, we'll create some placeholder games
+                const gamesContainer = document.getElementById('games-container');
+                gamesContainer.innerHTML = '';
+                
+                const placeholderGames = [
+                    { title: 'Space Adventure', description: 'An action-packed space shooter with stunning visuals.', image: 'https://placehold.co/400x200/8a79ff/ffffff?text=Game+1' },
+                    { title: 'Puzzle Quest', description: 'A challenging puzzle game with RPG elements.', image: 'https://placehold.co/400x200/8a79ff/ffffff?text=Game+2' },
+                    { title: 'Rogue Dungeon', description: 'A roguelike dungeon crawler with permadeath.', image: 'https://placehold.co/400x200/8a79ff/ffffff?text=Game+3' }
+                ];
+                
+                placeholderGames.forEach(game => {
+                    const gameElement = document.createElement('div');
+                    gameElement.className = 'card';
+                    gameElement.innerHTML = `
+                        <img class="card-img" src="${game.image}" alt="${game.title}">
+                        <div class="card-content">
+                            <h3>${game.title}</h3>
+                            <p>${game.description}</p>
+                        </div>
+                    `;
+                    gamesContainer.appendChild(gameElement);
+                });
+            } catch (error) {
+                console.error('Error loading itch.io games:', error);
+            }
+        }
+        
+        // Initialize content
+        window.addEventListener('DOMContentLoaded', () => {
+            loadSavedData();
+            loadYouTubeVideos();
+            loadItchIoGames();
+        });
+    </script>
+</body>
+</html>
