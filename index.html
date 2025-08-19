@@ -186,6 +186,7 @@
             overflow: hidden;
             transition: transform 0.3s;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
         }
         
         .card:hover {
@@ -206,11 +207,26 @@
         .card h3 {
             margin-bottom: 10px;
             color: #a594ff;
+            font-size: 1.1rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
         
         .card p {
             color: #ccccdd;
             font-size: 0.9rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .card .published-date {
+            color: #8a79ff;
+            font-size: 0.8rem;
+            margin-top: 10px;
         }
         
         /* Edit Mode Styles */
@@ -333,6 +349,16 @@
             100% { transform: rotate(360deg); }
         }
         
+        /* Error Message */
+        .error-message {
+            text-align: center;
+            color: #ff6b6b;
+            padding: 20px;
+            background: rgba(255, 107, 107, 0.1);
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        
         /* Responsive Design */
         @media (max-width: 768px) {
             #about {
@@ -405,7 +431,7 @@
         <section id="videos">
             <h2>
                 Latest Videos
-                <a href="#" class="view-all">View All</a>
+                <a href="https://www.youtube.com/@s0upp3r" target="_blank" class="view-all">View All</a>
             </h2>
             <div class="content-grid" id="videos-container">
                 <div class="spinner"></div>
@@ -416,7 +442,7 @@
         <section id="games">
             <h2>
                 My Games
-                <a href="#" class="view-all">View All</a>
+                <a href="https://soupper.itch.io/" target="_blank" class="view-all">View All</a>
             </h2>
             <div class="content-grid" id="games-container">
                 <div class="spinner"></div>
@@ -451,8 +477,8 @@
         
         <div class="panel-section">
             <h3>Social Links</h3>
-            <input type="text" id="youtube-url" class="panel-input" placeholder="YouTube Channel URL">
-            <input type="text" id="itchio-url" class="panel-input" placeholder="Itch.io Profile URL">
+            <input type="text" id="youtube-url" class="panel-input" placeholder="YouTube Channel URL" value="https://www.youtube.com/@s0upp3r">
+            <input type="text" id="itchio-url" class="panel-input" placeholder="Itch.io Profile URL" value="https://soupper.itch.io/">
             <button class="panel-btn" id="update-links">Update Social Links</button>
         </div>
         
@@ -591,12 +617,12 @@
         
         // Social Links
         document.getElementById('youtube-link').addEventListener('click', () => {
-            const youtubeUrl = document.getElementById('youtube-url').value || 'https://youtube.com';
+            const youtubeUrl = document.getElementById('youtube-url').value || 'https://www.youtube.com/@s0upp3r';
             window.open(youtubeUrl, '_blank');
         });
         
         document.getElementById('itchio-link').addEventListener('click', () => {
-            const itchioUrl = document.getElementById('itchio-url').value || 'https://itch.io';
+            const itchioUrl = document.getElementById('itchio-url').value || 'https://soupper.itch.io/';
             window.open(itchioUrl, '_blank');
         });
         
@@ -679,7 +705,7 @@
             const channelUrl = document.getElementById('youtube-url').value;
             
             if (!apiKey) {
-                alert('Please add your YouTube API key in the customization panel');
+                showError('Please add your YouTube API key in the customization panel');
                 return;
             }
             
@@ -687,52 +713,62 @@
             videosContainer.innerHTML = '<div class="spinner"></div>';
             
             try {
-                // In a real implementation, you would use the YouTube API
-                // For demonstration, we'll simulate API loading
-                setTimeout(() => {
-                    videosContainer.innerHTML = '';
+                // First, we need to get the channel ID from the custom URL
+                const customUrl = "s0upp3r"; // From @s0upp3r
+                
+                // Step 1: Get channel ID from custom URL
+                const channelResponse = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&type=channel&q=${customUrl}&key=${apiKey}`);
+                const channelData = await channelResponse.json();
+                
+                if (!channelData.items || channelData.items.length === 0) {
+                    throw new Error('Channel not found');
+                }
+                
+                const channelId = channelData.items[0].snippet.channelId;
+                
+                // Step 2: Get uploads playlist ID from channel
+                const channelInfoResponse = await fetch(`https://www.googleapis.com/youtube/v3/channels?part=contentDetails&id=${channelId}&key=${apiKey}`);
+                const channelInfo = await channelInfoResponse.json();
+                
+                const uploadsPlaylistId = channelInfo.items[0].contentDetails.relatedPlaylists.uploads;
+                
+                // Step 3: Get videos from uploads playlist
+                const videosResponse = await fetch(`https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=6&playlistId=${uploadsPlaylistId}&key=${apiKey}`);
+                const videosData = await videosResponse.json();
+                
+                if (!videosData.items || videosData.items.length === 0) {
+                    videosContainer.innerHTML = '<div class="error-message">No videos found on this channel</div>';
+                    return;
+                }
+                
+                // Display the videos
+                videosContainer.innerHTML = '';
+                
+                videosData.items.forEach(item => {
+                    const videoId = item.snippet.resourceId.videoId;
+                    const title = item.snippet.title;
+                    const description = item.snippet.description;
+                    const thumbnail = item.snippet.thumbnails.medium.url;
+                    const publishedAt = new Date(item.snippet.publishedAt).toLocaleDateString();
                     
-                    // Sample video data - in a real implementation, this would come from the API
-                    const videos = [
-                        { 
-                            title: 'Game Development Journey', 
-                            description: 'Join me as I share my game development process and challenges.', 
-                            image: 'https://placehold.co/400x200/6e45e2/ffffff?text=Video+1',
-                            link: 'https://youtube.com/watch?v=abc123'
-                        },
-                        { 
-                            title: 'Unity Tutorial: Enemy AI', 
-                            description: 'Learn how to create a simple enemy AI system in Unity.', 
-                            image: 'https://placehold.co/400x200/6e45e2/ffffff?text=Video+2',
-                            link: 'https://youtube.com/watch?v=def456'
-                        },
-                        { 
-                            title: 'Devlog #3: New Mechanics', 
-                            description: 'Check out the new mechanics I\'ve implemented in my current project.', 
-                            image: 'https://placehold.co/400x200/6e45e2/ffffff?text=Video+3',
-                            link: 'https://youtube.com/watch?v=ghi789'
-                        }
-                    ];
-                    
-                    videos.forEach(video => {
-                        const videoElement = document.createElement('div');
-                        videoElement.className = 'card';
-                        videoElement.innerHTML = `
-                            <img class="card-img" src="${video.image}" alt="${video.title}">
-                            <div class="card-content">
-                                <h3>${video.title}</h3>
-                                <p>${video.description}</p>
-                            </div>
-                        `;
-                        videoElement.addEventListener('click', () => {
-                            window.open(video.link, '_blank');
-                        });
-                        videosContainer.appendChild(videoElement);
+                    const videoElement = document.createElement('div');
+                    videoElement.className = 'card';
+                    videoElement.innerHTML = `
+                        <img class="card-img" src="${thumbnail}" alt="${title}">
+                        <div class="card-content">
+                            <h3>${title}</h3>
+                            <p>${description}</p>
+                            <div class="published-date">Published: ${publishedAt}</div>
+                        </div>
+                    `;
+                    videoElement.addEventListener('click', () => {
+                        window.open(`https://www.youtube.com/watch?v=${videoId}`, '_blank');
                     });
-                }, 1500);
+                    videosContainer.appendChild(videoElement);
+                });
             } catch (error) {
                 console.error('Error loading YouTube videos:', error);
-                videosContainer.innerHTML = '<p>Error loading videos. Please check your API key.</p>';
+                videosContainer.innerHTML = '<div class="error-message">Error loading videos. Please check your API key and try again.</div>';
             }
         }
         
@@ -745,29 +781,31 @@
             gamesContainer.innerHTML = '<div class="spinner"></div>';
             
             try {
+                // Since we don't have a proper itch.io API key, we'll use a placeholder approach
                 // In a real implementation, you would use the itch.io API
-                // For demonstration, we'll simulate API loading
+                
+                // For now, we'll create some placeholder games
                 setTimeout(() => {
                     gamesContainer.innerHTML = '';
                     
-                    // Sample game data - in a real implementation, this would come from the API
+                    // Sample game data
                     const games = [
                         { 
                             title: 'Space Adventure', 
                             description: 'An action-packed space shooter with stunning visuals.', 
-                            image: 'https://placehold.co/400x200/8a79ff/ffffff?text=Game+1',
+                            image: 'https://placehold.co/400x200/8a79ff/ffffff?text=Space+Adventure',
                             link: 'https://soupper.itch.io/space-adventure'
                         },
                         { 
                             title: 'Puzzle Quest', 
                             description: 'A challenging puzzle game with RPG elements.', 
-                            image: 'https://placehold.co/400x200/8a79ff/ffffff?text=Game+2',
+                            image: 'https://placehold.co/400x200/8a79ff/ffffff?text=Puzzle+Quest',
                             link: 'https://soupper.itch.io/puzzle-quest'
                         },
                         { 
                             title: 'Rogue Dungeon', 
                             description: 'A roguelike dungeon crawler with permadeath.', 
-                            image: 'https://placehold.co/400x200/8a79ff/ffffff?text=Game+3',
+                            image: 'https://placehold.co/400x200/8a79ff/ffffff?text=Rogue+Dungeon',
                             link: 'https://soupper.itch.io/rogue-dungeon'
                         }
                     ];
@@ -790,8 +828,14 @@
                 }, 1500);
             } catch (error) {
                 console.error('Error loading itch.io games:', error);
-                gamesContainer.innerHTML = '<p>Error loading games. Please check your API configuration.</p>';
+                gamesContainer.innerHTML = '<div class="error-message">Error loading games. Please check your API configuration.</div>';
             }
+        }
+        
+        // Show error message
+        function showError(message) {
+            const videosContainer = document.getElementById('videos-container');
+            videosContainer.innerHTML = `<div class="error-message">${message}</div>`;
         }
         
         // Initialize content
@@ -799,6 +843,10 @@
             loadSavedData();
             loadYouTubeVideos();
             loadItchIoGames();
+            
+            // Set the correct social links
+            document.getElementById('youtube-url').value = 'https://www.youtube.com/@s0upp3r';
+            document.getElementById('itchio-url').value = 'https://soupper.itch.io/';
         });
     </script>
 </body>
