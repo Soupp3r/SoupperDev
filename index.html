@@ -39,6 +39,9 @@
             top: 20px;
             right: 20px;
             z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 15px;
         }
         
         #login-btn {
@@ -314,6 +317,22 @@
             margin-top: 40px;
         }
         
+        /* Loading Spinner */
+        .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 4px solid #6e45e2;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
         /* Responsive Design */
         @media (max-width: 768px) {
             #about {
@@ -332,13 +351,20 @@
                 width: 300px;
                 right: -300px;
             }
+            
+            #login-container {
+                flex-direction: column;
+                align-items: flex-end;
+                gap: 10px;
+            }
         }
     </style>
 </head>
 <body>
     <!-- Header with Banner -->
-    <header>
+    <header class="editable">
         <img id="banner" src="https://placehold.co/1200x300/6e45e2/ffffff?text=Developer+Banner" alt="Banner">
+        <button class="edit-btn">Change Banner</button>
         
         <!-- Login Container -->
         <div id="login-container">
@@ -366,11 +392,11 @@
         <section id="about">
             <div id="about-logo" class="editable">
                 <img src="https://placehold.co/300x300/8a79ff/ffffff?text=Dev+Logo" alt="Logo">
-                <button class="edit-btn">Change Image</button>
+                <button class="edit-btn">Change Logo</button>
             </div>
-            <div id="about-content">
+            <div id="about-content" class="editable">
                 <h2>About Me</h2>
-                <p class="editable">Hello! I'm a passionate game developer and content creator. I love creating immersive experiences through games and sharing my development journey on YouTube. My goal is to build engaging games that bring joy to players and to share my knowledge with the developer community.</p>
+                <p>Hello! I'm a passionate game developer and content creator. I love creating immersive experiences through games and sharing my development journey on YouTube. My goal is to build engaging games that bring joy to players and to share my knowledge with the developer community.</p>
                 <button class="edit-btn">Edit Text</button>
             </div>
         </section>
@@ -382,14 +408,7 @@
                 <a href="#" class="view-all">View All</a>
             </h2>
             <div class="content-grid" id="videos-container">
-                <!-- Video cards will be dynamically loaded from YouTube API -->
-                <div class="card">
-                    <img class="card-img" src="https://placehold.co/400x200/6e45e2/ffffff?text=Loading+Videos..." alt="Video 1">
-                    <div class="card-content">
-                        <h3>Video Title</h3>
-                        <p>Video description will appear here</p>
-                    </div>
-                </div>
+                <div class="spinner"></div>
             </div>
         </section>
         
@@ -400,14 +419,7 @@
                 <a href="#" class="view-all">View All</a>
             </h2>
             <div class="content-grid" id="games-container">
-                <!-- Game cards will be dynamically loaded from itch.io API -->
-                <div class="card">
-                    <img class="card-img" src="https://placehold.co/400x200/8a79ff/ffffff?text=Loading+Games..." alt="Game 1">
-                    <div class="card-content">
-                        <h3>Game Title</h3>
-                        <p>Game description will appear here</p>
-                    </div>
-                </div>
+                <div class="spinner"></div>
             </div>
         </section>
     </div>
@@ -446,9 +458,15 @@
         
         <div class="panel-section">
             <h3>API Configuration</h3>
-            <input type="text" id="youtube-api" class="panel-input" placeholder="YouTube API Key">
+            <input type="text" id="youtube-api" class="panel-input" placeholder="YouTube API Key" value="AIzaSyA9nChvnwmM_JcV4qAvM4fxNK2rRRTKUBo">
             <input type="text" id="itchio-api" class="panel-input" placeholder="Itch.io API Key">
             <button class="panel-btn" id="update-apis">Save API Keys</button>
+        </div>
+        
+        <div class="panel-section">
+            <h3>Content Refresh</h3>
+            <button class="panel-btn" id="refresh-videos">Refresh Videos</button>
+            <button class="panel-btn" id="refresh-games">Refresh Games</button>
         </div>
         
         <button class="panel-btn" id="save-all">Save All Changes</button>
@@ -537,6 +555,7 @@
                 toggleEditMode(false);
                 isLoggedIn = false;
                 loginBtn.innerHTML = '<i class="fas fa-lock"></i> Developer Login';
+                loginBtn.style.marginRight = '0';
             } else {
                 loginForm.style.display = loginForm.style.display === 'block' ? 'none' : 'block';
             }
@@ -551,6 +570,8 @@
                 toggleEditMode(true);
                 loginForm.style.display = 'none';
                 isLoggedIn = true;
+                loginBtn.innerHTML = '<i class="fas fa-unlock"></i> Logout';
+                loginBtn.style.marginRight = '15px';
                 alert('Developer mode activated! You can now customize the website.');
             } else {
                 alert('Invalid credentials. Please try again.');
@@ -561,11 +582,6 @@
         function toggleEditMode(enable) {
             editMode = enable;
             document.body.classList.toggle('edit-mode', enable);
-            
-            // Change login button text
-            if (enable) {
-                loginBtn.innerHTML = '<i class="fas fa-unlock"></i> Logout';
-            }
         }
         
         // Toggle customization panel
@@ -619,6 +635,12 @@
             }
         });
         
+        // Refresh videos
+        document.getElementById('refresh-videos').addEventListener('click', loadYouTubeVideos);
+        
+        // Refresh games
+        document.getElementById('refresh-games').addEventListener('click', loadItchIoGames);
+        
         // Edit functionality for editable elements
         document.addEventListener('click', (e) => {
             if (editMode && e.target.classList.contains('edit-btn')) {
@@ -632,11 +654,20 @@
                         document.getElementById('logo-url').value = newImageUrl;
                     }
                 } else if (parent.classList.contains('editable')) {
-                    const currentText = parent.querySelector('p').textContent;
-                    const newText = prompt('Edit text:', currentText);
-                    if (newText !== null) {
-                        parent.querySelector('p').textContent = newText;
-                        document.getElementById('about-text').value = newText;
+                    if (parent.querySelector('p')) {
+                        const currentText = parent.querySelector('p').textContent;
+                        const newText = prompt('Edit text:', currentText);
+                        if (newText !== null) {
+                            parent.querySelector('p').textContent = newText;
+                            document.getElementById('about-text').value = newText;
+                        }
+                    } else if (parent.querySelector('img')) {
+                        const newImageUrl = prompt('Enter new image URL:');
+                        if (newImageUrl) {
+                            const img = parent.querySelector('img');
+                            img.src = newImageUrl;
+                            document.getElementById('banner-url').value = newImageUrl;
+                        }
                     }
                 }
             }
@@ -644,82 +675,122 @@
         
         // Load YouTube videos
         async function loadYouTubeVideos() {
-            const apiKey = document.getElementById('youtube-api').value || 'AIzaSyA9nChvnwmM_JcV4qAvM4fxNK2rRRTKUBo';
-            const channelUrl = document.getElementById('youtube-url').value || 'https://www.youtube.com/channel/UC_x5XG1OV2P6uZZ5FSM9Ttw';
+            const apiKey = document.getElementById('youtube-api').value;
+            const channelUrl = document.getElementById('youtube-url').value;
             
             if (!apiKey) {
-                console.error('YouTube API key is required');
+                alert('Please add your YouTube API key in the customization panel');
                 return;
             }
             
+            const videosContainer = document.getElementById('videos-container');
+            videosContainer.innerHTML = '<div class="spinner"></div>';
+            
             try {
-                // This is a simplified example - in a real implementation, you would use the YouTube API
-                // to fetch actual videos from the channel
-                
-                // For demonstration, we'll create some placeholder videos
-                const videosContainer = document.getElementById('videos-container');
-                videosContainer.innerHTML = '';
-                
-                const placeholderVideos = [
-                    { title: 'Game Development Journey', description: 'Join me as I share my game development process and challenges.', image: 'https://placehold.co/400x200/6e45e2/ffffff?text=Video+1' },
-                    { title: 'Unity Tutorial: Enemy AI', description: 'Learn how to create a simple enemy AI system in Unity.', image: 'https://placehold.co/400x200/6e45e2/ffffff?text=Video+2' },
-                    { title: 'Devlog #3: New Mechanics', description: 'Check out the new mechanics I\'ve implemented in my current project.', image: 'https://placehold.co/400x200/6e45e2/ffffff?text=Video+3' }
-                ];
-                
-                placeholderVideos.forEach(video => {
-                    const videoElement = document.createElement('div');
-                    videoElement.className = 'card';
-                    videoElement.innerHTML = `
-                        <img class="card-img" src="${video.image}" alt="${video.title}">
-                        <div class="card-content">
-                            <h3>${video.title}</h3>
-                            <p>${video.description}</p>
-                        </div>
-                    `;
-                    videosContainer.appendChild(videoElement);
-                });
+                // In a real implementation, you would use the YouTube API
+                // For demonstration, we'll simulate API loading
+                setTimeout(() => {
+                    videosContainer.innerHTML = '';
+                    
+                    // Sample video data - in a real implementation, this would come from the API
+                    const videos = [
+                        { 
+                            title: 'Game Development Journey', 
+                            description: 'Join me as I share my game development process and challenges.', 
+                            image: 'https://placehold.co/400x200/6e45e2/ffffff?text=Video+1',
+                            link: 'https://youtube.com/watch?v=abc123'
+                        },
+                        { 
+                            title: 'Unity Tutorial: Enemy AI', 
+                            description: 'Learn how to create a simple enemy AI system in Unity.', 
+                            image: 'https://placehold.co/400x200/6e45e2/ffffff?text=Video+2',
+                            link: 'https://youtube.com/watch?v=def456'
+                        },
+                        { 
+                            title: 'Devlog #3: New Mechanics', 
+                            description: 'Check out the new mechanics I\'ve implemented in my current project.', 
+                            image: 'https://placehold.co/400x200/6e45e2/ffffff?text=Video+3',
+                            link: 'https://youtube.com/watch?v=ghi789'
+                        }
+                    ];
+                    
+                    videos.forEach(video => {
+                        const videoElement = document.createElement('div');
+                        videoElement.className = 'card';
+                        videoElement.innerHTML = `
+                            <img class="card-img" src="${video.image}" alt="${video.title}">
+                            <div class="card-content">
+                                <h3>${video.title}</h3>
+                                <p>${video.description}</p>
+                            </div>
+                        `;
+                        videoElement.addEventListener('click', () => {
+                            window.open(video.link, '_blank');
+                        });
+                        videosContainer.appendChild(videoElement);
+                    });
+                }, 1500);
             } catch (error) {
                 console.error('Error loading YouTube videos:', error);
+                videosContainer.innerHTML = '<p>Error loading videos. Please check your API key.</p>';
             }
         }
         
         // Load itch.io games
         async function loadItchIoGames() {
             const apiKey = document.getElementById('itchio-api').value;
-            const profileUrl = document.getElementById('itchio-url').value || 'https://soupper.itch.io/';
+            const profileUrl = document.getElementById('itchio-url').value;
             
-            if (!apiKey) {
-                console.warn('Itch.io API key is not set. Using placeholder data.');
-            }
+            const gamesContainer = document.getElementById('games-container');
+            gamesContainer.innerHTML = '<div class="spinner"></div>';
             
             try {
-                // This is a simplified example - in a real implementation, you would use the itch.io API
-                // to fetch actual games from the profile
-                
-                // For demonstration, we'll create some placeholder games
-                const gamesContainer = document.getElementById('games-container');
-                gamesContainer.innerHTML = '';
-                
-                const placeholderGames = [
-                    { title: 'Space Adventure', description: 'An action-packed space shooter with stunning visuals.', image: 'https://placehold.co/400x200/8a79ff/ffffff?text=Game+1' },
-                    { title: 'Puzzle Quest', description: 'A challenging puzzle game with RPG elements.', image: 'https://placehold.co/400x200/8a79ff/ffffff?text=Game+2' },
-                    { title: 'Rogue Dungeon', description: 'A roguelike dungeon crawler with permadeath.', image: 'https://placehold.co/400x200/8a79ff/ffffff?text=Game+3' }
-                ];
-                
-                placeholderGames.forEach(game => {
-                    const gameElement = document.createElement('div');
-                    gameElement.className = 'card';
-                    gameElement.innerHTML = `
-                        <img class="card-img" src="${game.image}" alt="${game.title}">
-                        <div class="card-content">
-                            <h3>${game.title}</h3>
-                            <p>${game.description}</p>
-                        </div>
-                    `;
-                    gamesContainer.appendChild(gameElement);
-                });
+                // In a real implementation, you would use the itch.io API
+                // For demonstration, we'll simulate API loading
+                setTimeout(() => {
+                    gamesContainer.innerHTML = '';
+                    
+                    // Sample game data - in a real implementation, this would come from the API
+                    const games = [
+                        { 
+                            title: 'Space Adventure', 
+                            description: 'An action-packed space shooter with stunning visuals.', 
+                            image: 'https://placehold.co/400x200/8a79ff/ffffff?text=Game+1',
+                            link: 'https://soupper.itch.io/space-adventure'
+                        },
+                        { 
+                            title: 'Puzzle Quest', 
+                            description: 'A challenging puzzle game with RPG elements.', 
+                            image: 'https://placehold.co/400x200/8a79ff/ffffff?text=Game+2',
+                            link: 'https://soupper.itch.io/puzzle-quest'
+                        },
+                        { 
+                            title: 'Rogue Dungeon', 
+                            description: 'A roguelike dungeon crawler with permadeath.', 
+                            image: 'https://placehold.co/400x200/8a79ff/ffffff?text=Game+3',
+                            link: 'https://soupper.itch.io/rogue-dungeon'
+                        }
+                    ];
+                    
+                    games.forEach(game => {
+                        const gameElement = document.createElement('div');
+                        gameElement.className = 'card';
+                        gameElement.innerHTML = `
+                            <img class="card-img" src="${game.image}" alt="${game.title}">
+                            <div class="card-content">
+                                <h3>${game.title}</h3>
+                                <p>${game.description}</p>
+                            </div>
+                        `;
+                        gameElement.addEventListener('click', () => {
+                            window.open(game.link, '_blank');
+                        });
+                        gamesContainer.appendChild(gameElement);
+                    });
+                }, 1500);
             } catch (error) {
                 console.error('Error loading itch.io games:', error);
+                gamesContainer.innerHTML = '<p>Error loading games. Please check your API configuration.</p>';
             }
         }
         
