@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Developer Portfolio</title>
+    <title>Soupper's Developer Portfolio</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -389,7 +389,7 @@
 <body>
     <!-- Header with Banner -->
     <header class="editable">
-        <img id="banner" src="https://placehold.co/1200x300/6e45e2/ffffff?text=Developer+Banner" alt="Banner">
+        <img id="banner" src="https://storage.googleapis.com/gweb-uniblog-publish-prod/original_images/YouTube_loading_screen_3.gif" alt="Banner">
         <button class="edit-btn">Change Banner</button>
         
         <!-- Login Container -->
@@ -417,24 +417,13 @@
         <!-- About Section -->
         <section id="about">
             <div id="about-logo" class="editable">
-                <img src="https://placehold.co/300x300/8a79ff/ffffff?text=Dev+Logo" alt="Logo">
+                <img src="https://logos-world.net/wp-content/uploads/2020/04/YouTube-Logo.png" alt="Logo">
                 <button class="edit-btn">Change Logo</button>
             </div>
             <div id="about-content" class="editable">
                 <h2>About Me</h2>
-                <p>Hello! I'm a passionate game developer and content creator. I love creating immersive experiences through games and sharing my development journey on YouTube. My goal is to build engaging games that bring joy to players and to share my knowledge with the developer community.</p>
+                <p>Welcome to my channel! I'm Soupper, a passionate game developer and content creator. I love creating immersive experiences through games and sharing my development journey on YouTube. My goal is to build engaging games that bring joy to players and to share my knowledge with the developer community. Subscribe to follow my game development adventures!</p>
                 <button class="edit-btn">Edit Text</button>
-            </div>
-        </section>
-        
-        <!-- Videos Section -->
-        <section id="videos">
-            <h2>
-                Latest Videos
-                <a href="https://www.youtube.com/@s0upp3r" target="_blank" class="view-all">View All</a>
-            </h2>
-            <div class="content-grid" id="videos-container">
-                <div class="spinner"></div>
             </div>
         </section>
         
@@ -445,6 +434,17 @@
                 <a href="https://soupper.itch.io/" target="_blank" class="view-all">View All</a>
             </h2>
             <div class="content-grid" id="games-container">
+                <div class="spinner"></div>
+            </div>
+        </section>
+        
+        <!-- Videos Section -->
+        <section id="videos">
+            <h2>
+                Latest Videos
+                <a href="https://www.youtube.com/@s0upp3r/videos" target="_blank" class="view-all">View All</a>
+            </h2>
+            <div class="content-grid" id="videos-container">
                 <div class="spinner"></div>
             </div>
         </section>
@@ -500,7 +500,7 @@
     </div>
     
     <footer>
-        <p>© 2023 Developer Portfolio. All rights reserved.</p>
+        <p>© 2023 Soupper's Developer Portfolio. All rights reserved.</p>
     </footer>
 
     <script>
@@ -733,7 +733,7 @@
                 const uploadsPlaylistId = channelInfo.items[0].contentDetails.relatedPlaylists.uploads;
                 
                 // Step 3: Get videos from uploads playlist
-                const videosResponse = await fetch(`https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=6&playlistId=${uploadsPlaylistId}&key=${apiKey}`);
+                const videosResponse = await fetch(`https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=12&playlistId=${uploadsPlaylistId}&key=${apiKey}`);
                 const videosData = await videosResponse.json();
                 
                 if (!videosData.items || videosData.items.length === 0) {
@@ -741,31 +741,57 @@
                     return;
                 }
                 
-                // Display the videos
+                // Display the videos (filtering out Shorts)
                 videosContainer.innerHTML = '';
+                let videoCount = 0;
                 
-                videosData.items.forEach(item => {
-                    const videoId = item.snippet.resourceId.videoId;
-                    const title = item.snippet.title;
-                    const description = item.snippet.description;
-                    const thumbnail = item.snippet.thumbnails.medium.url;
-                    const publishedAt = new Date(item.snippet.publishedAt).toLocaleDateString();
+                for (const item of videosData.items) {
+                    // Skip Shorts (videos with #shorts in title or less than 60 seconds)
+                    if (item.snippet.title.includes('#shorts') || 
+                        item.snippet.title.includes('#short') || 
+                        item.snippet.title.toLowerCase().includes('short')) {
+                        continue;
+                    }
                     
-                    const videoElement = document.createElement('div');
-                    videoElement.className = 'card';
-                    videoElement.innerHTML = `
-                        <img class="card-img" src="${thumbnail}" alt="${title}">
-                        <div class="card-content">
-                            <h3>${title}</h3>
-                            <p>${description}</p>
-                            <div class="published-date">Published: ${publishedAt}</div>
-                        </div>
-                    `;
-                    videoElement.addEventListener('click', () => {
-                        window.open(`https://www.youtube.com/watch?v=${videoId}`, '_blank');
-                    });
-                    videosContainer.appendChild(videoElement);
-                });
+                    // Get video duration to filter out Shorts
+                    const videoId = item.snippet.resourceId.videoId;
+                    const videoDetailsResponse = await fetch(`https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=${videoId}&key=${apiKey}`);
+                    const videoDetails = await videoDetailsResponse.json();
+                    
+                    if (videoDetails.items && videoDetails.items.length > 0) {
+                        const duration = videoDetails.items[0].contentDetails.duration;
+                        // Check if video is less than 60 seconds (likely a Short)
+                        if (duration.includes('M') || duration.includes('H')) {
+                            // This is a regular video (not a Short)
+                            const title = item.snippet.title;
+                            const description = item.snippet.description;
+                            const thumbnail = item.snippet.thumbnails.medium.url;
+                            const publishedAt = new Date(item.snippet.publishedAt).toLocaleDateString();
+                            
+                            const videoElement = document.createElement('div');
+                            videoElement.className = 'card';
+                            videoElement.innerHTML = `
+                                <img class="card-img" src="${thumbnail}" alt="${title}">
+                                <div class="card-content">
+                                    <h3>${title}</h3>
+                                    <p>${description}</p>
+                                    <div class="published-date">Published: ${publishedAt}</div>
+                                </div>
+                            `;
+                            videoElement.addEventListener('click', () => {
+                                window.open(`https://www.youtube.com/watch?v=${videoId}`, '_blank');
+                            });
+                            videosContainer.appendChild(videoElement);
+                            
+                            videoCount++;
+                            if (videoCount >= 6) break; // Show max 6 videos
+                        }
+                    }
+                }
+                
+                if (videoCount === 0) {
+                    videosContainer.innerHTML = '<div class="error-message">No regular videos found (only Shorts detected)</div>';
+                }
             } catch (error) {
                 console.error('Error loading YouTube videos:', error);
                 videosContainer.innerHTML = '<div class="error-message">Error loading videos. Please check your API key and try again.</div>';
@@ -793,19 +819,19 @@
                         { 
                             title: 'Space Adventure', 
                             description: 'An action-packed space shooter with stunning visuals.', 
-                            image: 'https://placehold.co/400x200/8a79ff/ffffff?text=Space+Adventure',
+                            image: 'https://img.itch.zone/aW1nLzExNjc5MjA5LnBuZw==/315x250%23c/%2F%2B%2Fm%2F%2B%2Fm.png',
                             link: 'https://soupper.itch.io/space-adventure'
                         },
                         { 
                             title: 'Puzzle Quest', 
                             description: 'A challenging puzzle game with RPG elements.', 
-                            image: 'https://placehold.co/400x200/8a79ff/ffffff?text=Puzzle+Quest',
+                            image: 'https://img.itch.zone/aW1nLzExNjc5MjEwLnBuZw==/315x250%23c/4WU%2B%2Fz.png',
                             link: 'https://soupper.itch.io/puzzle-quest'
                         },
                         { 
                             title: 'Rogue Dungeon', 
                             description: 'A roguelike dungeon crawler with permadeath.', 
-                            image: 'https://placehold.co/400x200/8a79ff/ffffff?text=Rogue+Dungeon',
+                            image: 'https://img.itch.zone/aW1nLzExNjc5MjExLnBuZw==/315x250%23c/1XjG%2F8.png',
                             link: 'https://soupper.itch.io/rogue-dungeon'
                         }
                     ];
@@ -847,6 +873,10 @@
             // Set the correct social links
             document.getElementById('youtube-url').value = 'https://www.youtube.com/@s0upp3r';
             document.getElementById('itchio-url').value = 'https://soupper.itch.io/';
+            
+            // Set YouTube banner and logo
+            document.getElementById('banner').src = 'https://storage.googleapis.com/gweb-uniblog-publish-prod/original_images/YouTube_loading_screen_3.gif';
+            document.querySelector('#about-logo img').src = 'https://logos-world.net/wp-content/uploads/2020/04/YouTube-Logo.png';
         });
     </script>
 </body>
