@@ -788,7 +788,7 @@
             }
         });
         
-        // Load YouTube videos (most popular) - Improved Shorts filtering
+        // Load YouTube videos (most popular) - Improved filtering
         async function loadYouTubeVideos() {
             const apiKey = "AIzaSyA9nChvnwmM_JcV4qAvM4fxNK2rRRTKUBo";
             const videosContainer = document.getElementById('videos-container');
@@ -810,38 +810,47 @@
                 const channelId = channelData.items[0].snippet.channelId;
                 
                 // Step 2: Get the most popular videos (by view count)
-                const videosResponse = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${channelId}&maxResults=12&order=date&type=video&key=${apiKey}`);
+                const videosResponse = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${channelId}&maxResults=15&order=date&type=video&key=${apiKey}`);
                 const videosData = await videosResponse.json();
                 
                 if (!videosData.items || videosData.items.length === 0) {
                     throw new Error('No videos found on this channel');
                 }
                 
-                // Get video details to filter out Shorts
+                // Get video details to filter out Shorts and long videos
                 const videoIds = videosData.items.map(item => item.id.videoId).join(',');
-                const videoDetailsResponse = await fetch(`https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=${videoIds}&key=${apiKey}`);
+                const videoDetailsResponse = await fetch(`https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet,statistics&id=${videoIds}&key=${apiKey}`);
                 const videoDetailsData = await videoDetailsResponse.json();
                 
-                // Create a map of videoId to duration
-                const videoDurations = {};
+                // Create a map of videoId to details
+                const videoDetailsMap = {};
                 videoDetailsData.items.forEach(video => {
-                    videoDurations[video.id] = video.contentDetails.duration;
+                    videoDetailsMap[video.id] = video;
                 });
                 
-                // Display the videos (filtering out Shorts and limiting to 3)
+                // Display the videos (filtering out Shorts and long videos, limiting to 3)
                 videosContainer.innerHTML = '';
                 let videoCount = 0;
                 
                 for (const item of videosData.items) {
                     const videoId = item.id.videoId;
-                    const duration = videoDurations[videoId];
+                    const videoDetails = videoDetailsMap[videoId];
+                    
+                    if (!videoDetails) continue;
+                    
+                    const duration = videoDetails.contentDetails.duration;
+                    const title = item.snippet.title;
                     
                     // Skip Shorts (videos with duration less than 60 seconds)
-                    if (duration && isShortVideo(duration)) {
+                    if (isShortVideo(duration)) {
                         continue;
                     }
                     
-                    const title = item.snippet.title;
+                    // Skip long videos (longer than 30 minutes)
+                    if (isLongVideo(duration)) {
+                        continue;
+                    }
+                    
                     const description = item.snippet.description;
                     const thumbnail = item.snippet.thumbnails.medium.url;
                     const publishedAt = new Date(item.snippet.publishedAt).toLocaleDateString();
@@ -866,7 +875,7 @@
                 }
                 
                 if (videoCount === 0) {
-                    throw new Error('No regular videos found (only Shorts detected)');
+                    throw new Error('No regular videos found (only Shorts or long videos detected)');
                 }
             } catch (error) {
                 console.error('Error loading YouTube videos:', error);
@@ -890,16 +899,35 @@
             return totalSeconds < 60; // Videos shorter than 60 seconds are considered Shorts
         }
         
-        // Load itch.io games using HTML scraping approach
+        // Helper function to check if a video is too long (more than 30 minutes)
+        function isLongVideo(duration) {
+            // Parse ISO 8601 duration format (e.g., PT1M30S = 1 minute 30 seconds)
+            const match = duration.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
+            if (!match) return false;
+            
+            const hours = parseInt(match[1] || 0);
+            const minutes = parseInt(match[2] || 0);
+            
+            const totalMinutes = (hours * 60) + minutes;
+            return totalMinutes > 30; // Videos longer than 30 minutes are considered too long
+        }
+        
+        // Load itch.io games using direct API approach
         async function loadItchIoGames() {
             const gamesContainer = document.getElementById('games-container');
             gamesContainer.innerHTML = '<div class="spinner"></div>';
             
             try {
-                // Since the Itch.io API requires authentication for most endpoints,
-                // we'll use a CORS proxy to scrape the public profile page
-                const profileUrl = 'https://soupper.itch.io/';
-                const proxyUrl = 'https://corsproxy.io/?' + encodeURIComponent(profileUrl);
+                // Using itch.io's GraphQL API endpoint
+                const graphqlUrl = 'https://itch.io/api/1/key/API_KEY/graphql';
+                
+                // Since we don't have an API key, we'll use a different approach
+                // We'll use the itch.io API to get user's games
+                const userId = 'soupper'; // Replace with your itch.io username
+                const apiUrl = `https://itch.io/api/1/${encodeURIComponent(userId)}/games`;
+                
+                // Using a CORS proxy to bypass restrictions
+                const proxyUrl = 'https://corsproxy.io/?' + encodeURIComponent(apiUrl);
                 
                 const response = await fetch(proxyUrl);
                 
@@ -907,55 +935,121 @@
                     throw new Error('Network response was not ok');
                 }
                 
-                const html = await response.text();
+                const data = await response.json();
                 
-                // Parse the HTML to extract game information
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(html, 'text/html');
-                
-                // Find game elements on the page
-                const gameElements = doc.querySelectorAll('.game_cell, .game_row, [data-game_id]');
-                
-                if (!gameElements || gameElements.length === 0) {
-                    throw new Error('No games found on the profile page');
+                if (!data.games || data.games.length === 0) {
+                    throw new Error('No games found for this user');
                 }
                 
                 // Display the games
                 gamesContainer.innerHTML = '';
                 
                 // Show up to 6 games
-                const gamesToShow = Array.from(gameElements).slice(0, 6);
+                const gamesToShow = data.games.slice(0, 6);
                 
-                gamesToShow.forEach(gameElement => {
-                    // Extract game information from the HTML structure
-                    const titleElement = gameElement.querySelector('.game_title, .title, [title]');
-                    const title = titleElement ? titleElement.textContent.trim() : 'Untitled Game';
+                gamesToShow.forEach(game => {
+                    const title = game.title;
+                    const url = game.url;
+                    const description = game.short_text || 'No description available';
                     
-                    const linkElement = gameElement.querySelector('a');
-                    const link = linkElement ? linkElement.href : `https://soupper.itch.io/${title.replace(/\s+/g, '-').toLowerCase()}`;
+                    // Get cover image - try different image properties
+                    let coverUrl = game.cover_url || 
+                                  game.cover || 
+                                  'https://placehold.co/400x200/8a79ff/ffffff?text=Game+Image';
                     
-                    const imageElement = gameElement.querySelector('img');
-                    const imageUrl = imageElement ? imageElement.src : 'https://placehold.co/400x200/8a79ff/ffffff?text=Game+Image';
+                    // Ensure we have a valid URL
+                    if (coverUrl && !coverUrl.startsWith('http')) {
+                        coverUrl = 'https:' + coverUrl;
+                    }
                     
-                    const descriptionElement = gameElement.querySelector('.game_text, .description');
-                    const description = descriptionElement ? descriptionElement.textContent.trim() : 'No description available';
-                    
-                    const gameElementDiv = document.createElement('div');
-                    gameElementDiv.className = 'card';
-                    gameElementDiv.innerHTML = `
-                        <img class="card-img" src="${imageUrl}" alt="${title}" onerror="this.src='https://placehold.co/400x200/8a79ff/ffffff?text=Game+Image'">
+                    const gameElement = document.createElement('div');
+                    gameElement.className = 'card';
+                    gameElement.innerHTML = `
+                        <img class="card-img" src="${coverUrl}" alt="${title}" onerror="this.src='https://placehold.co/400x200/8a79ff/ffffff?text=Game+Image'">
                         <div class="card-content">
                             <h3>${title}</h3>
                             <p>${description}</p>
                         </div>
                     `;
-                    gameElementDiv.addEventListener('click', () => {
-                        window.open(link, '_blank');
+                    gameElement.addEventListener('click', () => {
+                        window.open(url, '_blank');
                     });
-                    gamesContainer.appendChild(gameElementDiv);
+                    gamesContainer.appendChild(gameElement);
                 });
             } catch (error) {
                 console.error('Error loading itch.io games:', error);
+                // Fallback to using the itch.io RSS feed
+                loadItchIoGamesFallback();
+            }
+        }
+        
+        // Fallback method for loading itch.io games using RSS
+        async function loadItchIoGamesFallback() {
+            const gamesContainer = document.getElementById('games-container');
+            
+            try {
+                // Use CORS proxy to fetch itch.io RSS feed
+                const rssUrl = 'https://api.allorigins.win/raw?url=https://soupper.itch.io/feed.xml';
+                const response = await fetch(rssUrl);
+                
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                
+                const text = await response.text();
+                
+                // Parse the XML response
+                const parser = new DOMParser();
+                const xml = parser.parseFromString(text, 'application/xml');
+                
+                // Get all game items
+                const items = xml.querySelectorAll('item');
+                
+                if (!items || items.length === 0) {
+                    throw new Error('No games found');
+                }
+                
+                // Display the games
+                gamesContainer.innerHTML = '';
+                
+                // Show up to 6 games
+                const gamesToShow = Array.from(items).slice(0, 6);
+                
+                gamesToShow.forEach(item => {
+                    const title = item.querySelector('title').textContent;
+                    const link = item.querySelector('link').textContent;
+                    const description = item.querySelector('description').textContent;
+                    
+                    // Extract image from description
+                    let imageUrl = 'https://placehold.co/400x200/8a79ff/ffffff?text=Game+Image';
+                    const imgMatch = description.match(/<img[^>]+src="([^">]+)"/);
+                    if (imgMatch && imgMatch[1]) {
+                        imageUrl = imgMatch[1];
+                    }
+                    
+                    // Extract short description
+                    let shortText = 'No description available';
+                    const textMatch = description.match(/<p>([^<]+)</);
+                    if (textMatch && textMatch[1]) {
+                        shortText = textMatch[1];
+                    }
+                    
+                    const gameElement = document.createElement('div');
+                    gameElement.className = 'card';
+                    gameElement.innerHTML = `
+                        <img class="card-img" src="${imageUrl}" alt="${title}" onerror="this.src='https://placehold.co/400x200/8a79ff/ffffff?text=Game+Image'">
+                        <div class="card-content">
+                            <h3>${title}</h3>
+                            <p>${shortText}</p>
+                        </div>
+                    `;
+                    gameElement.addEventListener('click', () => {
+                        window.open(link, '_blank');
+                    });
+                    gamesContainer.appendChild(gameElement);
+                });
+            } catch (error) {
+                console.error('Error loading itch.io games fallback:', error);
                 gamesContainer.innerHTML = '<div class="error-message">Error loading games. Showing fallback content instead.</div>';
                 document.getElementById('games-fallback').style.display = 'grid';
             }
