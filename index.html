@@ -788,7 +788,7 @@
             }
         });
         
-        // Load YouTube videos (most popular)
+        // Load YouTube videos (most popular) - Improved Shorts filtering
         async function loadYouTubeVideos() {
             const apiKey = "AIzaSyA9nChvnwmM_JcV4qAvM4fxNK2rRRTKUBo";
             const videosContainer = document.getElementById('videos-container');
@@ -810,26 +810,37 @@
                 const channelId = channelData.items[0].snippet.channelId;
                 
                 // Step 2: Get the most popular videos (by view count)
-                const videosResponse = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${channelId}&maxResults=6&order=viewCount&type=video&key=${apiKey}`);
+                const videosResponse = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${channelId}&maxResults=12&order=date&type=video&key=${apiKey}`);
                 const videosData = await videosResponse.json();
                 
                 if (!videosData.items || videosData.items.length === 0) {
                     throw new Error('No videos found on this channel');
                 }
                 
+                // Get video details to filter out Shorts
+                const videoIds = videosData.items.map(item => item.id.videoId).join(',');
+                const videoDetailsResponse = await fetch(`https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=${videoIds}&key=${apiKey}`);
+                const videoDetailsData = await videoDetailsResponse.json();
+                
+                // Create a map of videoId to duration
+                const videoDurations = {};
+                videoDetailsData.items.forEach(video => {
+                    videoDurations[video.id] = video.contentDetails.duration;
+                });
+                
                 // Display the videos (filtering out Shorts and limiting to 3)
                 videosContainer.innerHTML = '';
                 let videoCount = 0;
                 
                 for (const item of videosData.items) {
-                    // Skip Shorts (videos with #shorts in title or less than 60 seconds)
-                    if (item.snippet.title.includes('#shorts') || 
-                        item.snippet.title.includes('#short') || 
-                        item.snippet.title.toLowerCase().includes('short')) {
+                    const videoId = item.id.videoId;
+                    const duration = videoDurations[videoId];
+                    
+                    // Skip Shorts (videos with duration less than 60 seconds)
+                    if (duration && isShortVideo(duration)) {
                         continue;
                     }
                     
-                    const videoId = item.id.videoId;
                     const title = item.snippet.title;
                     const description = item.snippet.description;
                     const thumbnail = item.snippet.thumbnails.medium.url;
@@ -864,71 +875,84 @@
             }
         }
         
-        // Load itch.io games using RSS feed
+        // Helper function to check if a video is a Short based on duration
+        function isShortVideo(duration) {
+            // YouTube Shorts are typically less than 60 seconds
+            // Parse ISO 8601 duration format (e.g., PT1M30S = 1 minute 30 seconds)
+            const match = duration.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
+            if (!match) return false;
+            
+            const hours = parseInt(match[1] || 0);
+            const minutes = parseInt(match[2] || 0);
+            const seconds = parseInt(match[3] || 0);
+            
+            const totalSeconds = (hours * 3600) + (minutes * 60) + seconds;
+            return totalSeconds < 60; // Videos shorter than 60 seconds are considered Shorts
+        }
+        
+        // Load itch.io games using HTML scraping approach
         async function loadItchIoGames() {
             const gamesContainer = document.getElementById('games-container');
             gamesContainer.innerHTML = '<div class="spinner"></div>';
             
             try {
-                // Use CORS proxy to fetch itch.io RSS feed
-                const rssUrl = 'https://api.allorigins.win/raw?url=https://soupper.itch.io/feed.xml';
-                const response = await fetch(rssUrl);
+                // Since the Itch.io API requires authentication for most endpoints,
+                // we'll use a CORS proxy to scrape the public profile page
+                const profileUrl = 'https://soupper.itch.io/';
+                const proxyUrl = 'https://corsproxy.io/?' + encodeURIComponent(profileUrl);
+                
+                const response = await fetch(proxyUrl);
                 
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
                 
-                const text = await response.text();
+                const html = await response.text();
                 
-                // Parse the XML response
+                // Parse the HTML to extract game information
                 const parser = new DOMParser();
-                const xml = parser.parseFromString(text, 'application/xml');
+                const doc = parser.parseFromString(html, 'text/html');
                 
-                // Get all game items
-                const items = xml.querySelectorAll('item');
+                // Find game elements on the page
+                const gameElements = doc.querySelectorAll('.game_cell, .game_row, [data-game_id]');
                 
-                if (!items || items.length === 0) {
-                    throw new Error('No games found');
+                if (!gameElements || gameElements.length === 0) {
+                    throw new Error('No games found on the profile page');
                 }
                 
                 // Display the games
                 gamesContainer.innerHTML = '';
                 
                 // Show up to 6 games
-                const gamesToShow = Array.from(items).slice(0, 6);
+                const gamesToShow = Array.from(gameElements).slice(0, 6);
                 
-                gamesToShow.forEach(item => {
-                    const title = item.querySelector('title').textContent;
-                    const link = item.querySelector('link').textContent;
-                    const description = item.querySelector('description').textContent;
+                gamesToShow.forEach(gameElement => {
+                    // Extract game information from the HTML structure
+                    const titleElement = gameElement.querySelector('.game_title, .title, [title]');
+                    const title = titleElement ? titleElement.textContent.trim() : 'Untitled Game';
                     
-                    // Extract image from description
-                    let imageUrl = 'https://placehold.co/400x200/8a79ff/ffffff?text=Game+Image';
-                    const imgMatch = description.match(/<img[^>]+src="([^">]+)"/);
-                    if (imgMatch && imgMatch[1]) {
-                        imageUrl = imgMatch[1];
-                    }
+                    const linkElement = gameElement.querySelector('a');
+                    const link = linkElement ? linkElement.href : `https://soupper.itch.io/${title.replace(/\s+/g, '-').toLowerCase()}`;
                     
-                    // Extract short description
-                    let shortText = 'No description available';
-                    const textMatch = description.match(/<p>([^<]+)</);
-                    if (textMatch && textMatch[1]) {
-                        shortText = textMatch[1];
-                    }
+                    const imageElement = gameElement.querySelector('img');
+                    const imageUrl = imageElement ? imageElement.src : 'https://placehold.co/400x200/8a79ff/ffffff?text=Game+Image';
                     
-                    const gameElement = document.createElement('div');
-                    gameElement.className = 'card';
-                    gameElement.innerHTML = `
-                        <img class="card-img" src="${imageUrl}" alt="${title}">
+                    const descriptionElement = gameElement.querySelector('.game_text, .description');
+                    const description = descriptionElement ? descriptionElement.textContent.trim() : 'No description available';
+                    
+                    const gameElementDiv = document.createElement('div');
+                    gameElementDiv.className = 'card';
+                    gameElementDiv.innerHTML = `
+                        <img class="card-img" src="${imageUrl}" alt="${title}" onerror="this.src='https://placehold.co/400x200/8a79ff/ffffff?text=Game+Image'">
                         <div class="card-content">
                             <h3>${title}</h3>
-                            <p>${shortText}</p>
+                            <p>${description}</p>
                         </div>
                     `;
-                    gameElement.addEventListener('click', () => {
+                    gameElementDiv.addEventListener('click', () => {
                         window.open(link, '_blank');
                     });
-                    gamesContainer.appendChild(gameElement);
+                    gamesContainer.appendChild(gameElementDiv);
                 });
             } catch (error) {
                 console.error('Error loading itch.io games:', error);
