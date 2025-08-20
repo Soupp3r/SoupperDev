@@ -161,8 +161,7 @@
             max-width: 300px;
             border-radius: 10px;
             overflow: hidden;
-            box-shadow: 0 5px极客时间
-           15px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
         
         #about-logo img {
@@ -234,8 +233,7 @@
         .editable {
             position: relative;
             border: 2px dashed transparent;
-            transition: border-color 极客时间
-           0.3s;
+            transition: border-color 0.3s;
         }
         
         .edit-mode .editable {
@@ -251,8 +249,7 @@
             color: white;
             border: none;
             border-radius: 4px;
-            padding: 5极客时间
-           10px;
+            padding: 5px 10px;
             cursor: pointer;
             z-index: 10;
         }
@@ -303,8 +300,7 @@
         }
         
         .panel-section h3 {
-            color: #a594极客时间
-           ff;
+            color: #a594ff;
             margin-bottom: 15px;
         }
         
@@ -324,10 +320,30 @@
             background: #6e45e2;
             color: white;
             border: none;
-            border-radius: 4极客时间
-           px;
+            border-radius: 4px;
             cursor: pointer;
             margin-top: 10px;
+        }
+        
+        /* File Upload */
+        .file-upload {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .file-input {
+            display: none;
+        }
+        
+        .file-label {
+            padding: 8px 12px;
+            background: #6e45e2;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+            text-align: center;
+            font-size: 0.9rem;
         }
         
         /* Footer */
@@ -402,8 +418,7 @@
     <!-- Header with Banner -->
     <header class="editable">
         <img id="banner" src="https://i.imgur.com/3U3JZ7j.png" alt="Banner">
-        <button class极客时间
-       ="edit-btn">Change Banner</button>
+        <button class="edit-btn">Change Banner</button>
         
         <!-- Login Container -->
         <div id="login-container">
@@ -503,8 +518,7 @@
                     </div>
                 </div>
                 <div class="card" onclick="window.open('https://www.youtube.com/watch?v=ghi789', '_blank')">
-                    <img class="card-img" src="https://i.ytimg.com/vi/dQw4w9Wg极客时间
-                    XcQ/hqdefault.jpg" alt="Devlog #3">
+                    <img class="card-img" src="https://i.ytimg.com/vi/dQw4w9WgXcQ/hqdefault.jpg" alt="Devlog #3">
                     <div class="card-content">
                         <h3>Devlog #3: New Mechanics</h3>
                         <p>Check out the new mechanics I've implemented in my current project.</p>
@@ -524,13 +538,22 @@
         
         <div class="panel-section">
             <h3>Banner Image</h3>
-            <input type="text" id="banner-url" class="panel-input" placeholder="Banner Image URL" value="https://i.imgur.com/3极客时间
-            U3JZ7j.png">
+            <div class="file-upload">
+                <input type="file" id="banner-upload" class="file-input" accept="image/*">
+                <label for="banner-upload" class="file-label">Upload Banner Image</label>
+                <span style="text-align: center; font-size: 0.8rem;">OR</span>
+            </div>
+            <input type="text" id="banner-url" class="panel-input" placeholder="Banner Image URL" value="https://i.imgur.com/3U3JZ7j.png">
             <button class="panel-btn" id="update-banner">Update Banner</button>
         </div>
         
         <div class="panel-section">
             <h3>Logo Image</h3>
+            <div class="file-upload">
+                <input type="file" id="logo-upload" class="file-input" accept="image/*">
+                <label for="logo-upload" class="file-label">Upload Logo Image</label>
+                <span style="text-align: center; font-size: 0.8rem;">OR</span>
+            </div>
             <input type="text" id="logo-url" class="panel-input" placeholder="Logo Image URL" value="https://i.imgur.com/nSGrYW8.png">
             <button class="panel-btn" id="update-logo">Update Logo</button>
         </div>
@@ -545,15 +568,13 @@
             <h3>Social Links</h3>
             <input type="text" id="youtube-url" class="panel-input" placeholder="YouTube Channel URL" value="https://www.youtube.com/@s0upp3r">
             <input type="text" id="itchio-url" class="panel-input" placeholder="Itch.io Profile URL" value="https://soupper.itch.io/">
-            <button class="panel-btn" id="update极客时间
-           -links">Update Social Links</button>
+            <button class="panel-btn" id="update-links">Update Social Links</button>
         </div>
         
         <div class="panel-section">
             <h3>Content Refresh</h3>
             <button class="panel-btn" id="refresh-videos">Refresh Videos</button>
-            <button class="panel-btn极客时间
-           " id="refresh-games">Refresh Games</button>
+            <button class="panel-btn" id="refresh-games">Refresh Games</button>
         </div>
         
         <button class="panel-btn" id="save-all">Save All Changes</button>
@@ -573,6 +594,8 @@
         const passwordInput = document.getElementById('password');
         const panelToggle = document.getElementById('panel-toggle');
         const customizationPanel = document.getElementById('customization-panel');
+        const bannerUpload = document.getElementById('banner-upload');
+        const logoUpload = document.getElementById('logo-upload');
         
         // Edit Mode State
         let editMode = false;
@@ -606,8 +629,7 @@
                 if (data.youtubeUrl) {
                     document.getElementById('youtube-url').value = data.youtubeUrl;
                 }
-                if (data.itchio极客时间
-               Url) {
+                if (data.itchioUrl) {
                     document.getElementById('itchio-url').value = data.itchioUrl;
                 }
             }
@@ -719,34 +741,48 @@
         // Refresh games
         document.getElementById('refresh-games').addEventListener('click', loadItchIoGames);
         
+        // Handle file uploads
+        bannerUpload.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    document.getElementById('banner').src = event.target.result;
+                    document.getElementById('banner-url').value = event.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+        
+        logoUpload.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    document.querySelector('#about-logo img').src = event.target.result;
+                    document.getElementById('logo-url').value = event.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+        
         // Edit functionality for editable elements
         document.addEventListener('click', (e) => {
             if (editMode && e.target.classList.contains('edit-btn')) {
                 const parent = e.target.parentElement;
                 
                 if (parent.id === 'about-logo' || parent.classList.contains('editable-img')) {
-                    const newImageUrl = prompt('Enter new image URL:');
-                    if (newImageUrl) {
-                        const img = parent.querySelector('img');
-                        img.src = newImageUrl;
-                        document.getElementById('logo-url').value = newImageUrl;
-                    }
+                    logoUpload.click();
                 } else if (parent.classList.contains('editable')) {
                     if (parent.querySelector('p')) {
                         const currentText = parent.querySelector('p').textContent;
                         const newText = prompt('Edit text:', currentText);
                         if (newText !== null) {
-                            parent.querySelector('p').text极客时间
-                           Content = newText;
+                            parent.querySelector('p').textContent = newText;
                             document.getElementById('about-text').value = newText;
                         }
                     } else if (parent.querySelector('img')) {
-                        const newImageUrl = prompt('Enter new image URL:');
-                        if (newImageUrl) {
-                            const img = parent.querySelector('img');
-                            img.src = newImageUrl;
-                            document.getElementById('banner-url').value = newImageUrl;
-                        }
+                        bannerUpload.click();
                     }
                 }
             }
@@ -884,8 +920,7 @@
                     gameElement.className = 'card';
                     gameElement.innerHTML = `
                         <img class="card-img" src="${imageUrl}" alt="${title}">
-                        <div class极客时间
-                       ="card-content">
+                        <div class="card-content">
                             <h3>${title}</h3>
                             <p>${shortText}</p>
                         </div>
