@@ -187,6 +187,7 @@
             transition: transform 0.3s;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
             cursor: pointer;
+            position: relative;
         }
         
         .card:hover {
@@ -229,6 +230,14 @@
             margin-top: 10px;
         }
         
+        /* Product Price */
+        .product-price {
+            color: #6e45e2;
+            font-weight: bold;
+            margin-top: 8px;
+            font-size: 1.1rem;
+        }
+        
         /* Edit Mode Styles */
         .editable {
             position: relative;
@@ -255,6 +264,25 @@
         }
         
         .edit-mode .edit-btn {
+            display: block;
+        }
+        
+        /* Game Edit Button */
+        .game-edit-btn {
+            display: none;
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: rgba(110, 69, 226, 0.8);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 5px 10px;
+            cursor: pointer;
+            z-index: 10;
+        }
+        
+        .edit-mode .game-edit-btn {
             display: block;
         }
         
@@ -449,6 +477,69 @@
             padding: 20px;
             box-sizing: border-box;
         }
+        
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background: rgba(20, 20, 40, 0.95);
+            padding: 25px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+            border: 2px solid #6e45e2;
+        }
+        
+        .modal h3 {
+            color: #a594ff;
+            margin-bottom: 15px;
+        }
+        
+        .modal textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #6e45e2;
+            border-radius: 4px;
+            background: rgba(10, 10, 25, 0.8);
+            color: white;
+            resize: vertical;
+        }
+        
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+        
+        .modal-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .modal-btn.primary {
+            background: #6e45e2;
+            color: white;
+        }
+        
+        .modal-btn.secondary {
+            background: #333355;
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -508,6 +599,7 @@
                     <div class="card-content">
                         <h3>Space Adventure</h3>
                         <p>An action-packed space shooter with stunning visuals and immersive gameplay.</p>
+                        <button class="game-edit-btn">Edit Embed</button>
                     </div>
                 </div>
                 <div class="card" onclick="window.open('https://soupper.itch.io/puzzle-quest', '_blank')">
@@ -515,6 +607,7 @@
                     <div class="card-content">
                         <h3>Puzzle Quest</h3>
                         <p>A challenging puzzle game with RPG elements and brain-teasing levels.</p>
+                        <button class="game-edit-btn">Edit Embed</button>
                     </div>
                 </div>
                 <div class="card" onclick="window.open('https://soupper.itch.io/rogue-dungeon', '_blank')">
@@ -522,6 +615,7 @@
                     <div class="card-content">
                         <h3>Rogue Dungeon</h3>
                         <p>A roguelike dungeon crawler with permadeath and randomly generated levels.</p>
+                        <button class="game-edit-btn">Edit Embed</button>
                     </div>
                 </div>
             </div>
@@ -560,6 +654,44 @@
                         <h3>Devlog #3: New Mechanics</h3>
                         <p>Check out the new mechanics I've implemented in my current project.</p>
                         <div class="published-date">Published: April 10, 2023</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Products Section -->
+        <section id="products">
+            <h2>
+                My Merch
+                <a href="https://soupper-shop.fourthwall.com/" target="_blank" class="view-all">View All</a>
+            </h2>
+            <div class="content-grid" id="products-container">
+                <div class="spinner"></div>
+            </div>
+            <!-- Fallback products content -->
+            <div class="fallback-content" id="products-fallback" style="display: none;">
+                <div class="card" onclick="window.open('https://soupper-shop.fourthwall.com/', '_blank')">
+                    <img class="card-img" src="https://via.placeholder.com/400x200/8a79ff/ffffff?text=Product+Image" alt="Product 1">
+                    <div class="card-content">
+                        <h3>Cool T-Shirt</h3>
+                        <p>Show your support with this awesome merchandise!</p>
+                        <div class="product-price">$24.99</div>
+                    </div>
+                </div>
+                <div class="card" onclick="window.open('https://soupper-shop.fourthwall.com/', '_blank')">
+                    <img class="card-img" src="https://via.placeholder.com/400x200/8a79ff/ffffff?text=Product+Image" alt="Product 2">
+                    <div class="card-content">
+                        <h3>Hoodie</h3>
+                        <p>Stay warm and represent with our premium hoodie.</p>
+                        <div class="product-price">$44.99</div>
+                    </div>
+                </div>
+                <div class="card" onclick="window.open('https://soupper-shop.fourthwall.com/', '_blank')">
+                    <img class="card-img" src="https://via.placeholder.com/400x200/8a79ff/ffffff?text=Product+Image" alt="Product 3">
+                    <div class="card-content">
+                        <h3>Mug</h3>
+                        <p>Enjoy your morning coffee with this stylish mug.</p>
+                        <div class="product-price">$19.99</div>
                     </div>
                 </div>
             </div>
@@ -609,20 +741,26 @@
         </div>
         
         <div class="panel-section">
-            <h3>Game Embeds</h3>
-            <p style="font-size: 0.9rem; margin-bottom: 10px; color: #a594ff;">Paste your itch.io embed codes below (one per line):</p>
-            <textarea id="game-embeds" class="panel-input" placeholder="<iframe frameborder='0' src='https://itch.io/embed/0000000' width='552' height='167'></iframe>" rows="6"></textarea>
-            <button class="panel-btn" id="update-embeds">Update Game Embeds</button>
-        </div>
-        
-        <div class="panel-section">
             <h3>Content Refresh</h3>
             <button class="panel-btn" id="refresh-videos">Refresh Videos</button>
             <button class="panel-btn" id="refresh-games">Refresh Games</button>
+            <button class="panel-btn" id="refresh-products">Refresh Products</button>
         </div>
         
         <button class="panel-btn" id="save-all">Save All Changes</button>
         <button class="panel-btn" id="reset-all" style="background: #ff4757;">Reset to Default</button>
+    </div>
+    
+    <!-- Game Embed Modal -->
+    <div id="embed-modal" class="modal">
+        <div class="modal-content">
+            <h3>Edit Game Embed Code</h3>
+            <textarea id="embed-code-input" placeholder="Paste your itch.io embed code here..."></textarea>
+            <div class="modal-buttons">
+                <button class="modal-btn secondary" id="cancel-embed">Cancel</button>
+                <button class="modal-btn primary" id="apply-embed">Apply</button>
+            </div>
+        </div>
     </div>
     
     <footer>
@@ -640,10 +778,18 @@
         const customizationPanel = document.getElementById('customization-panel');
         const bannerUpload = document.getElementById('banner-upload');
         const logoUpload = document.getElementById('logo-upload');
+        const embedModal = document.getElementById('embed-modal');
+        const embedCodeInput = document.getElementById('embed-code-input');
+        const applyEmbedBtn = document.getElementById('apply-embed');
+        const cancelEmbedBtn = document.getElementById('cancel-embed');
         
         // Edit Mode State
         let editMode = false;
         let isLoggedIn = false;
+        let currentEditingGame = null;
+        
+        // Fourthwall API Key
+        const FOURTHWALL_API_KEY = 'ptkn_a8f5c1c2-68df-467e-94da-b128d754fd6f';
         
         // Load saved data from localStorage
         function loadSavedData() {
@@ -678,15 +824,19 @@
                 }
                 
                 // Apply saved game embeds
-                if (data.gameEmbeds) {
-                    document.getElementById('game-embeds').value = data.gameEmbeds;
+                if (data.gameEmbeds && data.gameEmbeds.length > 0) {
                     renderGameEmbeds(data.gameEmbeds);
+                } else {
+                    loadItchIoGames();
                 }
             } else {
                 // Load default content
                 loadYouTubeVideos();
                 loadItchIoGames();
             }
+            
+            // Always load products
+            loadFourthwallProducts();
         }
         
         // Save data to localStorage
@@ -697,11 +847,29 @@
                 aboutText: document.getElementById('about-text').value,
                 youtubeUrl: document.getElementById('youtube-url').value,
                 itchioUrl: document.getElementById('itchio-url').value,
-                gameEmbeds: document.getElementById('game-embeds').value
+                gameEmbeds: getCurrentGameEmbeds()
             };
             
             localStorage.setItem('portfolioData', JSON.stringify(data));
             alert('All changes saved successfully!');
+        }
+        
+        // Get current game embeds from the page
+        function getCurrentGameEmbeds() {
+            const embeds = [];
+            const gameCards = document.querySelectorAll('#games-container .card, #games-fallback .card');
+            
+            gameCards.forEach(card => {
+                const iframe = card.querySelector('iframe');
+                if (iframe) {
+                    embeds.push(iframe.outerHTML);
+                } else {
+                    // For fallback games without embeds
+                    embeds.push('');
+                }
+            });
+            
+            return embeds;
         }
         
         // Toggle Login Form
@@ -779,14 +947,6 @@
             }
         });
         
-        // Update game embeds
-        document.getElementById('update-embeds').addEventListener('click', () => {
-            const gameEmbeds = document.getElementById('game-embeds').value;
-            if (gameEmbeds) {
-                renderGameEmbeds(gameEmbeds);
-            }
-        });
-        
         // Save all changes
         document.getElementById('save-all').addEventListener('click', saveData);
         
@@ -803,13 +963,21 @@
         
         // Refresh games
         document.getElementById('refresh-games').addEventListener('click', () => {
-            const gameEmbeds = document.getElementById('game-embeds').value;
-            if (gameEmbeds) {
-                renderGameEmbeds(gameEmbeds);
+            const savedData = localStorage.getItem('portfolioData');
+            if (savedData) {
+                const data = JSON.parse(savedData);
+                if (data.gameEmbeds && data.gameEmbeds.length > 0) {
+                    renderGameEmbeds(data.gameEmbeds);
+                } else {
+                    loadItchIoGames();
+                }
             } else {
                 loadItchIoGames();
             }
         });
+        
+        // Refresh products
+        document.getElementById('refresh-products').addEventListener('click', loadFourthwallProducts);
         
         // Handle file uploads
         bannerUpload.addEventListener('change', function(e) {
@@ -838,45 +1006,118 @@
         
         // Edit functionality for editable elements
         document.addEventListener('click', (e) => {
-            if (editMode && e.target.classList.contains('edit-btn')) {
-                const parent = e.target.parentElement;
-                
-                if (parent.id === 'about-logo' || parent.classList.contains('editable-img')) {
-                    logoUpload.click();
-                } else if (parent.classList.contains('editable')) {
-                    if (parent.querySelector('p')) {
-                        const currentText = parent.querySelector('p').textContent;
-                        const newText = prompt('Edit text:', currentText);
-                        if (newText !== null) {
-                            parent.querySelector('p').textContent = newText;
-                            document.getElementById('about-text').value = newText;
+            if (editMode) {
+                if (e.target.classList.contains('edit-btn')) {
+                    const parent = e.target.parentElement;
+                    
+                    if (parent.id === 'about-logo' || parent.classList.contains('editable-img')) {
+                        logoUpload.click();
+                    } else if (parent.classList.contains('editable')) {
+                        if (parent.querySelector('p')) {
+                            const currentText = parent.querySelector('p').textContent;
+                            const newText = prompt('Edit text:', currentText);
+                            if (newText !== null) {
+                                parent.querySelector('p').textContent = newText;
+                                document.getElementById('about-text').value = newText;
+                            }
+                        } else if (parent.querySelector('img')) {
+                            bannerUpload.click();
                         }
-                    } else if (parent.querySelector('img')) {
-                        bannerUpload.click();
                     }
+                } else if (e.target.classList.contains('game-edit-btn')) {
+                    // Handle game embed editing
+                    currentEditingGame = e.target.closest('.card');
+                    const existingEmbed = currentEditingGame.querySelector('iframe');
+                    embedCodeInput.value = existingEmbed ? existingEmbed.outerHTML : '';
+                    embedModal.style.display = 'flex';
                 }
             }
         });
         
-        // Render game embeds from provided code
-        function renderGameEmbeds(embedCodeText) {
-            const gamesContainer = document.getElementById('games-container');
-            gamesContainer.innerHTML = '';
+        // Apply embed code
+        applyEmbedBtn.addEventListener('click', () => {
+            if (currentEditingGame && embedCodeInput.value) {
+                // Extract the URL from the embed code
+                const urlMatch = embedCodeInput.value.match(/src="([^"]+)"/);
+                const linkMatch = embedCodeInput.value.match(/<a href="([^"]+)"/);
+                
+                if (urlMatch && urlMatch[1]) {
+                    const embedUrl = urlMatch[1];
+                    const gameLink = linkMatch && linkMatch[1] ? linkMatch[1] : '#';
+                    
+                    // Update the game card with the embed
+                    currentEditingGame.innerHTML = `
+                        <div class="itch-embed-container">
+                            <iframe class="itch-embed" src="${embedUrl}"></iframe>
+                            <div class="itch-embed-placeholder">
+                                Loading game preview...<br>
+                                <small>Click to view on itch.io</small>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <h3>Game Preview</h3>
+                            <p>Click to view this game on itch.io</p>
+                            <button class="game-edit-btn">Edit Embed</button>
+                        </div>
+                    `;
+                    
+                    currentEditingGame.addEventListener('click', () => {
+                        window.open(gameLink, '_blank');
+                    });
+                    
+                    // Hide placeholder once iframe loads
+                    const iframe = currentEditingGame.querySelector('iframe');
+                    iframe.onload = function() {
+                        currentEditingGame.querySelector('.itch-embed-placeholder').style.display = 'none';
+                    };
+                    
+                    // Add edit button functionality
+                    currentEditingGame.querySelector('.game-edit-btn').addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        currentEditingGame = this.closest('.card');
+                        embedCodeInput.value = iframe.outerHTML;
+                        embedModal.style.display = 'flex';
+                    });
+                }
+            }
             
-            // Split the text by new lines to get individual embed codes
-            const embedCodes = embedCodeText.split('\n').filter(code => code.trim() !== '');
+            // Close the modal
+            embedModal.style.display = 'none';
+        });
+        
+        // Cancel embed editing
+        cancelEmbedBtn.addEventListener('click', () => {
+            embedModal.style.display = 'none';
+        });
+        
+        // Close modal when clicking outside
+        window.addEventListener('click', (e) => {
+            if (e.target === embedModal) {
+                embedModal.style.display = 'none';
+            }
+        });
+        
+        // Render game embeds from provided code
+        function renderGameEmbeds(embedCodes) {
+            const gamesContainer = document.getElementById('games-container');
+            const gamesFallback = document.getElementById('games-fallback');
+            
+            gamesContainer.innerHTML = '';
+            gamesFallback.style.display = 'none';
             
             if (embedCodes.length === 0) {
-                gamesContainer.innerHTML = '<div class="error-message">No embed codes provided. Showing fallback content instead.</div>';
-                document.getElementById('games-fallback').style.display = 'grid';
+                gamesContainer.innerHTML = '<div class="error-message">No games configured. Showing fallback content instead.</div>';
+                gamesFallback.style.display = 'grid';
                 return;
             }
             
-            // Hide fallback content
-            document.getElementById('games-fallback').style.display = 'none';
-            
             // Create cards for each embed
             embedCodes.forEach(embedCode => {
+                if (!embedCode) {
+                    // Skip empty embeds
+                    return;
+                }
+                
                 // Extract the URL from the embed code
                 const urlMatch = embedCode.match(/src="([^"]+)"/);
                 const linkMatch = embedCode.match(/<a href="([^"]+)"/);
@@ -898,11 +1139,23 @@
                         <div class="card-content">
                             <h3>Game Preview</h3>
                             <p>Click to view this game on itch.io</p>
+                            <button class="game-edit-btn">Edit Embed</button>
                         </div>
                     `;
                     
                     gameElement.addEventListener('click', () => {
                         window.open(gameLink, '_blank');
+                    });
+                    
+                    // Add edit button functionality
+                    gameElement.querySelector('.game-edit-btn').addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        if (editMode) {
+                            currentEditingGame = this.closest('.card');
+                            const iframe = currentEditingGame.querySelector('iframe');
+                            embedCodeInput.value = iframe.outerHTML;
+                            embedModal.style.display = 'flex';
+                        }
                     });
                     
                     gamesContainer.appendChild(gameElement);
@@ -920,8 +1173,10 @@
         async function loadYouTubeVideos() {
             const apiKey = "AIzaSyA9nChvnwmM_JcV4qAvM4fxNK2rRRTKUBo";
             const videosContainer = document.getElementById('videos-container');
+            const videosFallback = document.getElementById('videos-fallback');
             
             videosContainer.innerHTML = '<div class="spinner"></div>';
+            videosFallback.style.display = 'none';
             
             try {
                 // First, we need to get the channel ID from the custom URL
@@ -1008,7 +1263,7 @@
             } catch (error) {
                 console.error('Error loading YouTube videos:', error);
                 videosContainer.innerHTML = '<div class="error-message">Error loading videos. Showing fallback content instead.</div>';
-                document.getElementById('videos-fallback').style.display = 'grid';
+                videosFallback.style.display = 'grid';
             }
         }
         
@@ -1043,7 +1298,10 @@
         // Load itch.io games using HTML scraping approach
         async function loadItchIoGames() {
             const gamesContainer = document.getElementById('games-container');
+            const gamesFallback = document.getElementById('games-fallback');
+            
             gamesContainer.innerHTML = '<div class="spinner"></div>';
+            gamesFallback.style.display = 'none';
             
             try {
                 // Since the Itch.io API requires authentication for most endpoints,
@@ -1097,17 +1355,87 @@
                         <div class="card-content">
                             <h3>${title}</h3>
                             <p>${description}</p>
+                            <button class="game-edit-btn">Edit Embed</button>
                         </div>
                     `;
                     gameElementDiv.addEventListener('click', () => {
                         window.open(link, '_blank');
                     });
+                    
+                    // Add edit button functionality
+                    gameElementDiv.querySelector('.game-edit-btn').addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        if (editMode) {
+                            currentEditingGame = this.closest('.card');
+                            embedCodeInput.value = '';
+                            embedModal.style.display = 'flex';
+                        }
+                    });
+                    
                     gamesContainer.appendChild(gameElementDiv);
                 });
             } catch (error) {
                 console.error('Error loading itch.io games:', error);
                 gamesContainer.innerHTML = '<div class="error-message">Error loading games. Showing fallback content instead.</div>';
-                document.getElementById('games-fallback').style.display = 'grid';
+                gamesFallback.style.display = 'grid';
+            }
+        }
+        
+        // Load Fourthwall products
+        async function loadFourthwallProducts() {
+            const productsContainer = document.getElementById('products-container');
+            const productsFallback = document.getElementById('products-fallback');
+            
+            productsContainer.innerHTML = '<div class="spinner"></div>';
+            productsFallback.style.display = 'none';
+            
+            try {
+                // Using a proxy to bypass CORS restrictions
+                const proxyUrl = 'https://corsproxy.io/?';
+                const apiUrl = `${proxyUrl}https://api.fourthwall.com/api/products`;
+                
+                const response = await fetch(apiUrl, {
+                    headers: {
+                        'Authorization': `Bearer ${FOURTHWALL_API_KEY}`
+                    }
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Failed to fetch products from Fourthwall');
+                }
+                
+                const data = await response.json();
+                
+                if (!data.products || data.products.length === 0) {
+                    throw new Error('No products found');
+                }
+                
+                // Display the products
+                productsContainer.innerHTML = '';
+                
+                // Show up to 3 products
+                const productsToShow = data.products.slice(0, 3);
+                
+                productsToShow.forEach(product => {
+                    const productElement = document.createElement('div');
+                    productElement.className = 'card';
+                    productElement.innerHTML = `
+                        <img class="card-img" src="${product.images[0]?.url || 'https://via.placeholder.com/400x200/8a79ff/ffffff?text=Product+Image'}" alt="${product.name}" onerror="this.src='https://via.placeholder.com/400x200/8a79ff/ffffff?text=Product+Image'">
+                        <div class="card-content">
+                            <h3>${product.name}</h3>
+                            <p>${product.description || 'Check out this awesome merchandise!'}</p>
+                            <div class="product-price">$${product.price}</div>
+                        </div>
+                    `;
+                    productElement.addEventListener('click', () => {
+                        window.open(`https://soupper-shop.fourthwall.com/products/${product.slug}`, '_blank');
+                    });
+                    productsContainer.appendChild(productElement);
+                });
+            } catch (error) {
+                console.error('Error loading Fourthwall products:', error);
+                productsContainer.innerHTML = '<div class="error-message">Error loading products. Showing fallback content instead.</div>';
+                productsFallback.style.display = 'grid';
             }
         }
         
@@ -1125,7 +1453,7 @@
                 const savedData = localStorage.getItem('portfolioData');
                 if (savedData) {
                     const data = JSON.parse(savedData);
-                    if (data.gameEmbeds) {
+                    if (data.gameEmbeds && data.gameEmbeds.length > 0) {
                         renderGameEmbeds(data.gameEmbeds);
                     } else {
                         loadItchIoGames();
