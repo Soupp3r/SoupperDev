@@ -74,7 +74,7 @@
         #login-form input {
             width: 100%;
             padding: 10px;
-            margin: 8px 极市 0;
+            margin: 8px 0;
             border: 1px solid #6e45e2;
             border-radius: 4px;
             background: rgba(10, 10, 25, 0.8);
@@ -106,7 +106,7 @@
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            background: rgba(0, 0, 0, 极市 0.7);
+            background: rgba(0, 0, 0, 0.7);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -156,7 +156,7 @@
             align-items: center;
         }
         
-        #极市 about-logo {
+        #about-logo {
             flex: 1;
             max-width: 300px;
             border-radius: 10px;
@@ -185,7 +185,7 @@
             border-radius: 10px;
             overflow: hidden;
             transition: transform 0.3s;
-            box-shadow: 0 5极市 px 15px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
             cursor: pointer;
             position: relative;
         }
@@ -279,8 +279,8 @@
             padding: 20px;
             overflow-y: auto;
             transition: right 0.3s ease;
-            z-index: 极市 1000;
-            border-left: 2极市 px solid #6e45e2;
+            z-index: 1000;
+            border-left: 2px solid #6e45e2;
         }
         
         #customization-panel.open {
@@ -292,7 +292,7 @@
             left: -40px;
             top: 50%;
             background: #6e45e2;
-           极市 color: white;
+            color: white;
             width: 40px;
             height: 40px;
             display: flex;
@@ -390,14 +390,14 @@
             color: #ff6b6b;
             padding: 20px;
             background: rgba(255, 107, 107, 0.1);
-            border-radius: 8极市 px;
+            border-radius: 8px;
             margin: 20px 0;
         }
         
         /* Fallback Content */
         .fallback-content {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280极市 px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 25px;
         }
         
@@ -457,6 +457,39 @@
             text-align: center;
             padding: 20px;
             box-sizing: border-box;
+        }
+        
+        /* Product Button */
+        .product-button {
+            display: inline-block;
+            background: #6e45e2;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .product-button:hover {
+            background: #8a79ff;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(110, 69, 226, 0.4);
+        }
+        
+        .product-section {
+            text-align: center;
+            padding: 40px 20px;
+            background: rgba(20, 20, 40, 0.6);
+            border-radius: 10px;
+            margin-top: 40px;
+        }
+        
+        .product-section h2 {
+            justify-content: center;
         }
     </style>
 </head>
@@ -531,8 +564,8 @@
                         <div class="published-date">Published: June 15, 2023</div>
                     </div>
                 </div>
-                <div class="card" onclick="window.open('https://极市 www.youtube.com/watch?v=def456', '_blank')">
-                    <img class="card-img" src="https://i.yt极市 img.com/vi/dQw4w9WgXcQ/hqdefault.jpg" alt="Unity Tutorial">
+                <div class="card" onclick="window.open('https://www.youtube.com/watch?v=def456', '_blank')">
+                    <img class="card-img" src="https://i.ytimg.com/vi/dQw4w9WgXcQ/hqdefault.jpg" alt="Unity Tutorial">
                     <div class="card-content">
                         <h3>Unity Tutorial: Enemy AI</h3>
                         <p>Learn how to create a simple enemy AI system in Unity from scratch.</p>
@@ -551,41 +584,12 @@
         </section>
         
         <!-- Products Section -->
-        <section id="products">
-            <h2>
-                My Merch
-                <a href="https://soupper-shop.fourthwall.com/" target="_blank" class="view-all">View All</a>
-            </h2>
-            <div class="content-grid" id="products-container">
-                <div class="spinner"></div>
-            </div>
-            <!-- Fallback products content -->
-            <div class="fallback-content" id="products-fallback" style="display: none;">
-                <div class="极市 card" onclick="window.open('https://soupper-shop.fourthwall.com/', '_blank')">
-                    <img class="card-img" src="https://via.placeholder.com/400x200/8a79ff/ffffff?text=Product+Image" alt="Product 1">
-                    <div class="card-content">
-                        <h3>Cool T-Shirt</h3>
-                        <p>Show your support with this awesome merchandise!</p>
-                        <div class="product-price">$24.99</极市 div>
-                    </div>
-                </div>
-                <div class="card" onclick="window.open('https://soupper-shop.fourthwall.com/', '_blank')">
-                    <img class="card-img" src="https://via.placeholder.com/400x200/8a79ff/ffffff?text=Product+Image" alt="Product 2">
-                    <div class="card-content">
-                        <h3>Hoodie</h3>
-                        <p>Stay warm and represent with our premium hoodie.</p>
-                        <div class="product-price">$44.99</div>
-                    </div>
-                </div>
-                <div class="card" onclick="window.open('https://soupper-shop.fourthwall.com/', '_blank')">
-                    <img class="card-img"极市 src="https://via.placeholder.com/400x200/8a79ff/ffffff?text=Product+Image" alt="Product 3">
-                    <div class="card-content">
-                        <极市 h3>Mug</h3>
-                        <p>Enjoy your morning coffee with this stylish mug.</p>
-                        <div class="product-price">$19.99</div>
-                    </div>
-                </div>
-            </div>
+        <section class="product-section">
+            <h2>Check Out My Merch</h2>
+            <p>Explore my exclusive merchandise collection featuring t-shirts, hoodies, and more!</p>
+            <a href="https://soupper-shop.fourthwall.com/" target="_blank" class="product-button">
+                <i class="fas fa-shopping-cart"></i> View My Products
+            </a>
         </section>
     </div>
     
@@ -615,11 +619,11 @@
                 <span style="text-align: center; font-size: 0.8rem;">OR</span>
             </div>
             <input type="text" id="logo-url" class="panel-input" placeholder="Logo Image URL" value="desktop_logo-removebg-preview.png">
-            <button class="panel-btn" id="update-logo">极市 Update Logo</button>
+            <button class="panel-btn" id="update-logo">Update Logo</button>
         </div>
         
         <div class="panel-section">
-            <极市 h3>About Text</h3>
+            <h3>About Text</h3>
             <textarea id="about-text" class="panel-input" placeholder="About Text" rows="4">Welcome to my channel! I'm Soupper, a passionate game developer and content creator. I love creating immersive experiences through games and sharing my development journey on YouTube. My goal is to build engaging games that bring joy to players and to share my knowledge with the developer community. Subscribe to follow my game development adventures!</textarea>
             <button class="panel-btn" id="update-about">Update About Text</button>
         </div>
@@ -635,7 +639,6 @@
             <h3>Content Refresh</h3>
             <button class="panel-btn" id="refresh-videos">Refresh Videos</button>
             <button class="panel-btn" id="refresh-games">Refresh Games</button>
-            <button class="panel-btn" id="refresh-products">Refresh Products</button>
         </div>
         
         <button class="panel-btn" id="save-all">Save All Changes</button>
@@ -661,9 +664,6 @@
         // Edit Mode State
         let editMode = false;
         let isLoggedIn = false;
-        
-        // Fourthwall API Key
-        const FOURTHWALL_API_KEY = 'ptkn_a8f5c1c2-68df-467极市 e-94da-b128d754fd6f';
         
         // Itch.io game embeds (from your repository)
         const itchGameEmbeds = [
@@ -701,7 +701,7 @@
                 
                 // Apply saved about text
                 if (data.aboutText) {
-                    document.querySelector('#about-content p').text极市 Content = data.aboutText;
+                    document.querySelector('#about-content p').textContent = data.aboutText;
                     document.getElementById('about-text').value = data.aboutText;
                 }
                 
@@ -714,10 +714,9 @@
                 }
             }
             
-            // Always load games and products
+            // Always load games and videos
             loadItchGames();
             loadYouTubeVideos();
-            loadFourthwallProducts();
         }
         
         // Save data to localStorage
@@ -735,8 +734,8 @@
         }
         
         // Toggle Login Form
-        loginBtn.addEventListener('click', ()极市 {
-            if (isLogged极市 In) {
+        loginBtn.addEventListener('click', () => {
+            if (isLoggedIn) {
                 toggleEditMode(false);
                 isLoggedIn = false;
                 loginBtn.innerHTML = '<i class="fas fa-lock"></i> Developer Login';
@@ -825,9 +824,6 @@
         
         // Refresh games
         document.getElementById('refresh-games').addEventListener('click', loadItchGames);
-        
-        // Refresh products
-        document.getElementById('refresh-products').addEventListener('click', loadFourthwallProducts);
         
         // Handle file uploads
         bannerUpload.addEventListener('change', function(e) {
@@ -953,7 +949,7 @@
                 }
                 
                 // Get video details to filter out Shorts and long videos
-                const videoIds = videosData.items.map(item => item.id.video极市 Id).join(',');
+                const videoIds = videosData.items.map(item => item.id.videoId).join(',');
                 const videoDetailsResponse = await fetch(`https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet,statistics&id=${videoIds}&key=${apiKey}`);
                 const videoDetailsData = await videoDetailsResponse.json();
                 
@@ -994,7 +990,7 @@
                     videoElement.className = 'card';
                     videoElement.innerHTML = `
                         <img class="card-img" src="${thumbnail}" alt="${title}">
-                        <div class极市 .card-content">
+                        <div class="card-content">
                             <h3>${title}</h3>
                             <p>${description}</p>
                             <div class="published-date">Published: ${publishedAt}</div>
@@ -1006,116 +1002,52 @@
                     videosContainer.appendChild(videoElement);
                     
                     videoCount++;
-                    if (videoCount >= 3) break; // Show max 3 videos
+                    if (videoCount >= 3) break;
                 }
                 
                 if (videoCount === 0) {
-                    throw new Error('No regular videos found (only Shorts or long videos detected)');
+                    throw new Error('No suitable videos found');
                 }
+                
             } catch (error) {
                 console.error('Error loading YouTube videos:', error);
-                videosContainer.innerHTML = '<div class="error-message">Error loading videos. Showing fallback content instead.</div>';
+                videosContainer.innerHTML = '';
                 videosFallback.style.display = 'grid';
             }
         }
         
-        // Helper function to check if a video is a Short based on duration
+        // Helper function to check if a video is a Short
         function isShortVideo(duration) {
-            // YouTube Shorts are typically less than 60 seconds
-            // Parse ISO 8601 duration format (e.g., PT1M30S = 1 minute 30 seconds)
-            const match = duration.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
-            if (!match) return false;
+            // Duration format: PT#M#S or PT#H#M#S
+            const matches = duration.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
+            if (!matches) return false;
             
-            const hours = parseInt(match[1] || 0);
-            const minutes = parseInt(match[2] || 0);
-            const seconds = parseInt(match[3] || 0);
+            const hours = parseInt(matches[1] || 0);
+            const minutes = parseInt(matches[2] || 0);
+            const seconds = parseInt(matches[3] || 0);
             
             const totalSeconds = (hours * 3600) + (minutes * 60) + seconds;
-            return totalSeconds < 60; // Videos shorter than 60 seconds are considered Shorts
+            
+            // Videos shorter than 60 seconds are likely Shorts
+            return totalSeconds < 60;
         }
         
-        // Helper function to check if a video is too long (more than 30 minutes)
+        // Helper function to check if a video is too long
         function isLongVideo(duration) {
-            // Parse ISO 8601 duration format (e.g., PT1M30S = 1 minute 30 seconds)
-            const match = duration.match(/PT(?:(\d+)H)?(?:(\d+)M)?极市 (?:(\d+)S)?/);
-            if (!match) return false;
+            // Duration format: PT#M#S or PT#H#M#S
+            const matches = duration.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
+            if (!matches) return false;
             
-            const hours = parseInt(match[1] || 0);
-            const minutes = parseInt(match[2] || 0);
+            const hours = parseInt(matches[1] || 0);
+            const minutes = parseInt(matches[2] || 0);
             
-            const totalMinutes = (hours * 60) + minutes;
-            return totalMinutes > 30; // Videos longer than 30 minutes are considered too long
+            // Videos longer than 30 minutes are considered too long
+            return (hours > 0) || (minutes > 30);
         }
         
-        // Load Fourthwall products using Storefront API
-        async function loadFourthwallProducts() {
-            const productsContainer = document.getElementById('products-container');
-            const productsFallback = document.getElementById('products-fallback');
-            
-            productsContainer.innerHTML = '<div class="spinner"></div>';
-            productsFallback.style.display = 'none';
-            
-            try {
-                // Fourthwall Storefront API endpoint
-                // Using a proxy to bypass CORS restrictions
-                const proxyUrl = 'https://corsproxy.io/?';
-                const apiUrl = `${proxyUrl}https://storefront-api.fourthwall.com/api/storefront/products`;
-                
-                const response = await fetch(apiUrl, {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'x-fourthwall-access-token': FOURTHWALL_API_KEY
-                    }
-                });
-                
-                if (!response.ok) {
-                    throw new Error(`Failed to fetch products from Fourthwall: ${response.status} ${response.statusText}`);
-                }
-                
-                const data = await response.json();
-                
-                if (!data.products || data.products.length === 0) {
-                    throw new Error('No products found in the response');
-                }
-                
-                // Display the products
-                productsContainer.innerHTML = '';
-                
-                // Show up to 3 products
-                const productsToShow = data.products.slice(0, 3);
-                
-                productsToShow.forEach(product => {
-                    const productElement = document.createElement('div');
-                    productElement.className = 'card';
-                    productElement.innerHTML = `
-                        <img class="card-img" src="${product.images[0]?.url || 'https://via.placeholder.com/400x200/8a79ff/ffffff?text=Product+Image'}" alt="${product.title}" onerror="this.src='https://via.placeholder.com/400x200/8a79ff/ffffff?text=Product+Image'">
-                        <div class="card-content">
-                            <h3>${product.title}</h3>
-                            <p>${product.description || 'Check out this awesome merchandise!'}</p>
-                            <div class="product-price">$${product.price}</div>
-                        </div>
-                    `;
-                    productElement.addEventListener('click', () => {
-                        window.open(`https://soupper-shop.fourthwall.com/products/${product.handle}`, '_blank');
-                    });
-                    productsContainer.appendChild(productElement);
-                });
-            } catch (error) {
-                console.error('Error loading Fourthwall products:', error);
-                
-                // Show fallback content
-                productsContainer.innerHTML = '<div class="error-message">Error loading products. Showing fallback content instead.</div>';
-                productsFallback.style.display = 'grid';
-            }
-        }
-        
-        // Initialize content
-        window.addEventListener('DOMContentLoaded', () => {
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', () => {
             loadSavedData();
-            
-            // Set your custom banner and logo
-            document.getElementById('banner').src = 'computer size banner.png';
-            document.querySelector('#about-logo img').src = 'desktop_logo-removebg-preview.png';
         });
     </script>
 </body>
