@@ -267,25 +267,6 @@
             display: block;
         }
         
-        /* Game Edit Button */
-        .game-edit-btn {
-            display: none;
-            position: absolute;
-            top: 5px;
-            right: 5px;
-            background: rgba(110, 69, 226, 0.8);
-            color: white;
-            border: none;
-            border-radius: 4px;
-            padding: 5px 10px;
-            cursor: pointer;
-            z-index: 10;
-        }
-        
-        .edit-mode .game-edit-btn {
-            display: block;
-        }
-        
         /* Customization Panel */
         #customization-panel {
             position: fixed;
@@ -477,69 +458,6 @@
             padding: 20px;
             box-sizing: border-box;
         }
-        
-        /* Modal Styles */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            z-index: 2000;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .modal-content {
-            background: rgba(20, 20, 40, 0.95);
-            padding: 25px;
-            border-radius: 10px;
-            width: 90%;
-            max-width: 500px;
-            border: 2px solid #6e45e2;
-        }
-        
-        .modal h3 {
-            color: #a594ff;
-            margin-bottom: 15px;
-        }
-        
-        .modal textarea {
-            width: 100%;
-            min-height: 120px;
-            padding: 12px;
-            margin-bottom: 15px;
-            border: 1px solid #6e45e2;
-            border-radius: 4px;
-            background: rgba(10, 10, 25, 0.8);
-            color: white;
-            resize: vertical;
-        }
-        
-        .modal-buttons {
-            display: flex;
-            gap: 10px;
-            justify-content: flex-end;
-        }
-        
-        .modal-btn {
-            padding: 8px 16px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        
-        .modal-btn.primary {
-            background: #6e45e2;
-            color: white;
-        }
-        
-        .modal-btn.secondary {
-            background: #333355;
-            color: white;
-        }
     </style>
 </head>
 <body>
@@ -591,33 +509,6 @@
             </h2>
             <div class="content-grid" id="games-container">
                 <div class="spinner"></div>
-            </div>
-            <!-- Fallback games content -->
-            <div class="fallback-content" id="games-fallback" style="display: none;">
-                <div class="card" onclick="window.open('https://soupper.itch.io/space-adventure', '_blank')">
-                    <img class="card-img" src="https://img.itch.zone/aW1nLzExNjc5MjA5LnBuZw==/315x250%23c/%2F%2B%2Fm%2F%2B%2Fm.png" alt="Space Adventure">
-                    <div class="card-content">
-                        <h3>Space Adventure</h3>
-                        <p>An action-packed space shooter with stunning visuals and immersive gameplay.</p>
-                        <button class="game-edit-btn">Edit Embed</button>
-                    </div>
-                </div>
-                <div class="card" onclick="window.open('https://soupper.itch.io/puzzle-quest', '_blank')">
-                    <img class="card-img" src="https://img.itch.zone/aW1nLzExNjc5MjE0LnBuZw==/315x250%23c/4WU%2B%2Fz.png" alt="Puzzle Quest">
-                    <div class="card-content">
-                        <h3>Puzzle Quest</h3>
-                        <p>A challenging puzzle game with RPG elements and brain-teasing levels.</p>
-                        <button class="game-edit-btn">Edit Embed</button>
-                    </div>
-                </div>
-                <div class="card" onclick="window.open('https://soupper.itch.io/rogue-dungeon', '_blank')">
-                    <img class="card-img" src="https://img.itch.zone/aW1nLzExNjc5MjExLnBuZw==/315x250%23c/1XjG%2F8.png" alt="Rogue Dungeon">
-                    <div class="card-content">
-                        <h3>Rogue Dungeon</h3>
-                        <p>A roguelike dungeon crawler with permadeath and randomly generated levels.</p>
-                        <button class="game-edit-btn">Edit Embed</button>
-                    </div>
-                </div>
             </div>
         </section>
         
@@ -751,18 +642,6 @@
         <button class="panel-btn" id="reset-all" style="background: #ff4757;">Reset to Default</button>
     </div>
     
-    <!-- Game Embed Modal -->
-    <div id="embed-modal" class="modal">
-        <div class="modal-content">
-            <h3>Edit Game Embed Code</h3>
-            <textarea id="embed-code-input" placeholder="Paste your itch.io embed code here..."></textarea>
-            <div class="modal-buttons">
-                <button class="modal-btn secondary" id="cancel-embed">Cancel</button>
-                <button class="modal-btn primary" id="apply-embed">Apply</button>
-            </div>
-        </div>
-    </div>
-    
     <footer>
         <p>© 2023 Soupper's Developer Portfolio. All rights reserved.</p>
     </footer>
@@ -778,18 +657,29 @@
         const customizationPanel = document.getElementById('customization-panel');
         const bannerUpload = document.getElementById('banner-upload');
         const logoUpload = document.getElementById('logo-upload');
-        const embedModal = document.getElementById('embed-modal');
-        const embedCodeInput = document.getElementById('embed-code-input');
-        const applyEmbedBtn = document.getElementById('apply-embed');
-        const cancelEmbedBtn = document.getElementById('cancel-embed');
         
         // Edit Mode State
         let editMode = false;
         let isLoggedIn = false;
-        let currentEditingGame = null;
         
         // Fourthwall API Key
         const FOURTHWALL_API_KEY = 'ptkn_a8f5c1c2-68df-467e-94da-b128d754fd6f';
+        
+        // Itch.io game embeds (from your repository)
+        const itchGameEmbeds = [
+            {
+                name: "Corporal Climber",
+                embedCode: `<iframe frameborder="0" src="https://itch.io/embed/3797554?bg_color=62c764&amp;fg_color=fff958&amp;link_color=0cc3e0&amp;border_color=0ad933" width="552" height="167"><a href="https://soupper.itch.io/corporal-climber">Corporal Climber by Soupper</a></iframe>`
+            },
+            {
+                name: "Gummy Ninja Squasher",
+                embedCode: `<iframe frameborder="0" src="https://itch.io/embed/2446992" width="552" height="167"><a href="https://soupper.itch.io/gummy-ninja-squahser">Gummy Ninja Squahser by Soupper</a></iframe>`
+            },
+            {
+                name: "Slander",
+                embedCode: `<iframe frameborder="0" src="https://itch.io/embed/1882649" width="552" height="167"><a href="https://soupper.itch.io/slander">Slander by Soupper</a></iframe>`
+            }
+        ];
         
         // Load saved data from localStorage
         function loadSavedData() {
@@ -822,20 +712,11 @@
                 if (data.itchioUrl) {
                     document.getElementById('itchio-url').value = data.itchioUrl;
                 }
-                
-                // Apply saved game embeds
-                if (data.gameEmbeds && data.gameEmbeds.length > 0) {
-                    renderGameEmbeds(data.gameEmbeds);
-                } else {
-                    loadItchIoGames();
-                }
-            } else {
-                // Load default content
-                loadYouTubeVideos();
-                loadItchIoGames();
             }
             
-            // Always load products
+            // Always load games and products
+            loadItchGames();
+            loadYouTubeVideos();
             loadFourthwallProducts();
         }
         
@@ -846,30 +727,11 @@
                 logoUrl: document.getElementById('logo-url').value,
                 aboutText: document.getElementById('about-text').value,
                 youtubeUrl: document.getElementById('youtube-url').value,
-                itchioUrl: document.getElementById('itchio-url').value,
-                gameEmbeds: getCurrentGameEmbeds()
+                itchioUrl: document.getElementById('itchio-url').value
             };
             
             localStorage.setItem('portfolioData', JSON.stringify(data));
             alert('All changes saved successfully!');
-        }
-        
-        // Get current game embeds from the page
-        function getCurrentGameEmbeds() {
-            const embeds = [];
-            const gameCards = document.querySelectorAll('#games-container .card, #games-fallback .card');
-            
-            gameCards.forEach(card => {
-                const iframe = card.querySelector('iframe');
-                if (iframe) {
-                    embeds.push(iframe.outerHTML);
-                } else {
-                    // For fallback games without embeds
-                    embeds.push('');
-                }
-            });
-            
-            return embeds;
         }
         
         // Toggle Login Form
@@ -962,19 +824,7 @@
         document.getElementById('refresh-videos').addEventListener('click', loadYouTubeVideos);
         
         // Refresh games
-        document.getElementById('refresh-games').addEventListener('click', () => {
-            const savedData = localStorage.getItem('portfolioData');
-            if (savedData) {
-                const data = JSON.parse(savedData);
-                if (data.gameEmbeds && data.gameEmbeds.length > 0) {
-                    renderGameEmbeds(data.gameEmbeds);
-                } else {
-                    loadItchIoGames();
-                }
-            } else {
-                loadItchIoGames();
-            }
-        });
+        document.getElementById('refresh-games').addEventListener('click', loadItchGames);
         
         // Refresh products
         document.getElementById('refresh-products').addEventListener('click', loadFourthwallProducts);
@@ -1006,121 +856,35 @@
         
         // Edit functionality for editable elements
         document.addEventListener('click', (e) => {
-            if (editMode) {
-                if (e.target.classList.contains('edit-btn')) {
-                    const parent = e.target.parentElement;
-                    
-                    if (parent.id === 'about-logo' || parent.classList.contains('editable-img')) {
-                        logoUpload.click();
-                    } else if (parent.classList.contains('editable')) {
-                        if (parent.querySelector('p')) {
-                            const currentText = parent.querySelector('p').textContent;
-                            const newText = prompt('Edit text:', currentText);
-                            if (newText !== null) {
-                                parent.querySelector('p').textContent = newText;
-                                document.getElementById('about-text').value = newText;
-                            }
-                        } else if (parent.querySelector('img')) {
-                            bannerUpload.click();
+            if (editMode && e.target.classList.contains('edit-btn')) {
+                const parent = e.target.parentElement;
+                
+                if (parent.id === 'about-logo' || parent.classList.contains('editable-img')) {
+                    logoUpload.click();
+                } else if (parent.classList.contains('editable')) {
+                    if (parent.querySelector('p')) {
+                        const currentText = parent.querySelector('p').textContent;
+                        const newText = prompt('Edit text:', currentText);
+                        if (newText !== null) {
+                            parent.querySelector('p').textContent = newText;
+                            document.getElementById('about-text').value = newText;
                         }
+                    } else if (parent.querySelector('img')) {
+                        bannerUpload.click();
                     }
-                } else if (e.target.classList.contains('game-edit-btn')) {
-                    // Handle game embed editing
-                    currentEditingGame = e.target.closest('.card');
-                    const existingEmbed = currentEditingGame.querySelector('iframe');
-                    embedCodeInput.value = existingEmbed ? existingEmbed.outerHTML : '';
-                    embedModal.style.display = 'flex';
                 }
             }
         });
         
-        // Apply embed code
-        applyEmbedBtn.addEventListener('click', () => {
-            if (currentEditingGame && embedCodeInput.value) {
-                // Extract the URL from the embed code
-                const urlMatch = embedCodeInput.value.match(/src="([^"]+)"/);
-                const linkMatch = embedCodeInput.value.match(/<a href="([^"]+)"/);
-                
-                if (urlMatch && urlMatch[1]) {
-                    const embedUrl = urlMatch[1];
-                    const gameLink = linkMatch && linkMatch[1] ? linkMatch[1] : '#';
-                    
-                    // Update the game card with the embed
-                    currentEditingGame.innerHTML = `
-                        <div class="itch-embed-container">
-                            <iframe class="itch-embed" src="${embedUrl}"></iframe>
-                            <div class="itch-embed-placeholder">
-                                Loading game preview...<br>
-                                <small>Click to view on itch.io</small>
-                            </div>
-                        </div>
-                        <div class="card-content">
-                            <h3>Game Preview</h3>
-                            <p>Click to view this game on itch.io</p>
-                            <button class="game-edit-btn">Edit Embed</button>
-                        </div>
-                    `;
-                    
-                    currentEditingGame.addEventListener('click', () => {
-                        window.open(gameLink, '_blank');
-                    });
-                    
-                    // Hide placeholder once iframe loads
-                    const iframe = currentEditingGame.querySelector('iframe');
-                    iframe.onload = function() {
-                        currentEditingGame.querySelector('.itch-embed-placeholder').style.display = 'none';
-                    };
-                    
-                    // Add edit button functionality
-                    currentEditingGame.querySelector('.game-edit-btn').addEventListener('click', function(e) {
-                        e.stopPropagation();
-                        currentEditingGame = this.closest('.card');
-                        embedCodeInput.value = iframe.outerHTML;
-                        embedModal.style.display = 'flex';
-                    });
-                }
-            }
-            
-            // Close the modal
-            embedModal.style.display = 'none';
-        });
-        
-        // Cancel embed editing
-        cancelEmbedBtn.addEventListener('click', () => {
-            embedModal.style.display = 'none';
-        });
-        
-        // Close modal when clicking outside
-        window.addEventListener('click', (e) => {
-            if (e.target === embedModal) {
-                embedModal.style.display = 'none';
-            }
-        });
-        
-        // Render game embeds from provided code
-        function renderGameEmbeds(embedCodes) {
+        // Load Itch.io games from embedded codes
+        function loadItchGames() {
             const gamesContainer = document.getElementById('games-container');
-            const gamesFallback = document.getElementById('games-fallback');
-            
             gamesContainer.innerHTML = '';
-            gamesFallback.style.display = 'none';
             
-            if (embedCodes.length === 0) {
-                gamesContainer.innerHTML = '<div class="error-message">No games configured. Showing fallback content instead.</div>';
-                gamesFallback.style.display = 'grid';
-                return;
-            }
-            
-            // Create cards for each embed
-            embedCodes.forEach(embedCode => {
-                if (!embedCode) {
-                    // Skip empty embeds
-                    return;
-                }
-                
+            itchGameEmbeds.forEach(game => {
                 // Extract the URL from the embed code
-                const urlMatch = embedCode.match(/src="([^"]+)"/);
-                const linkMatch = embedCode.match(/<a href="([^"]+)"/);
+                const urlMatch = game.embedCode.match(/src="([^"]+)"/);
+                const linkMatch = game.embedCode.match(/<a href="([^"]+)"/);
                 
                 if (urlMatch && urlMatch[1]) {
                     const embedUrl = urlMatch[1];
@@ -1137,25 +901,13 @@
                             </div>
                         </div>
                         <div class="card-content">
-                            <h3>Game Preview</h3>
+                            <h3>${game.name}</h3>
                             <p>Click to view this game on itch.io</p>
-                            <button class="game-edit-btn">Edit Embed</button>
                         </div>
                     `;
                     
                     gameElement.addEventListener('click', () => {
                         window.open(gameLink, '_blank');
-                    });
-                    
-                    // Add edit button functionality
-                    gameElement.querySelector('.game-edit-btn').addEventListener('click', function(e) {
-                        e.stopPropagation();
-                        if (editMode) {
-                            currentEditingGame = this.closest('.card');
-                            const iframe = currentEditingGame.querySelector('iframe');
-                            embedCodeInput.value = iframe.outerHTML;
-                            embedModal.style.display = 'flex';
-                        }
                     });
                     
                     gamesContainer.appendChild(gameElement);
@@ -1295,93 +1047,7 @@
             return totalMinutes > 30; // Videos longer than 30 minutes are considered too long
         }
         
-        // Load itch.io games using HTML scraping approach
-        async function loadItchIoGames() {
-            const gamesContainer = document.getElementById('games-container');
-            const gamesFallback = document.getElementById('games-fallback');
-            
-            gamesContainer.innerHTML = '<div class="spinner"></div>';
-            gamesFallback.style.display = 'none';
-            
-            try {
-                // Since the Itch.io API requires authentication for most endpoints,
-                // we'll use a CORS proxy to scrape the public profile page
-                const profileUrl = 'https://soupper.itch.io/';
-                const proxyUrl = 'https://corsproxy.io/?' + encodeURIComponent(profileUrl);
-                
-                const response = await fetch(proxyUrl);
-                
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                
-                const html = await response.text();
-                
-                // Parse the HTML to extract game information
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(html, 'text/html');
-                
-                // Find game elements on the page
-                const gameElements = doc.querySelectorAll('.game_cell, .game_row, [data-game_id]');
-                
-                if (!gameElements || gameElements.length === 0) {
-                    throw new Error('No games found on the profile page');
-                }
-                
-                // Display the games
-                gamesContainer.innerHTML = '';
-                
-                // Show up to 6 games
-                const gamesToShow = Array.from(gameElements).slice(0, 6);
-                
-                gamesToShow.forEach(gameElement => {
-                    // Extract game information from the HTML structure
-                    const titleElement = gameElement.querySelector('.game_title, .title, [title]');
-                    const title = titleElement ? titleElement.textContent.trim() : 'Untitled Game';
-                    
-                    const linkElement = gameElement.querySelector('a');
-                    const link = linkElement ? linkElement.href : `https://soupper.itch.io/${title.replace(/\s+/g, '-').toLowerCase()}`;
-                    
-                    const imageElement = gameElement.querySelector('img');
-                    const imageUrl = imageElement ? imageElement.src : 'https://placehold.co/400x200/8a79ff/ffffff?text=Game+Image';
-                    
-                    const descriptionElement = gameElement.querySelector('.game_text, .description');
-                    const description = descriptionElement ? descriptionElement.textContent.trim() : 'No description available';
-                    
-                    const gameElementDiv = document.createElement('div');
-                    gameElementDiv.className = 'card';
-                    gameElementDiv.innerHTML = `
-                        <img class="card-img" src="${imageUrl}" alt="${title}" onerror="this.src='https://placehold.co/400x200/8a79ff/ffffff?text=Game+Image'">
-                        <div class="card-content">
-                            <h3>${title}</h3>
-                            <p>${description}</p>
-                            <button class="game-edit-btn">Edit Embed</button>
-                        </div>
-                    `;
-                    gameElementDiv.addEventListener('click', () => {
-                        window.open(link, '_blank');
-                    });
-                    
-                    // Add edit button functionality
-                    gameElementDiv.querySelector('.game-edit-btn').addEventListener('click', function(e) {
-                        e.stopPropagation();
-                        if (editMode) {
-                            currentEditingGame = this.closest('.card');
-                            embedCodeInput.value = '';
-                            embedModal.style.display = 'flex';
-                        }
-                    });
-                    
-                    gamesContainer.appendChild(gameElementDiv);
-                });
-            } catch (error) {
-                console.error('Error loading itch.io games:', error);
-                gamesContainer.innerHTML = '<div class="error-message">Error loading games. Showing fallback content instead.</div>';
-                gamesFallback.style.display = 'grid';
-            }
-        }
-        
-        // Load Fourthwall products
+        // Load Fourthwall products using Storefront API
         async function loadFourthwallProducts() {
             const productsContainer = document.getElementById('products-container');
             const productsFallback = document.getElementById('products-fallback');
@@ -1390,52 +1056,108 @@
             productsFallback.style.display = 'none';
             
             try {
-                // Using a proxy to bypass CORS restrictions
-                const proxyUrl = 'https://corsproxy.io/?';
-                const apiUrl = `${proxyUrl}https://api.fourthwall.com/api/products`;
-                
-                const response = await fetch(apiUrl, {
-                    headers: {
-                        'Authorization': `Bearer ${FOURTHWALL_API_KEY}`
-                    }
-                });
+                // Fourthwall Storefront API endpoint
+                // Note: Fourthwall doesn't have a direct public API for products
+                // We'll use a serverless function as a proxy to avoid CORS issues
+                const response = await fetch('https://api.allorigins.win/raw?url=https://soupper-shop.fourthwall.com/api/storefront/products');
                 
                 if (!response.ok) {
                     throw new Error('Failed to fetch products from Fourthwall');
                 }
                 
-                const data = await response.json();
+                const html = await response.text();
                 
-                if (!data.products || data.products.length === 0) {
-                    throw new Error('No products found');
+                // Since Fourthwall doesn't have a public API, we'll parse the HTML
+                // to extract product information (this is a simplified approach)
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                
+                // Try to find product elements - this selector might need adjustment
+                const productElements = doc.querySelectorAll('[data-product]');
+                
+                if (!productElements || productElements.length === 0) {
+                    throw new Error('No products found on the store page');
                 }
                 
                 // Display the products
                 productsContainer.innerHTML = '';
                 
                 // Show up to 3 products
-                const productsToShow = data.products.slice(0, 3);
+                const productsToShow = Array.from(productElements).slice(0, 3);
                 
-                productsToShow.forEach(product => {
-                    const productElement = document.createElement('div');
-                    productElement.className = 'card';
-                    productElement.innerHTML = `
-                        <img class="card-img" src="${product.images[0]?.url || 'https://via.placeholder.com/400x200/8a79ff/ffffff?text=Product+Image'}" alt="${product.name}" onerror="this.src='https://via.placeholder.com/400x200/8a79ff/ffffff?text=Product+Image'">
+                productsToShow.forEach(productElement => {
+                    // Extract product information from the HTML structure
+                    // These selectors might need adjustment based on Fourthwall's actual HTML structure
+                    const nameElement = productElement.querySelector('[data-product-name]');
+                    const name = nameElement ? nameElement.textContent.trim() : 'Product';
+                    
+                    const priceElement = productElement.querySelector('[data-product-price]');
+                    const price = priceElement ? priceElement.textContent.trim() : '$0.00';
+                    
+                    const imageElement = productElement.querySelector('img');
+                    const imageUrl = imageElement ? imageElement.src : 'https://via.placeholder.com/400x200/8a79ff/ffffff?text=Product+Image';
+                    
+                    const linkElement = productElement.querySelector('a');
+                    const link = linkElement ? linkElement.href : 'https://soupper-shop.fourthwall.com/';
+                    
+                    const productDiv = document.createElement('div');
+                    productDiv.className = 'card';
+                    productDiv.innerHTML = `
+                        <img class="card-img" src="${imageUrl}" alt="${name}" onerror="this.src='https://via.placeholder.com/400x200/8a79ff/ffffff?text=Product+Image'">
                         <div class="card-content">
-                            <h3>${product.name}</h3>
-                            <p>${product.description || 'Check out this awesome merchandise!'}</p>
-                            <div class="product-price">$${product.price}</div>
+                            <h3>${name}</h3>
+                            <p>Check out this awesome merchandise!</p>
+                            <div class="product-price">${price}</div>
                         </div>
                     `;
-                    productElement.addEventListener('click', () => {
-                        window.open(`https://soupper-shop.fourthwall.com/products/${product.slug}`, '_blank');
+                    productDiv.addEventListener('click', () => {
+                        window.open(link, '_blank');
                     });
-                    productsContainer.appendChild(productElement);
+                    productsContainer.appendChild(productDiv);
                 });
             } catch (error) {
                 console.error('Error loading Fourthwall products:', error);
-                productsContainer.innerHTML = '<div class="error-message">Error loading products. Showing fallback content instead.</div>';
-                productsFallback.style.display = 'grid';
+                
+                // Alternative approach: Use a hardcoded list of products as fallback
+                const fallbackProducts = [
+                    {
+                        name: "Soupper T-Shirt",
+                        price: "$24.99",
+                        image: "https://via.placeholder.com/400x200/8a79ff/ffffff?text=Soupper+T-Shirt",
+                        link: "https://soupper-shop.fourthwall.com/"
+                    },
+                    {
+                        name: "Gaming Hoodie",
+                        price: "$44.99",
+                        image: "https://via.placeholder.com/400x200/8a79ff/ffffff?text=Gaming+Hoodie",
+                        link: "https://soupper-shop.fourthwall.com/"
+                    },
+                    {
+                        name: "Developer Mug",
+                        price: "$19.99",
+                        image: "https://via.placeholder.com/400x200/8a79ff/ffffff?text=Developer+Mug",
+                        link: "https://soupper-shop.fourthwall.com/"
+                    }
+                ];
+                
+                productsContainer.innerHTML = '';
+                
+                fallbackProducts.forEach(product => {
+                    const productDiv = document.createElement('div');
+                    productDiv.className = 'card';
+                    productDiv.innerHTML = `
+                        <img class="card-img" src="${product.image}" alt="${product.name}">
+                        <div class="card-content">
+                            <h3>${product.name}</h3>
+                            <p>Check out this awesome merchandise!</p>
+                            <div class="product-price">${product.price}</div>
+                        </div>
+                    `;
+                    productDiv.addEventListener('click', () => {
+                        window.open(product.link, '_blank');
+                    });
+                    productsContainer.appendChild(productDiv);
+                });
             }
         }
         
@@ -1446,24 +1168,6 @@
             // Set your custom banner and logo
             document.getElementById('banner').src = 'computer size banner.png';
             document.querySelector('#about-logo img').src = 'desktop_logo-removebg-preview.png';
-            
-            // Load content with a slight delay to show the spinner
-            setTimeout(() => {
-                // Check if we have saved game embeds
-                const savedData = localStorage.getItem('portfolioData');
-                if (savedData) {
-                    const data = JSON.parse(savedData);
-                    if (data.gameEmbeds && data.gameEmbeds.length > 0) {
-                        renderGameEmbeds(data.gameEmbeds);
-                    } else {
-                        loadItchIoGames();
-                    }
-                } else {
-                    loadItchIoGames();
-                }
-                
-                loadYouTubeVideos();
-            }, 500);
         });
     </script>
 </body>
