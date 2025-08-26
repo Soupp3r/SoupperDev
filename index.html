@@ -239,6 +239,28 @@
             font-size: 1.1rem;
         }
         
+        /* Google Play Button */
+        .play-store-btn {
+            display: inline-block;
+            background: #6e45e2;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            margin-top: 10px;
+            text-align: center;
+            width: 100%;
+        }
+        
+        .play-store-btn:hover {
+            background: #8a79ff;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(110, 69, 226, 0.4);
+        }
+        
         /* Edit Mode Styles */
         .editable {
             position: relative;
@@ -682,6 +704,12 @@
             }
         ];
         
+        // Google Play links (from your GitHub file)
+        const googlePlayLinks = {
+            "Corporal Climber": "https://play.google.com/store/apps/details?id=com.Soupper.CorporalClimber&hl=en_US"
+            // Add more games here as needed
+        };
+        
         // Load saved data from localStorage
         function loadSavedData() {
             const savedData = localStorage.getItem('portfolioData');
@@ -900,11 +928,19 @@
                         <div class="card-content">
                             <h3>${game.name}</h3>
                             <p>Click to view this game on itch.io</p>
+                            ${googlePlayLinks[game.name] ? `
+                                <a href="${googlePlayLinks[game.name]}" target="_blank" class="play-store-btn">
+                                    <i class="fab fa-google-play"></i> Google Play
+                                </a>
+                            ` : ''}
                         </div>
                     `;
                     
-                    gameElement.addEventListener('click', () => {
-                        window.open(gameLink, '_blank');
+                    gameElement.addEventListener('click', (e) => {
+                        // Don't open the itch.io link if the user clicked on the Google Play button
+                        if (!e.target.closest('.play-store-btn')) {
+                            window.open(gameLink, '_blank');
+                        }
                     });
                     
                     gamesContainer.appendChild(gameElement);
