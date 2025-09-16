@@ -55,7 +55,7 @@
         }
         
         #login-btn:hover {
-            background: rgba(110, 69, 226, 0.5);
+            background: rgba(110, 69, 226, 极市 0.5);
         }
         
         #login-form {
@@ -67,7 +67,7 @@
             padding: 20px;
             border-radius: 8px;
             width: 300px;
-            box-shadow: 0 5px 15px rgba(极市 0, 0, 0, 0.5);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
             border: 1px solid #6e45e2;
         }
         
@@ -81,7 +81,7 @@
             color: white;
         }
         
-        #login-form button {
+        #login极市 -form button {
             width: 100%;
             padding: 10px;
             background: #6e45e2;
@@ -134,9 +134,6 @@
             font-size: 2.2rem;
             margin-bottom: 25px;
             color: #6e45e2;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
         }
         
         .view-all {
@@ -230,14 +227,6 @@
             margin-top: 10px;
         }
         
-        /* Product Price */
-        .product-price {
-            color: #6e45e2;
-            font-weight: bold;
-            margin-top: 8px;
-            font-size: 1.1rem;
-        }
-        
         /* Edit Mode Styles */
         .editable {
             position: relative;
@@ -294,7 +283,7 @@
             background: #6e45e2;
             color: white;
             width: 40px;
-            height: 40极市 px;
+            height: 40px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -352,7 +341,7 @@
         
         .file-label {
             padding: 8px 12px;
-            background: #6e45极市 e2;
+            background: #6e45e2;
             color: white;
             border-radius: 4px;
             cursor: pointer;
@@ -401,7 +390,109 @@
             gap: 25px;
         }
         
+        /* Itch.io Embed Styling */
+        .itch-embed {
+            width: 100%;
+            height: 167px;
+            border: none;
+            overflow: hidden;
+        }
+        
+        .itch-embed-container {
+            position: relative;
+            width: 100%;
+            height极市 : 167px;
+            overflow: hidden;
+        }
+        
+        .itch-embed-placeholder {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(30, 30, 60, 0.7);
+            color: #a594ff;
+            font-size: 1rem;
+            text-align: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        
+        /* Professional About Section */
+        .professional-about {
+            background: rgba(20, 20, 40, 0.6);
+            border-radius: 10px;
+            padding: 30px;
+            margin-top: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .professional-about h3 {
+            color: #a594ff;
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
+        
+        .professional-about p {
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 25px;
+        }
+        
+        .skill-category {
+            flex: 1;
+            min-width: 250px;
+            background: rgba(30, 30, 50, 0.7);
+            border-radius: 8px;
+            padding: 20px;
+        }
+        
+        .skill-category h4 {
+            color: #6e45e2;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            border-bottom: 1px solid #6e45e2;
+            padding-bottom: 8px;
+        }
+        
+        .skill-list {
+            list-style-type: none;
+        }
+        
+        .skill-list li {
+            margin-bottom: 10px;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .skill-list li:before {
+            content: "•";
+            color: #6e45e2;
+            font-weight: bold;
+            display: inline-block;
+            width: 1em;
+            margin-left: -1em;
+        }
+        
         /* Merch Button */
+        .merch-section {
+            text-align: center;
+            padding: 40px;
+            background: rgba(20, 20, 40, 0.6);
+            border-radius: 10px;
+            margin-top: 40px;
+        }
+        
         .merch-button {
             display: inline-block;
             background: #6e45e2;
@@ -413,7 +504,6 @@
             font-size: 1.1rem;
             transition: all 0.3s;
             margin-top: 20px;
-            text-align: center;
         }
         
         .merch-button:hover {
@@ -446,78 +536,10 @@
                 align-items: flex-end;
                 gap: 10px;
             }
-        }
-        
-        /* Itch.io Embed Styling */
-        .itch-embed {
-            width: 100%;
-            height: 167px;
-            border: none;
-            overflow: hidden;
-        }
-        
-        .itch-embed-container {
-            position: relative;
-            width: 100%;
-            height: 167px;
-            overflow: hidden;
-        }
-        
-        .itch-embed-placeholder {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(30, 30, 60, 0.7);
-            color: #a594ff;
-            font-size: 1rem;
-            text-align: center;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-        
-        /* Professional Skills Section */
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 20px;
-            margin-top: 30px;
-        }
-        
-        .skill-category {
-            background: rgba(20, 20, 40, 0.6);
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-        
-        .skill-category h3 {
-            color: #a594ff;
-            margin-bottom: 15px;
-            font-size: 1.2rem;
-        }
-        
-        .skill-list {
-            list-style-type: none;
-        }
-        
-        .skill-list li {
-            margin-bottom: 8px;
-            padding-left: 20px;
-            position: relative;
-        }
-        
-        .skill-list li:before {
-            content: "•";
-            color: #6e45e2;
-            font-weight: bold;
-            display: inline-block;
-            width: 1em;
-            margin-left: -1em;
+            
+            .skills-container {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
@@ -552,37 +574,38 @@
                 <img src="desktop_logo-removebg-preview.png" alt="Logo">
                 <button class="edit-btn">Change Logo</button>
             </div>
-            <div id="about-content" class="editable">
+            <div id="about-content">
                 <h2>About Me</h2>
-                <p>I am a passionate and skilled game developer with expertise in creating immersive gaming experiences across multiple platforms. With a strong foundation in both technical implementation and creative design, I specialize in developing engaging gameplay mechanics, optimizing performance, and delivering polished user experiences.</p>
-                
-                <p>My development approach combines analytical problem-solving with artistic sensibility, allowing me to create games that are both technically robust and visually appealing. I thrive in collaborative environments and am committed to continuous learning and professional growth in the ever-evolving game development industry.</p>
-                
-                <div class="skills-grid">
-                    <div class="skill-category">
-                        <h3>Technical Skills</h3>
-                        <ul class="skill-list">
-                            <li>Unity Engine & C# Development</li>
-                            <li>Gameplay Programming</li>
-                            <li>UI/UX Implementation</li>
-                            <li>Performance Optimization</li>
-                            <li>Version Control (Git)</li>
-                        </ul>
-                    </div>
+                <div class="professional-about">
+                    <h3>Game Developer & Software Engineer</h3>
+                    <p>I am a passionate and skilled game developer with expertise in creating immersive gaming experiences across multiple platforms. With a strong foundation in both technical implementation and creative design, I specialize in developing engaging gameplay mechanics, optimizing performance, and delivering polished user experiences.</p>
                     
-                    <div class="skill-category">
-                        <h3>Design Skills</h3>
-                        <ul class="skill-list">
-                            <li>Game Mechanics Design</li>
-                            <li>Level Design</li>
-                            <li>Player Experience Optimization</li>
-                            <li>Prototyping & Iteration</li>
-                            <li>Technical Documentation</li>
-                        </ul>
+                    <p>My development approach combines analytical problem-solving with artistic sensibility, allowing me to create games that are both technically robust and visually appealing. I thrive in collaborative environments and am committed to continuous learning and professional growth in the ever-evolving game development industry.</p>
+                    
+                    <div class="skills-container">
+                        <div class="skill-category">
+                            <h4>Technical Skills</h4>
+                            <ul class="skill-list">
+                                <li>Unity Engine & C# Development</li>
+                                <li>Gameplay Programming</li>
+                                <li>UI/UX Implementation</li>
+                                <li>Performance Optimization</li>
+                                <li>Version Control (Git)</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="skill-category">
+                            <h4>Design Skills</h4>
+                            <ul class="skill-list">
+                                <li>Game Mechanics Design</li>
+                                <li>Level Design</li>
+                                <li>Player Experience Optimization</li>
+                                <li>Prototyping & Iteration</li>
+                                <li>Technical Documentation</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
-                
-                <button class="edit-btn">Edit Text</button>
             </div>
         </section>
         
@@ -598,7 +621,7 @@
         </section>
         
         <!-- Merch Section -->
-        <section id="merch">
+        <section class="merch-section">
             <h2>Support My Work</h2>
             <p>Check out my official merchandise featuring exclusive designs from my games. Your support helps me continue creating great content.</p>
             <a href="https://soupper-shop.fourthwall.com/" target="_blank" class="merch-button">Check Out My Merch</a>
@@ -614,7 +637,7 @@
         
         <div class="panel-section">
             <h3>Banner Image</h3>
-            <div class极市 .file-upload">
+            <div class="file-upload">
                 <input type="file" id="banner-upload" class="file-input" accept="image/*">
                 <label for="banner-upload" class="file-label">Upload Banner Image</label>
                 <span style="text-align: center; font-size: 0.8rem;">OR</span>
@@ -626,20 +649,12 @@
         <div class="panel-section">
             <h3>Logo Image</h3>
             <div class="file-upload">
-                <input type="file" id="logo-upload" class="file-input" accept="image/*">
+                <input type="file" id="logo-upload" class极市 .file-input" accept="image/*">
                 <label for="logo-upload" class="file-label">Upload Logo Image</label>
                 <span style="text-align: center; font-size: 0.8rem;">OR</span>
             </div>
             <input type="text" id="logo-url" class="panel-input" placeholder="Logo Image URL" value="desktop_logo-removebg-preview.png">
             <button class="panel-btn" id="update-logo">Update Logo</button>
-        </div>
-        
-        <div class="panel-section">
-            <h3>About Text</h3>
-            <textarea id="about-text" class="panel-input" placeholder="About Text" rows="4">I am a passionate and skilled game developer with expertise in creating immersive gaming experiences across multiple platforms. With a strong foundation in both technical implementation and creative design, I specialize in developing engaging gameplay mechanics, optimizing performance, and delivering polished user experiences.
-
-My development approach combines analytical problem-solving with artistic sensibility, allowing me to create games that are both technically robust and visually appealing. I thrive in collaborative environments and am committed to continuous learning and professional growth in the ever-evolving game development industry.</textarea>
-            <button class="panel-btn" id="update-about">Update About Text</button>
         </div>
         
         <div class="panel-section">
@@ -681,15 +696,15 @@ My development approach combines analytical problem-solving with artistic sensib
         const itchGameEmbeds = [
             {
                 name: "Corporal Climber",
-                embedCode: `<iframe frameborder="0" src="https://itch.io/embed/3797554?bg_color=62c764&amp;fg_color=fff958&amp;link_color=0cc3e0&amp;border_color=0ad933" width="552" height="167"><a href="https极市 ://soupper.itch.io/corporal-climber">Corporal Climber by Soupper</a></iframe>`
+                embedCode: `<iframe frameborder="0" src="https://itch.io/embed/3797554?bg_color=62c764&amp;fg_color=fff958&amp;link_color=0cc3e0&amp;border_color=0ad933" width="552" height="167"><a href="https://soupper.itch.io/corporal-climber">Corporal Climber by Soupper</a></iframe>`
             },
             {
                 name: "Gummy Ninja Squasher",
-                embedCode: `<iframe frameborder="0" src="https://itch.io/embed/2446992" width="552" height="167"><a href="https://soupper.itch.io/gummy-ninja-squahser">Gummy Ninja Squahser by Soupper</a></iframe>`
+                embedCode: `<iframe frameborder="0" src="https://itch.io/embed/2446992" width="552" height极市 : 167"><a href="https://soupper.itch.io/gummy-ninja-squahser">Gummy Ninja Squahser by Soupper</a></iframe>`
             },
             {
                 name: "Slander",
-                embedCode: `<iframe frameborder="0" src="https://itch.io/embed/1882649" width="552" height="167"><a href="https://soupper.itch.io/slander">Slander by Soupper</a></iframe>`
+                embedCode: `<iframe frameborder="0" src="https://itch.io/embed/1882649" width="552" height="167"><a href="https://s极市 oupper.itch.io/slander">Slander by Soupper</a></iframe>`
             }
         ];
         
@@ -701,7 +716,7 @@ My development approach combines analytical problem-solving with artistic sensib
                 
                 // Apply saved banner
                 if (data.bannerUrl) {
-                    document.getElementById('banner').src = data.bannerUrl;
+                    document.getElementById('banner').极市 src = data.bannerUrl;
                     document.getElementById('banner-url').value = data.bannerUrl;
                 }
                 
@@ -709,12 +724,6 @@ My development approach combines analytical problem-solving with artistic sensib
                 if (data.logoUrl) {
                     document.querySelector('#about-logo img').src = data.logoUrl;
                     document.getElementById('logo-url').value = data.logoUrl;
-                }
-                
-                // Apply saved about text
-                if (data.aboutText) {
-                    document.querySelector('#about-content p').textContent = data.aboutText;
-                    document.getElementById('about-text').value = data.aboutText;
                 }
                 
                 // Apply saved social links
@@ -732,7 +741,6 @@ My development approach combines analytical problem-solving with artistic sensib
             const data = {
                 bannerUrl: document.getElementById('banner-url').value,
                 logoUrl: document.getElementById('logo-url').value,
-                aboutText: document.getElementById('about-text').value,
                 itchioUrl: document.getElementById('itchio-url').value
             };
             
@@ -761,7 +769,7 @@ My development approach combines analytical problem-solving with artistic sensib
                 toggleEditMode(true);
                 loginForm.style.display = 'none';
                 isLoggedIn = true;
-                loginBtn.innerHTML = '<i class="fas fa-unlock"></i> Logout';
+                loginBtn.innerHTML = '<极市 i class="fas fa-unlock"></i> Logout';
                 loginBtn.style.marginRight = '15px';
                 alert('Developer mode activated! You can now customize the website.');
             } else {
@@ -802,14 +810,6 @@ My development approach combines analytical problem-solving with artistic sensib
             }
         });
         
-        // Update about text
-        document.getElementById('update-about').addEventListener('click', () => {
-            const aboutText = document.getElementById('about-text').value;
-            if (aboutText) {
-                document.querySelector('#about-content p').textContent = aboutText;
-            }
-        });
-        
         // Save all changes
         document.getElementById('save-all').addEventListener('click', saveData);
         
@@ -833,7 +833,7 @@ My development approach combines analytical problem-solving with artistic sensib
                     document.getElementById('banner').src = event.target.result;
                     document.getElementById('banner-url').value = event.target.result;
                 };
-                reader.read极市 AsDataURL(file);
+                reader.readAsDataURL(file);
             }
         });
         
@@ -842,8 +842,8 @@ My development approach combines analytical problem-solving with artistic sensib
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function(event) {
-                    document.querySelector('#about极市 -logo img').src = event.target.result;
-                    document.getElementById('logo-url').极市 value = event.target.result;
+                    document.querySelector('#about-logo img').src = event.target.result;
+                    document.getElementById('logo-url').value = event.target.result;
                 };
                 reader.readAsDataURL(file);
             }
@@ -857,14 +857,7 @@ My development approach combines analytical problem-solving with artistic sensib
                 if (parent.id === 'about-logo' || parent.classList.contains('editable-img')) {
                     logoUpload.click();
                 } else if (parent.classList.contains('editable')) {
-                    if (parent.querySelector('p')) {
-                        const currentText = parent.querySelector('p').textContent;
-                        const newText = prompt('Edit text:', currentText);
-                        if (newText !== null) {
-                            parent.querySelector('p').textContent = newText;
-                            document.getElementById('about-text').value = newText;
-                        }
-                    } else if (parent.querySelector('img')) {
+                    if (parent.querySelector('img')) {
                         bannerUpload.click();
                     }
                 }
@@ -896,7 +889,7 @@ My development approach combines analytical problem-solving with artistic sensib
                             </div>
                         </div>
                         <div class="card-content">
-                            <h3>${game.name}</h3>
+                            <h极市 3>${game.name}</h3>
                             <p>Click to view this game on itch.io</p>
                         </div>
                     `;
