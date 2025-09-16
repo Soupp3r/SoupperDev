@@ -1,1 +1,940 @@
-<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <meta name="google-site-verification" content="RRX-reVp7dvU33nnAMsdISiptOVm57tmfOuQHhlRKfw" /> <title>Soupper's Developer Portfolio</title> <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> <style> * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; } body { background-color: #0a0a1a; color: #ffffff; line-height: 1.6; } /* Header and Banner */ header { position: relative; width: 100%; height: 300px; overflow: hidden; } #banner { width: 100%; height: 100%; object-fit: cover; } /* Login Form */ #login-container { position: absolute; top: 20px; right: 20px; z-index: 100; display: flex; align-items: center; gap: 15px; } #login-btn { background: rgba(0, 0, 0, 0.7); color: white; border: 1px solid #6e45e2; padding: 8px 15px; border-radius: 4px; cursor: pointer; transition: all 0.3s; } #login-btn:hover { background: rgba(110, 69, 226, 0.5); } #login-form { display: none; position: absolute; top: 40px; right: 0; background: rgba(20, 20, 40, 0.95); padding: 20px; border-radius: 8px; width: 300px; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5); border: 1px solid #6e45e2; } #login-form input { width: 100%; padding: 10px; margin: 8px 0; border: 1px solid #6e45e2; border-radius: 4px; background: rgba(10, 10, 25, 0.8); color: white; } #login-form button { width: 100%; padding: 10px; background: #6e45e2; color: white; border: none; border-radius: 4px; cursor: pointer; margin-top: 10px; } /* Social Links */ #social-links { position: absolute; bottom: 20px; right: 20px; display: flex; gap: 15px; z-index: 100; } .social-icon { width: 40px; height: 40px; border-radius: 50%; background: rgba(0, 0, 0, 0.7); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s; } .social-icon:hover { transform: scale(1.1); background: rgba(110, 69, 226, 0.7); } /* Main Content */ .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; } section { margin-bottom: 60px; } h2 { font-size: 2.2rem; margin-bottom: 25px; color: #6e45e2; display: flex; justify-content: space-between; align-items: center; } .view-all { font-size: 1rem; color: #8a79ff; text-decoration: none; } .view-all:hover { text-decoration: underline; } /* About Section */ #about { display: flex; gap: 40px; align-items: center; } #about-logo { flex: 1; max-width: 300px; border-radius: 10px; overflow: hidden; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); } #about-logo img { width: 100%; display: block; } #about-content { flex: 2; } /* Content Grids */ .content-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; } .card { background: rgba(20, 20, 40, 0.6); border-radius: 10px; overflow: hidden; transition: transform 0.3s; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); cursor: pointer; position: relative; } .card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(110, 69, 226, 0.3); } .card-img { width: 100%; height: 160px; object-fit: cover; } .card-content { padding: 15px; } .card h3 { margin-bottom: 10px; color: #a594ff; font-size: 1.1rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; } .card p { color: #ccccdd; font-size: 0.9rem; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; } .card .published-date { color: #8a79ff; font-size: 0.8rem; margin-top: 10px; } /* Product Price */ .product-price { color: #6e45e2; font-weight: bold; margin-top: 8px; font-size: 1.1rem; } /* Google Play Button */ .play-store-btn { display: inline-block; background: #6e45e2; color: white; padding: 8px 15px; border-radius: 6px; text-decoration: none; font-weight: bold; font-size: 0.9rem; transition: all 0.3s; margin-top: 10px; text-align: center; width: 100%; } .play-store-btn:hover { background: #8a79ff; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(110, 69, 226, 0.4); } /* Edit Mode Styles */ .editable { position: relative; border: 2px dashed transparent; transition: border-color 0.3s; } .edit-mode .editable { border-color: #6e45e2; } .edit-btn { display: none; position: absolute; top: 5px; right: 5px; background: rgba(110, 69, 226, 0.8); color: white; border: none; border-radius: 4px; padding: 5px 10px; cursor: pointer; z-index: 10; } .edit-mode .edit-btn { display: block; } /* Customization Panel */ #customization-panel { position: fixed; top: 0; right: -350px; width: 350px; height: 100vh; background: rgba(20, 20, 40, 0.98); box-shadow: -5px 0 15px rgba(0, 0, 0, 0.5); padding: 20px; overflow-y: auto; transition: right 0.3s ease; z-index: 1000; border-left: 2px solid #6e45e2; } #customization-panel.open { right: 0; } #panel-toggle { position: absolute; left: -40px; top: 50%; background: #6e45e2; color: white; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 8px 0 0 8px; cursor: pointer; } .panel-section { margin-bottom: 25px; padding-bottom: 15px; border-bottom: 1px solid #333355; } .panel-section h3 { color: #a594ff; margin-bottom: 15px; } .panel-input { width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #6e45e2; border-radius: 4px; background: rgba(10, 10, 25, 0.8); color: white; } textarea.panel-input { min-height: 100px; resize: vertical; } .panel-btn { width: 100%; padding: 10px; background: #6e45e2; color: white; border: none; border-radius: 4px; cursor: pointer; margin-top: 10px; } /* File Upload */ .file-upload { display: flex; flex-direction: column; gap: 10px; } .file-input { display: none; } .file-label { padding: 8px 12px; background: #6e45e2; color: white; border-radius: 4px; cursor: pointer; text-align: center; font-size: 0.9rem; } /* Footer */ footer { background: rgba(10, 10, 25, 0.9); padding: 20px; text-align: center; margin-top: 40px; } /* Loading Spinner */ .spinner { border: 4px solid rgba(255, 255, 255, 0.3); border-radius: 50%; border-top: 4px solid #6e45e2; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 20px auto; } @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } } /* Error Message */ .error-message { text-align: center; color: #ff6b6b; padding: 20px; background: rgba(255, 107, 107, 0.1); border-radius: 8px; margin: 20px 0; } /* Fallback Content */ .fallback-content { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; } /* Responsive Design */ @media (max-width: 768px) { #about { flex-direction: column; } #about-logo { max-width: 100%; } header { height: 200px; } #customization-panel { width: 300px; right: -300px; } #login-container { flex-direction: column; align-items: flex-end; gap: 10px; } } /* Itch.io Embed Styling */ .itch-embed { width: 100%; height: 167px; border: none; overflow: hidden; } .itch-embed-container { position: relative; width: 100%; height: 167px; overflow: hidden; } .itch-embed-placeholder { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: rgba(30, 30, 60, 0.7); color: #a594ff; font-size: 1rem; text-align: center; padding: 20px; box-sizing: border-box; } /* Product Button */ .product-button { display: inline-block; background: #6e45e2; color: white; padding: 15px 30px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 1.1rem; transition: all 0.3s; margin-top: 20px; text-align: center; } .product-button:hover { background: #8a79ff; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(110, 69, 226, 0.4); } .product-section { text-align: center; padding: 40px 20px; background: rgba(20, 20, 40, 0.6); border-radius: 10px; margin-top: 40px; } .product-section h2 { justify-content: center; } </style> </head> <body> <!-- Header with Banner --> <header class="editable"> <img id="banner" src="computer size banner.png" alt="Banner"> <button class="edit-btn">Change Banner</button> <!-- Login Container --> <div id="login-container"> <button id="login-btn"><i class="fas fa-lock"></i> Developer Login</button> <div id="login-form"> <input type="text" id="username" placeholder="Username"> <input type="password" id="password" placeholder="Password"> <button id="submit-login">Login</button> </div> </div> <!-- Social Links --> <div id="social-links"> <div class="social-icon" id="youtube-link"> <i class="fab fa-youtube" style="font-size: 20px;"></i> </div> <div class="social-icon" id="itchio-link"> <i class="fas fa-gamepad" style="font-size: 18px;"></i> </div> </div> </header> <div class="container"> <!-- About Section --> <section id="about"> <div id="about-logo" class="editable"> <img src="desktop_logo-removebg-preview.png" alt="Logo"> <button class="edit-btn">Change Logo</button> </div> <div id="about-content" class="editable"> <h2>About Me</h2> <p>Welcome to my channel! I'm Soupper, a passionate game developer and content creator. I love creating immersive experiences through games and sharing my development journey on YouTube. My goal is to build engaging games that bring joy to players and to share my knowledge with the developer community. Subscribe to follow my game development adventures!</p> <button class="edit-btn">Edit Text</button> </div> </section> <!-- Games Section --> <section id="games"> <h2> My Games <a href="https://soupper.itch.io/" target="_blank" class="view-all">View All</a> </h2> <div class="content-grid" id="games-container"> <div class="spinner"></div> </div> </section> <!-- Videos Section --> <section id="videos"> <h2> Popular Videos <a href="https://www.youtube.com/@s0upp3r/videos" target="_blank" class="view-all">View All</a> </h2> <div class="content-grid" id="videos-container"> <div class="spinner"></div> </div> <!-- Fallback videos content --> <div class="fallback-content" id="videos-fallback" style="display: none;"> <div class="card" onclick="window.open('https://www.youtube.com/watch?v=abc123', '_blank')"> <img class="card-img" src="https://i.ytimg.com/vi/dQw4w9WgXcQ/hqdefault.jpg" alt="Game Development Journey"> <div class="card-content"> <h3>Game Development Journey</h3> <p>Join me as I share my game development process and challenges in this devlog series.</p> <div class="published-date">Published: June 15, 2023</div> </div> </div> <div class="card" onclick="window.open('https://www.youtube.com/watch?v=def456', '_blank')"> <img class="card-img" src="https://i.ytimg.com/vi/dQw4w9WgXcQ/hqdefault.jpg" alt="Unity Tutorial"> <div class="card-content"> <h3>Unity Tutorial: Enemy AI</h3> <p>Learn how to create a simple enemy AI system in Unity from scratch.</p> <div class="published-date">Published: May 22, 2023</div> </div> </div> <div class="card" onclick="window.open('https://www.youtube.com/watch?v=ghi789', '_blank')"> <img class="card-img" src="https://i.ytimg.com/vi/dQw4w9WgXcQ/hqdefault.jpg" alt="Devlog #3"> <div class="card-content"> <h3>Devlog #3: New Mechanics</h3> <p>Check out the new mechanics I've implemented in my current project.</p> <div class="published-date">Published: April 10, 2023</div> </div> </div> </div> </section> <!-- Products Section --> <section class="product-section"> <h2>Check Out My Merch</h2> <p>Explore my exclusive merchandise collection featuring t-shirts, hoodies, and more!</p> <a href="https://soupper-shop.fourthwall.com/" target="_blank" class="product-button"> <i class="fas fa-shopping-cart"></i> View My Products </a> </section> </div> <!-- Customization Panel --> <div id="customization-panel"> <div id="panel-toggle"> <i class="fas fa-cog"></i> </div> <h2>Customization Panel</h2> <div class="panel-section"> <h3>Banner Image</h3> <div class="file-upload"> <input type="file" id="banner-upload" class="file-input" accept="image/*"> <label for="banner-upload" class="file-label">Upload Banner Image</label> <span style="text-align: center; font-size: 0.8rem;">OR</span> </div> <input type="text" id="banner-url" class="panel-input" placeholder="Banner Image URL" value="computer size banner.png"> <button class="panel-btn" id="update-banner">Update Banner</button> </div> <div class="panel-section"> <h3>Logo Image</h3> <div class="file-upload"> <input type="file" id="logo-upload" class="file-input" accept="image/*"> <label for="logo-upload" class="file-label">Upload Logo Image</label> <span style="text-align: center; font-size: 0.8rem;">OR</span> </div> <input type="text" id="logo-url" class="panel-input" placeholder="Logo Image URL" value="desktop_logo-removebg-preview.png"> <button class="panel-btn" id="update-logo">Update Logo</button> </div> <div class="panel-section"> <h3>About Text</h3> <textarea id="about-text" class="panel-input" placeholder="About Text" rows="4">Welcome to my channel! I'm Soupper, a passionate game developer and content creator. I love creating immersive experiences through games and sharing my development journey on YouTube. My goal is to build engaging games that bring joy to players and to share my knowledge with the developer community. Subscribe to follow my game development adventures!</textarea> <button class="panel-btn" id="update-about">Update About Text</button> </div> <div class="panel-section"> <h3>Social Links</h3> <input type="text" id="youtube-url" class="panel-input" placeholder="YouTube Channel URL" value="https://www.youtube.com/@s0upp3r"> <input type="text" id="itchio-url" class="panel-input" placeholder="Itch.io Profile URL" value="https://soupper.itch.io/"> <button class="panel-btn" id="update-links">Update Social Links</button> </div> <div class="panel-section"> <h3>Content Refresh</h3> <button class="panel-btn" id="refresh-videos">Refresh Videos</button> <button class="panel-btn" id="refresh-games">Refresh Games</button> </div> <button class="panel-btn" id="save-all">Save All Changes</button> <button class="panel-btn" id="reset-all" style="background: #ff4757;">Reset to Default</button> </div> <footer> <p>© 2023 Soupper's Developer Portfolio. All rights reserved.</p> </footer> <script> // DOM Elements const loginBtn = document.getElementById('login-btn'); const loginForm = document.getElementById('login-form'); const submitLogin = document.getElementById('submit-login'); const usernameInput = document.getElementById('username'); const passwordInput = document.getElementById('password'); const panelToggle = document.getElementById('panel-toggle'); const customizationPanel = document.getElementById('customization-panel'); const bannerUpload = document.getElementById('banner-upload'); const logoUpload = document.getElementById('logo-upload'); // Edit Mode State let editMode = false; let isLoggedIn = false; // Itch.io game embeds (from your repository) const itchGameEmbeds = [ { name: "Corporal Climber", embedCode: <iframe frameborder="0" src="https://itch.io/embed/3797554?bg_color=62c764&amp;fg_color=fff958&amp;link_color=0cc3e0&amp;border_color=0ad933" width="552" height="167"><a href="https://soupper.itch.io/corporal-climber">Corporal Climber by Soupper</a></iframe> }, { name: "Gummy Ninja Squasher", embedCode: <iframe frameborder="0" src="https://itch.io/embed/2446992" width="552" height="167"><a href="https://soupper.itch.io/gummy-ninja-squahser">Gummy Ninja Squahser by Soupper</a></iframe> }, { name: "Slander", embedCode: <iframe frameborder="0" src="https://itch.io/embed/1882649" width="552" height="167"><a href="https://soupper.itch.io/slander">Slander by Soupper</a></iframe> } ]; // Google Play links (from your GitHub file) const googlePlayLinks = { "Corporal Climber": "https://play.google.com/store/apps/details?id=com.Soupper.CorporalClimber&hl=en_US" // Add more games here as needed }; // Load saved data from localStorage function loadSavedData() { const savedData = localStorage.getItem('portfolioData'); if (savedData) { const data = JSON.parse(savedData); // Apply saved banner if (data.bannerUrl) { document.getElementById('banner').src = data.bannerUrl; document.getElementById('banner-url').value = data.bannerUrl; } // Apply saved logo if (data.logoUrl) { document.querySelector('#about-logo img').src = data.logoUrl; document.getElementById('logo-url').value = data.logoUrl; } // Apply saved about text if (data.aboutText) { document.querySelector('#about-content p').textContent = data.aboutText; document.getElementById('about-text').value = data.aboutText; } // Apply saved social links if (data.youtubeUrl) { document.getElementById('youtube-url').value = data.youtubeUrl; } if (data.itchioUrl) { document.getElementById('itchio-url').value = data.itchioUrl; } } // Always load games and videos loadItchGames(); loadYouTubeVideos(); } // Save data to localStorage function saveData() { const data = { bannerUrl: document.getElementById('banner-url').value, logoUrl: document.getElementById('logo-url').value, aboutText: document.getElementById('about-text').value, youtubeUrl: document.getElementById('youtube-url').value, itchioUrl: document.getElementById('itchio-url').value }; localStorage.setItem('portfolioData', JSON.stringify(data)); alert('All changes saved successfully!'); } // Toggle Login Form loginBtn.addEventListener('click', () => { if (isLoggedIn) { toggleEditMode(false); isLoggedIn = false; loginBtn.innerHTML = '<i class="fas fa-lock"></i> Developer Login'; loginBtn.style.marginRight = '0'; } else { loginForm.style.display = loginForm.style.display === 'block' ? 'none' : 'block'; } }); // Login Functionality submitLogin.addEventListener('click', () => { const username = usernameInput.value; const password = passwordInput.value; if (username === 'Soupper' && password === '402warrenRd') { toggleEditMode(true); loginForm.style.display = 'none'; isLoggedIn = true; loginBtn.innerHTML = '<i class="fas fa-unlock"></i> Logout'; loginBtn.style.marginRight = '15px'; alert('Developer mode activated! You can now customize the website.'); } else { alert('Invalid credentials. Please try again.'); } }); // Toggle Edit Mode function toggleEditMode(enable) { editMode = enable; document.body.classList.toggle('edit-mode', enable); } // Toggle customization panel panelToggle.addEventListener('click', () => { customizationPanel.classList.toggle('open'); }); // Social Links document.getElementById('youtube-link').addEventListener('click', () => { const youtubeUrl = document.getElementById('youtube-url').value || 'https://www.youtube.com/@s0upp3r'; window.open(youtubeUrl, '_blank'); }); document.getElementById('itchio-link').addEventListener('click', () => { const itchioUrl = document.getElementById('itchio-url').value || 'https://soupper.itch.io/'; window.open(itchioUrl, '_blank'); }); // Update banner document.getElementById('update-banner').addEventListener('click', () => { const bannerUrl = document.getElementById('banner-url').value; if (bannerUrl) { document.getElementById('banner').src = bannerUrl; } }); // Update logo document.getElementById('update-logo').addEventListener('click', () => { const logoUrl = document.getElementById('logo-url').value; if (logoUrl) { document.querySelector('#about-logo img').src = logoUrl; } }); // Update about text document.getElementById('update-about').addEventListener('click', () => { const aboutText = document.getElementById('about-text').value; if (aboutText) { document.querySelector('#about-content p').textContent = aboutText; } }); // Save all changes document.getElementById('save-all').addEventListener('click', saveData); // Reset all changes document.getElementById('reset-all').addEventListener('click', () => { if (confirm('Are you sure you want to reset all changes?')) { localStorage.removeItem('portfolioData'); location.reload(); } }); // Refresh videos document.getElementById('refresh-videos').addEventListener('click', loadYouTubeVideos); // Refresh games document.getElementById('refresh-games').addEventListener('click', loadItchGames); // Handle file uploads bannerUpload.addEventListener('change', function(e) { const file = e.target.files[0]; if (file) { const reader = new FileReader(); reader.onload = function(event) { document.getElementById('banner').src = event.target.result; document.getElementById('banner-url').value = event.target.result; }; reader.readAsDataURL(file); } }); logoUpload.addEventListener('change', function(e) { const file = e.target.files[0]; if (file) { const reader = new FileReader(); reader.onload = function(event) { document.querySelector('#about-logo img').src = event.target.result; document.getElementById('logo-url').value = event.target.result; }; reader.readAsDataURL(file); } }); // Edit functionality for editable elements document.addEventListener('click', (e) => { if (editMode && e.target.classList.contains('edit-btn')) { const parent = e.target.parentElement; if (parent.id === 'about-logo' || parent.classList.contains('editable-img')) { logoUpload.click(); } else if (parent.classList.contains('editable')) { if (parent.querySelector('p')) { const currentText = parent.querySelector('p').textContent; const newText = prompt('Edit text:', currentText); if (newText !== null) { parent.querySelector('p').textContent = newText; document.getElementById('about-text').value = newText; } } else if (parent.querySelector('img')) { bannerUpload.click(); } } } }); // Load Itch.io games from embedded codes function loadItchGames() { const gamesContainer = document.getElementById('games-container'); gamesContainer.innerHTML = ''; itchGameEmbeds.forEach(game => { // Extract the URL from the embed code const urlMatch = game.embedCode.match(/src="([^"]+)"/); const linkMatch = game.embedCode.match(/<a href="([^"]+)"/); if (urlMatch && urlMatch[1]) { const embedUrl = urlMatch[1]; const gameLink = linkMatch && linkMatch[1] ? linkMatch[1] : '#'; const gameElement = document.createElement('div'); gameElement.className = 'card'; gameElement.innerHTML = <div class="itch-embed-container"> <iframe class="itch-embed" src="${embedUrl}"></iframe> <div class="itch-embed-placeholder"> Loading game preview...<br> <small>Click to view on itch.io</small> </div> </div> <div class="card-content"> <h3>${game.name}</h3> <p>Click to view this game on itch.io</p> ${googlePlayLinks[game.name] ? <a href="${googlePlayLinks[game.name]}" target="_blank" class="play-store-btn"> <i class="fab fa-google-play"></i> Google Play </a> : ''} </div> ; gameElement.addEventListener('click', (e) => { // Don't open the itch.io link if the user clicked on the Google Play button if (!e.target.closest('.play-store-btn')) { window.open(gameLink, '_blank'); } }); gamesContainer.appendChild(gameElement); // Hide placeholder once iframe loads const iframe = gameElement.querySelector('iframe'); iframe.onload = function() { gameElement.querySelector('.itch-embed-placeholder').style.display = 'none'; }; } }); } // Load YouTube videos (most popular) - Improved filtering async function loadYouTubeVideos() { const apiKey = "AIzaSyA9nChvnwmM_JcV4qAvM4fxNK2rRRTKUBo"; const videosContainer = document.getElementById('videos-container'); const videosFallback = document.getElementById('videos-fallback'); videosContainer.innerHTML = '<div class="spinner"></div>'; videosFallback.style.display = 'none'; try { // First, we need to get the channel ID from the custom URL const customUrl = "s0upp3r"; // From @s0upp3r // Step 1: Get channel ID from custom URL const channelResponse = await fetch(https://www.googleapis.com/youtube/v3/search?part=snippet&type=channel&q=${customUrl}&key=${apiKey}); const channelData = await channelResponse.json(); if (!channelData.items || channelData.items.length === 0) { throw new Error('Channel not found'); } const channelId = channelData.items[0].snippet.channelId; // Step 2: Get the most popular videos (by view count) const videosResponse = await fetch(https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${channelId}&maxResults=12&order=date&type=video&key=${apiKey}); const videosData = await videosResponse.json(); if (!videosData.items || videosData.items.length === 0) { throw new Error('No videos found on this channel'); } // Get video details to filter out Shorts and long videos const videoIds = videosData.items.map(item => item.id.videoId).join(','); const videoDetailsResponse = await fetch(https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet,statistics&id=${videoIds}&key=${apiKey}); const videoDetailsData = await videoDetailsResponse.json(); // Create a map of videoId to details const videoDetailsMap = {}; videoDetailsData.items.forEach(video => { videoDetailsMap[video.id] = video; }); // Display the videos (filtering out Shorts and long videos, limiting to 3) videosContainer.innerHTML = ''; let videoCount = 0; for (const item of videosData.items) { const videoId = item.id.videoId; const videoDetails = videoDetailsMap[videoId]; if (!videoDetails) continue; const duration = videoDetails.contentDetails.duration; const title = item.snippet.title; // Skip Shorts (videos with duration less than 60 seconds) if (isShortVideo(duration)) { continue; } // Skip long videos (longer than 30 minutes) if (isLongVideo(duration)) { continue; } const description = item.snippet.description; const thumbnail = item.snippet.thumbnails.medium.url; const publishedAt = new Date(item.snippet.publishedAt).toLocaleDateString(); const videoElement = document.createElement('div'); videoElement.className = 'card'; videoElement.innerHTML = <img class="card-img" src="${thumbnail}" alt="${title}"> <div class="card-content"> <h3>${title}</h3> <p>${description}</p> <div class="published-date">Published: ${publishedAt}</div> </div> ; videoElement.addEventListener('click', () => { window.open(https://www.youtube.com/watch?v=${videoId}, '_blank'); }); videosContainer.appendChild(videoElement); videoCount++; if (videoCount >= 3) break; } if (videoCount === 0) { throw new Error('No suitable videos found'); } } catch (error) { console.error('Error loading YouTube videos:', error); videosContainer.innerHTML = ''; videosFallback.style.display = 'grid'; } } // Helper function to check if a video is a Short function isShortVideo(duration) { // Duration format: PT#M#S or PT#H#M#S const matches = duration.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/); if (!matches) return false; const hours = parseInt(matches[1] || 0); const minutes = parseInt(matches[2] || 0); const seconds = parseInt(matches[3] || 0); const totalSeconds = (hours * 3600) + (minutes * 60) + seconds; // Videos shorter than 60 seconds are likely Shorts return totalSeconds < 60; } // Helper function to check if a video is too long function isLongVideo(duration) { // Duration format: PT#M#S or PT#H#M#S const matches = duration.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/); if (!matches) return false; const hours = parseInt(matches[1] || 0); const minutes = parseInt(matches[2] || 0); // Videos longer than 30 minutes are considered too long return (hours > 0) || (minutes > 30); } // Initialize the page document.addEventListener('DOMContentLoaded', () => { loadSavedData(); }); </script> </body> </html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soupper's Developer Portfolio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #0a0a1a;
+            color: #ffffff;
+            line-height: 1.6;
+        }
+        
+        /* Header and Banner */
+        header {
+            position: relative;
+            width: 100%;
+            height: 300px;
+            overflow: hidden;
+        }
+        
+        #banner {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        /* Login Form */
+        #login-container {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        #login-btn {
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            border: 1px solid #6e45e2;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        #login-btn:hover {
+            background: rgba(110, 69, 226, 0.5);
+        }
+        
+        #login-form {
+            display: none;
+            position: absolute;
+            top: 40px;
+            right: 0;
+            background: rgba(20, 20, 40, 0.95);
+            padding: 20px;
+            border-radius: 8px;
+            width: 300px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            border: 1px solid #6e45e2;
+        }
+        
+        #login-form input {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border: 1px solid #6e45e2;
+            border-radius: 4px;
+            background: rgba(10, 10, 25, 0.8);
+            color: white;
+        }
+        
+        #login-form button {
+            width: 100%;
+            padding: 10px;
+            background: #6e45e2;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        
+        /* Social Links */
+        #social-links {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            gap: 15px;
+            z-index: 100;
+        }
+        
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .social-icon:hover {
+            transform: scale(1.1);
+            background: rgba(110, 69, 226, 0.7);
+        }
+        
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        section {
+            margin-bottom: 60px;
+        }
+        
+        h2 {
+            font-size: 2.2rem;
+            margin-bottom: 25px;
+            color: #6e45e2;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .view-all {
+            font-size: 1rem;
+            color: #8a79ff;
+            text-decoration: none;
+        }
+        
+        .view-all:hover {
+            text-decoration: underline;
+        }
+        
+        /* About Section */
+        #about {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+        }
+        
+        #about-logo {
+            flex: 1;
+            max-width: 300px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        #about-logo img {
+            width: 100%;
+            display: block;
+        }
+        
+        #about-content {
+            flex: 2;
+        }
+        
+        /* Content Grids */
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+        
+        .card {
+            background: rgba(20, 20, 40, 0.6);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(110, 69, 226, 0.3);
+        }
+        
+        .card-img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+        }
+        
+        .card-content {
+            padding: 15px;
+        }
+        
+        .card h3 {
+            margin-bottom: 10px;
+            color: #a594ff;
+            font-size: 1.1rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .card p {
+            color: #ccccdd;
+            font-size: 0.9rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .card .published-date {
+            color: #8a79ff;
+            font-size: 0.8rem;
+            margin-top: 10px;
+        }
+        
+        /* Product Price */
+        .product-price {
+            color: #6e45e2;
+            font-weight: bold;
+            margin-top: 8px;
+            font-size: 1.1rem;
+        }
+        
+        /* Edit Mode Styles */
+        .editable {
+            position: relative;
+            border: 2px dashed transparent;
+            transition: border-color 0.3s;
+        }
+        
+        .edit-mode .editable {
+            border-color: #6e45e2;
+        }
+        
+        .edit-btn {
+            display: none;
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: rgba(110, 69, 226, 0.8);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 5px 10px;
+            cursor: pointer;
+            z-index: 10;
+        }
+        
+        .edit-mode .edit-btn {
+            display: block;
+        }
+        
+        /* Customization Panel */
+        #customization-panel {
+            position: fixed;
+            top: 0;
+            right: -350px;
+            width: 350px;
+            height: 100vh;
+            background: rgba(20, 20, 40, 0.98);
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            overflow-y: auto;
+            transition: right 0.3s ease;
+            z-index: 1000;
+            border-left: 2px solid #6e45e2;
+        }
+        
+        #customization-panel.open {
+            right: 0;
+        }
+        
+        #panel-toggle {
+            position: absolute;
+            left: -40px;
+            top: 50%;
+            background: #6e45e2;
+            color: white;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px 0 0 8px;
+            cursor: pointer;
+        }
+        
+        .panel-section {
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #333355;
+        }
+        
+        .panel-section h3 {
+            color: #a594ff;
+            margin-bottom: 15px;
+        }
+        
+        .panel-input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #6e45e2;
+            border-radius: 4px;
+            background: rgba(10, 10, 25, 0.8);
+            color: white;
+        }
+        
+        textarea.panel-input {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .panel-btn {
+            width: 100%;
+            padding: 10px;
+            background: #6e45e2;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        
+        /* File Upload */
+        .file-upload {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .file-input {
+            display: none;
+        }
+        
+        .file-label {
+            padding: 8px 极市 12px;
+            background: #6e45e2;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+        
+        /* Footer */
+        footer {
+            background: rgba(10, 10, 25, 0.9);
+            padding: 20px;
+            text-align: center;
+            margin-top: 40极市 px;
+        }
+        
+        /* Loading Spinner */
+        .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 4px solid #6e45e2;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Error Message */
+        .error-message {
+            text-align: center;
+            color: #ff6b6b;
+            padding: 20px;
+            background: rgba(255, 107, 107, 0.1);
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        
+        /* Fallback Content */
+        .fallback-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            #about {
+                flex-direction: column;
+            }
+            
+            #about-logo {
+                max-width: 100%;
+            }
+            
+            header {
+                height: 200px;
+            }
+            
+            #customization-panel {
+                width: 300px;
+                right: -300px;
+            }
+            
+            #login-container {
+                flex-direction: column;
+                align-items: flex-end;
+                gap: 10px;
+            }
+        }
+        
+        /* Itch.io Embed Styling */
+        .itch-embed {
+            width: 100%;
+            height: 167px;
+            border: none;
+            overflow: hidden;
+        }
+        
+        .itch-embed-container {
+            position: relative;
+            width: 100%;
+            height: 167px;
+            overflow: hidden;
+        }
+        
+        .itch-embed-placeholder {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(30, 30, 60, 0.7);
+            color: #a594ff;
+            font-size: 1rem;
+            text-align: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header with Banner -->
+    <header class="editable">
+        <img id="banner" src="computer size banner.png" alt="Banner">
+        <button class="edit-btn">Change Banner</button>
+        
+        <!-- Login Container -->
+        <div id="login-container">
+            <button id="login-btn"><i class="fas fa-lock"></i> Developer Login</button>
+            <div id="login-form">
+                <input type="text" id="username" placeholder="Username">
+                <input type="password" id="password" placeholder="Password">
+                <button id="submit-login">Login</button>
+            </div>
+        </div>
+        
+        <!-- Social Links -->
+        <div id="social-links">
+            <div class="social-icon" id="itchio-link">
+                <i class="fas fa-gamepad" style="font-size: 18px;"></i>
+            </div>
+        </div>
+    </header>
+    
+    <div class="container">
+        <!-- About Section -->
+        <section id="about">
+            <div id="about-logo" class="editable">
+                <img src="desktop_logo-removebg-preview.png" alt="Logo">
+                <button class="edit-btn">Change Logo</button>
+            </div>
+            <div id="about-content" class="editable">
+                <h2>About Me</h2>
+                <p>Welcome to my channel! I'm Soupper, a passionate game developer and content creator. I love creating immersive experiences through games and sharing my development journey. My goal is to build engaging games that bring joy to players and to share my knowledge with the developer community.</p>
+                <button class="edit-btn">Edit Text</button>
+            </div>
+        </section>
+        
+        <!-- Games Section -->
+        <section id="games">
+            <h2>
+                My Games
+                <a href="https://soupper.itch.io/" target="_blank" class="view-all">View All</a>
+            </h2>
+            <div class="content-grid" id="games-container">
+                <div class="spinner"></div>
+            </div>
+        </section>
+        
+        <!-- Products Section -->
+        <section id="products">
+            <h2>
+                My Merch
+                <a href="https://soupper-shop.fourthwall.com/" target="_blank" class="view-all">View All</a>
+            </h2>
+            <div class="content-grid" id="products-container">
+                <div class="spinner"></div>
+            </div>
+            <!-- Fallback products content -->
+            <div class="fallback-content" id="products-fallback" style="display: none;">
+                <div class="card" onclick="window.open('https://soupper-shop.fourthwall.com/', '_blank')">
+                    <img class="card-img" src="https://via.placeholder.com/400x200/8a79ff/ffffff?text=Product+Image" alt="Product 1">
+                    <div class="card-content">
+                        <h3>Cool T-Shirt</h3>
+                        <p>Show your support with this awesome merchandise!</p>
+                        <div class="product-price">$24.99</div>
+                    </div>
+                </div>
+                <div class="card" onclick="window.open('极市 https://soupper-shop.fourthwall.com/', '_blank')">
+                    <img class="card-img" src="https://via.placeholder.com/400x200/8a79ff/ffffff?text=Product+Image" alt="Product 2">
+                    <div class="card-content">
+                        <h3>Hoodie</h3>
+                        <p>Stay warm and represent with our premium hoodie.</p>
+                        <div class="product-price">$44.99</div>
+                    </div>
+                </div>
+                <div class="card" onclick="window.open('https://soupper-shop.fourthwall.com/', '_blank')">
+                    <img class="card-img" src="https://via.placeholder.com/400x200/8a79ff/ffffff?text=Product+Image" alt="Product 3">
+                    <div class="card-content">
+                        <h3>Mug</h3>
+                        <p>Enjoy your morning coffee with this stylish mug.</p>
+                        <div class="product-price">$19.99</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <!-- Customization Panel -->
+    <div id="customization-panel">
+        <div id="panel-toggle">
+            <i class="fas fa-cog"></i>
+        </div>
+        <h2>Customization Panel</h2>
+        
+        <div class="panel-section">
+            <h3>Banner Image</h3>
+            <div class="file-upload">
+                <input type="file" id="banner-upload" class="file-input" accept="image/*">
+                <label for="banner-upload" class="file-label">Upload Banner Image</label>
+                <span style="text-align: center; font-size: 0.8rem;">OR</span>
+            </div>
+            <input type="text" id="banner-url" class="panel-input" placeholder="Banner Image URL" value="computer size banner.png">
+            <button class="panel-btn" id="update-banner">Update Banner</button>
+        </div>
+        
+        <div class="panel-section">
+            <h3>Logo Image</h3>
+            <div class="file极市 -upload">
+                <input type="file" id="logo-upload" class="file-input" accept="image/*">
+                <label for="logo-upload" class="file-label">Upload Logo Image</label>
+                <span style="text-align: center; font-size: 0.8rem;">OR</span>
+            </div>
+            <input type="text" id="logo-url" class="panel-input" placeholder="Logo Image URL" value="desktop_logo-removebg-preview.png">
+            <button class="panel-btn" id="update-logo">Update Logo</button>
+        </div>
+        
+        <div class="panel-section">
+            <h3>About Text</h3>
+            <textarea id="about-text" class="panel-input" placeholder="About Text" rows="4">Welcome to my channel! I'm Soupper, a passionate game developer and content creator. I love creating immersive experiences through games and sharing my development journey. My goal is to build engaging games that bring joy to players and to share my knowledge with the developer community.</textarea>
+            <button class="panel-btn" id="update-about">Update About Text</button>
+        </div>
+        
+        <div class="panel-section">
+            <h3>Social Links</h3>
+            <input type="text" id="itchio-url" class="panel-input" placeholder="Itch.io Profile URL" value="https://soupper.itch.io/">
+            <button class="panel-btn" id="update-links">Update Social Links</button>
+        </div>
+        
+        <div class="panel-section">
+            <h3>Content Refresh</h3>
+            <button class="panel-btn" id="refresh-games">Refresh Games</button>
+            <button class="panel-btn" id="refresh-products">Refresh Products</button>
+        </div>
+        
+        <button class="panel-btn" id="save-all">Save All Changes</button>
+        <button class="panel-btn" id="reset-all" style="background: #ff4757;">Reset to Default</button>
+    </div>
+    
+    <footer>
+        <p>© 2023 Soupper's Developer Portfolio. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // DOM Elements
+        const loginBtn = document.getElementById('login-btn');
+        const loginForm = document.getElementById('login-form');
+        const submitLogin = document.getElementById('submit-login');
+        const usernameInput = document.getElementById('username');
+        const passwordInput = document.getElementById('password');
+        const panelToggle = document.getElementById('panel-toggle');
+        const customizationPanel = document.getElementById('customization-panel');
+        const bannerUpload = document.getElementById('banner-upload');
+        const logoUpload = document.getElementById('logo-upload');
+        
+        // Edit Mode State
+        let editMode = false;
+        let isLoggedIn = false;
+        
+        // Fourthwall API Key
+        const FOURTHWALL_API_KEY = 'ptkn_a8f5c1c2-68df-467e-94da-b128d754fd6f';
+        
+        // Itch.io game embeds (from your repository)
+        const itchGameEmbeds = [
+            {
+                name: "Corporal Climber",
+                embedCode: `<iframe frameborder="0" src="https://itch.io/embed/3797554?bg_color=62c764&amp;fg_color=fff958&amp;link_color=0cc3e0&amp;border_color=0ad933" width="552" height="167"><a href="https://soupper.itch.io/corporal-climber">Corporal Climber by Soupper</a></iframe>`
+            },
+            {
+                name: "Gummy Ninja Squasher",
+                embedCode: `<iframe frameborder="0" src="https://itch.io/embed/2446992" width="552" height="167"><a href="https://soupper.itch.io/gummy-ninja-squahser">Gummy Ninja Squahser by Soupper</a></iframe>`
+            },
+            {
+                name: "Slander",
+                embedCode: `<iframe frameborder="0" src="https://itch.io/embed/1882649" width="552" height="167"><a href="https://soupper.itch.io/slander">Slander by Soupper</a></iframe>`
+            }
+        ];
+        
+        // Load saved data from localStorage
+        function loadSavedData() {
+            const savedData = localStorage.getItem('portfolioData');
+            if (savedData) {
+                const data = JSON.parse(savedData);
+                
+                // Apply saved banner
+                if (data.bannerUrl) {
+                    document.getElementById('banner').src = data.bannerUrl;
+                    document.getElementById('banner-url').value = data.bannerUrl;
+                }
+                
+                // Apply saved logo
+                if (data.logoUrl) {
+                    document.querySelector('#极市 about-logo img').src = data.logoUrl;
+                    document.getElementById('logo-url').value = data.logoUrl;
+                }
+                
+                // Apply saved about text
+                if (data.aboutText) {
+                    document.querySelector('#about-content p').textContent = data.aboutText;
+                    document.getElementById('about-text').value = data.aboutText;
+                }
+                
+                // Apply saved social links
+                if (data.itchioUrl) {
+                    document.getElementById('itchio-url').value = data.itchioUrl;
+                }
+            }
+            
+            // Always load games and products
+            loadItchGames();
+            loadFourthwallProducts();
+        }
+        
+        // Save data to localStorage
+        function saveData() {
+            const data = {
+                bannerUrl: document.getElementById('banner-url').value,
+                logoUrl: document.getElementById('logo-url').value,
+                aboutText: document.getElementById('about-text').value,
+                itchioUrl: document.getElementById('itchio-url').value
+            };
+            
+            localStorage.setItem('portfolioData', JSON.stringify(data));
+            alert('All changes saved successfully!');
+        }
+        
+        // Toggle Login Form
+        loginBtn.addEventListener('click', () => {
+            if (isLoggedIn) {
+                toggleEditMode(false);
+                isLoggedIn = false;
+                loginBtn.innerHTML = '<i class="fas fa-lock"></i> Developer Login';
+                loginBtn.style.marginRight = '0';
+            } else {
+                loginForm.style.display = loginForm.style.display === 'block' ? 'none' : 'block';
+            }
+        });
+        
+        // Login Functionality
+        submitLogin.addEventListener('click', () => {
+            const username = usernameInput.value;
+            const password = passwordInput.value;
+            
+            if (username === 'Soupper' && password === '402warrenRd') {
+                toggleEditMode(true);
+                loginForm.style.display = 'none';
+                isLoggedIn = true;
+                loginBtn.innerHTML = '<i class="fas fa-unlock"></i> Logout';
+                loginBtn.style.marginRight = '15px';
+                alert('Developer mode activated! You can now customize the website.');
+            } else {
+                alert('Invalid credentials. Please try again.');
+            }
+        });
+        
+        // Toggle Edit Mode
+        function toggleEditMode(enable) {
+            editMode = enable;
+            document.body.classList.toggle('edit-mode', enable);
+        }
+        
+        // Toggle customization panel
+        panelToggle.addEventListener('click', () => {
+            customizationPanel.classList.toggle('open');
+        });
+        
+        // Social Links
+        document.getElementById('itchio-link').addEventListener('click', () => {
+            const itchioUrl = document.getElementById('itchio-url').value || 'https://soupper.itch.io/';
+            window.open(itchioUrl, '_blank');
+        });
+        
+        // Update banner
+        document.getElementById('update-banner').addEventListener('click', () => {
+            const bannerUrl = document.getElementById('banner-url').value;
+            if (bannerUrl) {
+                document.getElementById('banner').src = bannerUrl;
+            }
+        });
+        
+        // Update logo
+        document.getElementById('update-logo').addEventListener('click', () => {
+            const logoUrl = document.getElementById('logo-url').value;
+            if (logoUrl) {
+                document.querySelector('#about-logo img').src = logoUrl;
+            }
+        });
+        
+        // Update about text
+        document.getElementById('update-about').addEventListener('click', () => {
+            const aboutText = document.getElementById('about-text').value;
+            if (aboutText) {
+                document.querySelector('#about-content p').textContent = aboutText;
+            }
+        });
+        
+        // Save all changes
+        document.getElementById('save-all').addEventListener('click', saveData);
+        
+        // Reset all changes
+        document.getElementById('reset-all').addEventListener('click', () => {
+            if (confirm('Are you sure you want to reset all changes?')) {
+                localStorage.removeItem('portfolioData');
+                location.reload();
+            }
+        });
+        
+        // Refresh games
+        document.getElementById('refresh-games').addEventListener('click', loadItchGames);
+        
+        // Refresh products
+        document.getElementById('refresh-products').addEventListener('click', loadFourthwallProducts);
+        
+        // Handle file uploads
+        bannerUpload.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    document.getElementById('banner').src = event.target.result;
+                    document.getElementById('banner-url').value = event.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+        
+        logoUpload.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    document.querySelector('#about-logo img').src = event.target.result;
+                    document.getElementById('logo-url').value = event.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+        
+        // Edit functionality for editable elements
+        document.addEventListener('click', (e) => {
+            if (editMode && e.target.classList.contains('edit-btn')) {
+                const parent = e.target.parentElement;
+                
+                if (parent.id === 'about-logo' || parent.classList.contains('editable-img')) {
+                    logoUpload.click();
+                } else if (parent.classList.contains('editable')) {
+                    if (parent.querySelector('p')) {
+                        const currentText = parent.querySelector('p').textContent;
+                        const newText = prompt('Edit text:', currentText);
+                        if (newText !== null) {
+                            parent.querySelector('p').textContent = newText;
+                            document.getElementById('about-text').value = newText;
+                        }
+                    } else if (parent.querySelector('img')) {
+                        bannerUpload.click();
+                    }
+                }
+            }
+        });
+        
+        // Load Itch.io games from embedded codes
+        function loadItchGames() {
+            const gamesContainer = document.getElementById('games-container');
+            gamesContainer.innerHTML = '';
+            
+            itchGameEmbeds.forEach(game => {
+                // Extract the URL from the embed code
+                const urlMatch = game.embedCode.match(/src="([^"]+)"/);
+                const linkMatch = game.embedCode.match(/<a href="([^"]+)"/);
+                
+                if (urlMatch && urlMatch[1]) {
+                    const embedUrl = urlMatch[1];
+                    const gameLink = linkMatch && linkMatch[1] ? linkMatch[1] : '#';
+                    
+                    const gameElement = document.createElement('div');
+                    gameElement.className = 'card';
+                    gameElement.innerHTML = `
+                        <div class="itch-embed-container">
+                            <iframe class="itch-embed" src="${embedUrl}"></iframe>
+                            <div class="itch-embed-placeholder">
+                                Loading game preview...<br>
+                                <small>Click to view on itch.io</small>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <h3>${game.name}</h3>
+                            <p>Click to view this game on itch.io</p>
+                        </div>
+                    `;
+                    
+                    gameElement.addEventListener('click', () => {
+                        window.open(gameLink, '_blank');
+                    });
+                    
+                    gamesContainer.appendChild(gameElement);
+                    
+                    // Hide placeholder once iframe loads
+                    const iframe = gameElement.querySelector('iframe');
+                    iframe.onload = function() {
+                        gameElement.querySelector('.itch-embed-placeholder').style.display = 'none';
+                    };
+                }
+            });
+        }
+        
+        // Load Fourthwall products using Storefront API
+        async function loadFourthwallProducts() {
+            const productsContainer = document.getElementById('products-container');
+            const productsFallback = document.getElementById('products-fallback');
+            
+            productsContainer.innerHTML = '<div class="spinner"></div>';
+            productsFallback.style.display = 'none';
+            
+            try {
+                // Fourthwall Storefront API endpoint
+                // Using a proxy to bypass CORS restrictions
+                const proxyUrl = 'https://corsproxy.io/?';
+                const apiUrl = `${proxyUrl}https://storefront-api.fourthwall.com/api/storefront/products`;
+                
+                const response = await fetch(apiUrl, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-fourthwall-access-token': FOURTHWALL_API_KEY
+                    }
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch products from Fourthwall: ${response.status} ${response.statusText}`);
+                }
+                
+                const data = await response.json();
+                
+                if (!data.products || data.products.length === 0) {
+                    throw new Error('No products found in the response');
+                }
+                
+                // Display the products
+                productsContainer.innerHTML = '';
+                
+                // Show up to 3 products
+                const productsToShow = data.products.slice(0, 3);
+                
+                productsToShow.forEach(product => {
+                    const productElement = document.createElement('极市 div');
+                    productElement.className = 'card';
+                    productElement.innerHTML = `
+                        <img class="card-img" src="${product.images[0]?.url || 'https://via.placeholder.com/400x200/8a79ff/ffffff?text=Product+Image'}" alt="${product.title}" onerror="this.src='https://via.placeholder.com/400x200/8a79ff/ffffff?text=Product+Image'">
+                        <div class="card-content">
+                            <h3>${product.title}</h3>
+                            <p>${product.description || 'Check out this awesome merchandise!'}</p>
+                            <div class="product-price">$${product.price}</div>
+                        </div>
+                    `;
+                    productElement.addEventListener('click', () => {
+                        window.open(`https://soupper-shop.fourthwall.com/products/${product.handle}`, '_blank');
+                    });
+                    productsContainer.appendChild(productElement);
+                });
+            } catch (error) {
+                console.error('Error loading Fourthwall products:', error);
+                
+                // Show fallback content
+                productsContainer.innerHTML = '<div class="error-message">Error loading products. Showing fallback content instead.</div>';
+                productsFallback.style.display = 'grid';
+            }
+        }
+        
+        // Initialize content
+        window.addEventListener('DOMContentLoaded', () => {
+            loadSavedData();
+            
+            // Set your custom banner and logo
+            document.getElementById('banner').src = 'computer size banner.png';
+            document.querySelector('#about-logo img').src = 'desktop_logo-removebg-preview.png';
+        });
+    </script>
+</body>
+</html>
