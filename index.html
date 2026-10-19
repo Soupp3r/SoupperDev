@@ -12,13 +12,13 @@
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        
+
         body {
             background-color: #0a0a1a;
             color: #ffffff;
             line-height: 1.6;
         }
-        
+
         /* Header and Banner */
         header {
             position: relative;
@@ -26,13 +26,13 @@
             height: 300px;
             overflow: hidden;
         }
-        
+
         #banner {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
-        
+
         /* Login Form */
         #login-container {
             position: absolute;
@@ -43,7 +43,7 @@
             align-items: center;
             gap: 15px;
         }
-        
+
         #login-btn {
             background: rgba(0, 0, 0, 0.7);
             color: white;
@@ -53,11 +53,11 @@
             cursor: pointer;
             transition: all 0.3s;
         }
-        
+
         #login-btn:hover {
-            background: rgba(110, 69, 226, 极市 0.5);
+            background: rgba(110, 69, 226, 0.5);
         }
-        
+
         #login-form {
             display: none;
             position: absolute;
@@ -70,7 +70,7 @@
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
             border: 1px solid #6e45e2;
         }
-        
+
         #login-form input {
             width: 100%;
             padding: 10px;
@@ -80,8 +80,8 @@
             background: rgba(10, 10, 25, 0.8);
             color: white;
         }
-        
-        #login极市 -form button {
+
+        #login-form button {
             width: 100%;
             padding: 10px;
             background: #6e45e2;
@@ -91,7 +91,7 @@
             cursor: pointer;
             margin-top: 10px;
         }
-        
+
         /* Social Links */
         #social-links {
             position: absolute;
@@ -101,7 +101,7 @@
             gap: 15px;
             z-index: 100;
         }
-        
+
         .social-icon {
             width: 40px;
             height: 40px;
@@ -113,46 +113,46 @@
             cursor: pointer;
             transition: all 0.3s;
         }
-        
+
         .social-icon:hover {
             transform: scale(1.1);
             background: rgba(110, 69, 226, 0.7);
         }
-        
+
         /* Main Content */
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 40px 20px;
         }
-        
+
         section {
             margin-bottom: 60px;
         }
-        
+
         h2 {
             font-size: 2.2rem;
             margin-bottom: 25px;
             color: #6e45e2;
         }
-        
+
         .view-all {
             font-size: 1rem;
             color: #8a79ff;
             text-decoration: none;
         }
-        
+
         .view-all:hover {
             text-decoration: underline;
         }
-        
+
         /* About Section */
         #about {
             display: flex;
             gap: 40px;
             align-items: center;
         }
-        
+
         #about-logo {
             flex: 1;
             max-width: 300px;
@@ -160,23 +160,23 @@
             overflow: hidden;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
-        
+
         #about-logo img {
             width: 100%;
             display: block;
         }
-        
+
         #about-content {
             flex: 2;
         }
-        
+
         /* Content Grids */
         .content-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 25px;
         }
-        
+
         .card {
             background: rgba(20, 20, 40, 0.6);
             border-radius: 10px;
@@ -186,22 +186,22 @@
             cursor: pointer;
             position: relative;
         }
-        
+
         .card:hover {
             transform: translateY(-5px);
             box-shadow: 0 8px 20px rgba(110, 69, 226, 0.3);
         }
-        
+
         .card-img {
             width: 100%;
             height: 160px;
             object-fit: cover;
         }
-        
+
         .card-content {
             padding: 15px;
         }
-        
+
         .card h3 {
             margin-bottom: 10px;
             color: #a594ff;
@@ -211,7 +211,7 @@
             -webkit-box-orient: vertical;
             overflow: hidden;
         }
-        
+
         .card p {
             color: #ccccdd;
             font-size: 0.9rem;
@@ -220,24 +220,24 @@
             -webkit-box-orient: vertical;
             overflow: hidden;
         }
-        
+
         .card .published-date {
             color: #8a79ff;
             font-size: 0.8rem;
             margin-top: 10px;
         }
-        
+
         /* Edit Mode Styles */
         .editable {
             position: relative;
             border: 2px dashed transparent;
             transition: border-color 0.3s;
         }
-        
+
         .edit-mode .editable {
             border-color: #6e45e2;
         }
-        
+
         .edit-btn {
             display: none;
             position: absolute;
@@ -251,11 +251,11 @@
             cursor: pointer;
             z-index: 10;
         }
-        
+
         .edit-mode .edit-btn {
             display: block;
         }
-        
+
         /* Customization Panel */
         #customization-panel {
             position: fixed;
@@ -271,11 +271,11 @@
             z-index: 1000;
             border-left: 2px solid #6e45e2;
         }
-        
+
         #customization-panel.open {
             right: 0;
         }
-        
+
         #panel-toggle {
             position: absolute;
             left: -40px;
@@ -290,18 +290,18 @@
             border-radius: 8px 0 0 8px;
             cursor: pointer;
         }
-        
+
         .panel-section {
             margin-bottom: 25px;
             padding-bottom: 15px;
             border-bottom: 1px solid #333355;
         }
-        
+
         .panel-section h3 {
             color: #a594ff;
             margin-bottom: 15px;
         }
-        
+
         .panel-input {
             width: 100%;
             padding: 10px;
@@ -311,12 +311,12 @@
             background: rgba(10, 10, 25, 0.8);
             color: white;
         }
-        
+
         textarea.panel-input {
             min-height: 100px;
             resize: vertical;
         }
-        
+
         .panel-btn {
             width: 100%;
             padding: 10px;
@@ -327,18 +327,18 @@
             cursor: pointer;
             margin-top: 10px;
         }
-        
+
         /* File Upload */
         .file-upload {
             display: flex;
             flex-direction: column;
             gap: 10px;
         }
-        
+
         .file-input {
             display: none;
         }
-        
+
         .file-label {
             padding: 8px 12px;
             background: #6e45e2;
@@ -348,7 +348,7 @@
             text-align: center;
             font-size: 0.9rem;
         }
-        
+
         /* Footer */
         footer {
             background: rgba(10, 10, 25, 0.9);
@@ -356,7 +356,7 @@
             text-align: center;
             margin-top: 40px;
         }
-        
+
         /* Loading Spinner */
         .spinner {
             border: 4px solid rgba(255, 255, 255, 0.3);
@@ -367,12 +367,12 @@
             animation: spin 1s linear infinite;
             margin: 20px auto;
         }
-        
+
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-        
+
         /* Error Message */
         .error-message {
             text-align: center;
@@ -382,14 +382,14 @@
             border-radius: 8px;
             margin: 20px 0;
         }
-        
+
         /* Fallback Content */
         .fallback-content {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 25px;
         }
-        
+
         /* Itch.io Embed Styling */
         .itch-embed {
             width: 100%;
@@ -397,14 +397,14 @@
             border: none;
             overflow: hidden;
         }
-        
+
         .itch-embed-container {
             position: relative;
             width: 100%;
-            height极市 : 167px;
+            height: 167px;
             overflow: hidden;
         }
-        
+
         .itch-embed-placeholder {
             position: absolute;
             top: 0;
@@ -421,7 +421,7 @@
             padding: 20px;
             box-sizing: border-box;
         }
-        
+
         /* Professional About Section */
         .professional-about {
             background: rgba(20, 20, 40, 0.6);
@@ -430,25 +430,25 @@
             margin-top: 20px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
-        
+
         .professional-about h3 {
             color: #a594ff;
             margin-bottom: 15px;
             font-size: 1.4rem;
         }
-        
+
         .professional-about p {
             margin-bottom: 20px;
             line-height: 1.6;
         }
-        
+
         .skills-container {
             display: flex;
             flex-wrap: wrap;
             gap: 20px;
             margin-top: 25px;
         }
-        
+
         .skill-category {
             flex: 1;
             min-width: 250px;
@@ -456,7 +456,7 @@
             border-radius: 8px;
             padding: 20px;
         }
-        
+
         .skill-category h4 {
             color: #6e45e2;
             margin-bottom: 15px;
@@ -464,17 +464,17 @@
             border-bottom: 1px solid #6e45e2;
             padding-bottom: 8px;
         }
-        
+
         .skill-list {
             list-style-type: none;
         }
-        
+
         .skill-list li {
             margin-bottom: 10px;
             padding-left: 20px;
             position: relative;
         }
-        
+
         .skill-list li:before {
             content: "•";
             color: #6e45e2;
@@ -483,7 +483,7 @@
             width: 1em;
             margin-left: -1em;
         }
-        
+
         /* Merch Button */
         .merch-section {
             text-align: center;
@@ -492,7 +492,7 @@
             border-radius: 10px;
             margin-top: 40px;
         }
-        
+
         .merch-button {
             display: inline-block;
             background: #6e45e2;
@@ -505,42 +505,43 @@
             transition: all 0.3s;
             margin-top: 20px;
         }
-        
+
         .merch-button:hover {
             background: #8a79ff;
             transform: translateY(-3px);
             box-shadow: 0 5px 15px rgba(110, 69, 226, 0.4);
         }
-        
+
         /* Responsive Design */
         @media (max-width: 768px) {
             #about {
                 flex-direction: column;
             }
-            
+
             #about-logo {
                 max-width: 100%;
             }
-            
+
             header {
                 height: 200px;
             }
-            
+
             #customization-panel {
                 width: 300px;
                 right: -300px;
             }
-            
+
             #login-container {
                 flex-direction: column;
                 align-items: flex-end;
                 gap: 10px;
             }
-            
+
             .skills-container {
                 flex-direction: column;
             }
         }
+    a { color: #b9a6ff; } a:focus-visible { outline: 3px solid #b9a6ff; outline-offset: 4px; } .social-icon { text-decoration: none; } .card-content p { margin-bottom: 12px; } .content-grid { grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); }
     </style>
 </head>
 <body>
@@ -548,40 +549,28 @@
     <header class="editable">
         <img id="banner" src="computer size banner.png" alt="Banner">
         <button class="edit-btn">Change Banner</button>
-        
-        <!-- Login Container -->
-        <div id="login-container">
-            <button id="login-btn"><i class="fas fa-lock"></i> Developer Login</button>
-            <div id="login-form">
-                <input type="text" id="username" placeholder="Username">
-                <input type="password" id="password" placeholder="Password">
-                <button id="submit-login">Login</button>
-            </div>
-        </div>
-        
+
         <!-- Social Links -->
         <div id="social-links">
-            <div class="social-icon" id="itchio-link">
-                <i class="fas fa-gamepad" style="font-size: 18px;"></i>
-            </div>
+            <a class="social-icon" href="https://soupper.itch.io/" aria-label="Soupper on itch.io"><i class="fas fa-gamepad" aria-hidden="true"></i></a><a class="social-icon" href="https://www.youtube.com/@s0upp3r" aria-label="Soupper on YouTube"><i class="fab fa-youtube" aria-hidden="true"></i></a><a class="social-icon" href="https://github.com/Soupp3r" aria-label="Soupper on GitHub"><i class="fab fa-github" aria-hidden="true"></i></a>
         </div>
     </header>
-    
+
     <div class="container">
         <!-- About Section -->
         <section id="about">
             <div id="about-logo" class="editable">
                 <img src="desktop_logo-removebg-preview.png" alt="Logo">
-                <button class="edit-btn">Change Logo</button>
+
             </div>
             <div id="about-content">
                 <h2>About Me</h2>
                 <div class="professional-about">
                     <h3>Game Developer & Software Engineer</h3>
                     <p>I am a passionate and skilled game developer with expertise in creating immersive gaming experiences across multiple platforms. With a strong foundation in both technical implementation and creative design, I specialize in developing engaging gameplay mechanics, optimizing performance, and delivering polished user experiences.</p>
-                    
+
                     <p>My development approach combines analytical problem-solving with artistic sensibility, allowing me to create games that are both technically robust and visually appealing. I thrive in collaborative environments and am committed to continuous learning and professional growth in the ever-evolving game development industry.</p>
-                    
+
                     <div class="skills-container">
                         <div class="skill-category">
                             <h4>Technical Skills</h4>
@@ -593,7 +582,7 @@
                                 <li>Version Control (Git)</li>
                             </ul>
                         </div>
-                        
+
                         <div class="skill-category">
                             <h4>Design Skills</h4>
                             <ul class="skill-list">
@@ -608,315 +597,33 @@
                 </div>
             </div>
         </section>
-        
+
         <!-- Games Section -->
         <section id="games">
             <h2>
                 My Games
-                <a href="https://soupper.itch.io/" target="_blank" class="view-all">View All</a>
+                <a href="https://soupper.itch.io/" target="_blank" rel="noopener noreferrer" class="view-all">View All</a>
             </h2>
             <div class="content-grid" id="games-container">
-                <div class="spinner"></div>
+                <article class="card"><img src="dashers-preview.png" alt="Dashers Lantern Market development preview" style="width:100%;height:220px;object-fit:cover" loading="lazy"><div class="card-content"><h3>Dashers</h3><p>Dash, block, and race to three points with friends on the same Wi-Fi. Local multiplayer for Android.</p><p><strong>In development · Google Play submission in review</strong></p><p><a href="https://soupp3r.github.io/3d_gunner_online/">Game website</a> · <a href="https://soupper.itch.io/dashers">Development page on itch.io</a></p></div></article>
+<article class="card"><iframe title="Corporal Climber on itch.io" class="itch-embed" src="https://itch.io/embed/3797554" loading="lazy" style="width:100%;height:167px;border:0"></iframe><div class="card-content"><h3>Corporal Climber</h3><p>Climb the ranks in this military-themed clicker.</p><a href="https://soupper.itch.io/corporal-climber">View Corporal Climber</a></div></article>
+<article class="card"><iframe title="Gummy Ninja Squasher on itch.io" class="itch-embed" src="https://itch.io/embed/2446992" loading="lazy" style="width:100%;height:167px;border:0"></iframe><div class="card-content"><h3>Gummy Ninja Squasher</h3><a href="https://soupper.itch.io/gummy-ninja-squahser">View Gummy Ninja Squasher</a></div></article>
+<article class="card"><iframe title="Slander on itch.io" class="itch-embed" src="https://itch.io/embed/1882649" loading="lazy" style="width:100%;height:167px;border:0"></iframe><div class="card-content"><h3>Slander</h3><a href="https://soupper.itch.io/slander">View Slander</a></div></article>
             </div>
         </section>
-        
+
         <!-- Merch Section -->
         <section class="merch-section">
             <h2>Support My Work</h2>
             <p>Check out my official merchandise featuring exclusive designs from my games. Your support helps me continue creating great content.</p>
-            <a href="https://soupper-shop.fourthwall.com/" target="_blank" class="merch-button">Check Out My Merch</a>
+            <a href="https://soupper-shop.fourthwall.com/" target="_blank" rel="noopener noreferrer" class="merch-button">Check Out My Merch</a>
         </section>
     </div>
-    
-    <!-- Customization Panel -->
-    <div id="customization-panel">
-        <div id="panel-toggle">
-            <i class="fas fa-cog"></i>
-        </div>
-        <h2>Customization Panel</h2>
-        
-        <div class="panel-section">
-            <h3>Banner Image</h3>
-            <div class="file-upload">
-                <input type="file" id="banner-upload" class="file-input" accept="image/*">
-                <label for="banner-upload" class="file-label">Upload Banner Image</label>
-                <span style="text-align: center; font-size: 0.8rem;">OR</span>
-            </div>
-            <input type="text" id="banner-url" class="panel-input" placeholder="Banner Image URL" value="computer size banner.png">
-            <button class="panel-btn" id="update-banner">Update Banner</button>
-        </div>
-        
-        <div class="panel-section">
-            <h3>Logo Image</h3>
-            <div class="file-upload">
-                <input type="file" id="logo-upload" class极市 .file-input" accept="image/*">
-                <label for="logo-upload" class="file-label">Upload Logo Image</label>
-                <span style="text-align: center; font-size: 0.8rem;">OR</span>
-            </div>
-            <input type="text" id="logo-url" class="panel-input" placeholder="Logo Image URL" value="desktop_logo-removebg-preview.png">
-            <button class="panel-btn" id="update-logo">Update Logo</button>
-        </div>
-        
-        <div class="panel-section">
-            <h3>Social Links</h3>
-            <input type="text" id="itchio-url" class="panel-input" placeholder="Itch.io Profile URL" value="https://soupper.itch.io/">
-            <button class="panel-btn" id="update-links">Update Social Links</button>
-        </div>
-        
-        <div class="panel-section">
-            <h3>Content Refresh</h3>
-            <button class="panel-btn" id="refresh-games">Refresh Games</button>
-        </div>
-        
-        <button class="panel-btn" id="save-all">Save All Changes</button>
-        <button class="panel-btn" id="reset-all" style="background: #ff4757;">Reset to Default</button>
-    </div>
-    
+
     <footer>
-        <p>© 2023 Soupper's Developer Portfolio. All rights reserved.</p>
+        <p>© 2026 Soupper's Developer Portfolio. All rights reserved.</p>
     </footer>
 
-    <script>
-        // DOM Elements
-        const loginBtn = document.getElementById('login-btn');
-        const loginForm = document.getElementById('login-form');
-        const submitLogin = document.getElementById('submit-login');
-        const usernameInput = document.getElementById('username');
-        const passwordInput = document.getElementById('password');
-        const panelToggle = document.getElementById('panel-toggle');
-        const customizationPanel = document.getElementById('customization-panel');
-        const bannerUpload = document.getElementById('banner-upload');
-        const logoUpload = document.getElementById('logo-upload');
-        
-        // Edit Mode State
-        let editMode = false;
-        let isLoggedIn = false;
-        
-        // Itch.io game embeds (from your repository)
-        const itchGameEmbeds = [
-            {
-                name: "Corporal Climber",
-                embedCode: `<iframe frameborder="0" src="https://itch.io/embed/3797554?bg_color=62c764&amp;fg_color=fff958&amp;link_color=0cc3e0&amp;border_color=0ad933" width="552" height="167"><a href="https://soupper.itch.io/corporal-climber">Corporal Climber by Soupper</a></iframe>`
-            },
-            {
-                name: "Gummy Ninja Squasher",
-                embedCode: `<iframe frameborder="0" src="https://itch.io/embed/2446992" width="552" height极市 : 167"><a href="https://soupper.itch.io/gummy-ninja-squahser">Gummy Ninja Squahser by Soupper</a></iframe>`
-            },
-            {
-                name: "Slander",
-                embedCode: `<iframe frameborder="0" src="https://itch.io/embed/1882649" width="552" height="167"><a href="https://s极市 oupper.itch.io/slander">Slander by Soupper</a></iframe>`
-            }
-        ];
-        
-        // Load saved data from localStorage
-        function loadSavedData() {
-            const savedData = localStorage.getItem('portfolioData');
-            if (savedData) {
-                const data = JSON.parse(savedData);
-                
-                // Apply saved banner
-                if (data.bannerUrl) {
-                    document.getElementById('banner').极市 src = data.bannerUrl;
-                    document.getElementById('banner-url').value = data.bannerUrl;
-                }
-                
-                // Apply saved logo
-                if (data.logoUrl) {
-                    document.querySelector('#about-logo img').src = data.logoUrl;
-                    document.getElementById('logo-url').value = data.logoUrl;
-                }
-                
-                // Apply saved social links
-                if (data.itchioUrl) {
-                    document.getElementById('itchio-url').value = data.itchioUrl;
-                }
-            }
-            
-            // Always load games
-            loadItchGames();
-        }
-        
-        // Save data to localStorage
-        function saveData() {
-            const data = {
-                bannerUrl: document.getElementById('banner-url').value,
-                logoUrl: document.getElementById('logo-url').value,
-                itchioUrl: document.getElementById('itchio-url').value
-            };
-            
-            localStorage.setItem('portfolioData', JSON.stringify(data));
-            alert('All changes saved successfully!');
-        }
-        
-        // Toggle Login Form
-        loginBtn.addEventListener('click', () => {
-            if (isLoggedIn) {
-                toggleEditMode(false);
-                isLoggedIn = false;
-                loginBtn.innerHTML = '<i class="fas fa-lock"></i> Developer Login';
-                loginBtn.style.marginRight = '0';
-            } else {
-                loginForm.style.display = loginForm.style.display === 'block' ? 'none' : 'block';
-            }
-        });
-        
-        // Login Functionality
-        submitLogin.addEventListener('click', () => {
-            const username = usernameInput.value;
-            const password = passwordInput.value;
-            
-            if (username === 'Soupper' && password === '402warrenRd') {
-                toggleEditMode(true);
-                loginForm.style.display = 'none';
-                isLoggedIn = true;
-                loginBtn.innerHTML = '<极市 i class="fas fa-unlock"></i> Logout';
-                loginBtn.style.marginRight = '15px';
-                alert('Developer mode activated! You can now customize the website.');
-            } else {
-                alert('Invalid credentials. Please try again.');
-            }
-        });
-        
-        // Toggle Edit Mode
-        function toggleEditMode(enable) {
-            editMode = enable;
-            document.body.classList.toggle('edit-mode', enable);
-        }
-        
-        // Toggle customization panel
-        panelToggle.addEventListener('click', () => {
-            customizationPanel.classList.toggle('open');
-        });
-        
-        // Social Links
-        document.getElementById('itchio-link').addEventListener('click', () => {
-            const itchioUrl = document.getElementById('itchio-url').value || 'https://soupper.itch.io/';
-            window.open(itchioUrl, '_blank');
-        });
-        
-        // Update banner
-        document.getElementById('update-banner').addEventListener('click', () => {
-            const bannerUrl = document.getElementById('banner-url').value;
-            if (bannerUrl) {
-                document.getElementById('banner').src = bannerUrl;
-            }
-        });
-        
-        // Update logo
-        document.getElementById('update-logo').addEventListener('click', () => {
-            const logoUrl = document.getElementById('logo-url').value;
-            if (logoUrl) {
-                document.querySelector('#about-logo img').src = logoUrl;
-            }
-        });
-        
-        // Save all changes
-        document.getElementById('save-all').addEventListener('click', saveData);
-        
-        // Reset all changes
-        document.getElementById('reset-all').addEventListener('click', () => {
-            if (confirm('Are you sure you want to reset all changes?')) {
-                localStorage.removeItem('portfolioData');
-                location.reload();
-            }
-        });
-        
-        // Refresh games
-        document.getElementById('refresh-games').addEventListener('click', loadItchGames);
-        
-        // Handle file uploads
-        bannerUpload.addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    document.getElementById('banner').src = event.target.result;
-                    document.getElementById('banner-url').value = event.target.result;
-                };
-                reader.readAsDataURL(file);
-            }
-        });
-        
-        logoUpload.addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    document.querySelector('#about-logo img').src = event.target.result;
-                    document.getElementById('logo-url').value = event.target.result;
-                };
-                reader.readAsDataURL(file);
-            }
-        });
-        
-        // Edit functionality for editable elements
-        document.addEventListener('click', (e) => {
-            if (editMode && e.target.classList.contains('edit-btn')) {
-                const parent = e.target.parentElement;
-                
-                if (parent.id === 'about-logo' || parent.classList.contains('editable-img')) {
-                    logoUpload.click();
-                } else if (parent.classList.contains('editable')) {
-                    if (parent.querySelector('img')) {
-                        bannerUpload.click();
-                    }
-                }
-            }
-        });
-        
-        // Load Itch.io games from embedded codes
-        function loadItchGames() {
-            const gamesContainer = document.getElementById('games-container');
-            gamesContainer.innerHTML = '';
-            
-            itchGameEmbeds.forEach(game => {
-                // Extract the URL from the embed code
-                const urlMatch = game.embedCode.match(/src="([^"]+)"/);
-                const linkMatch = game.embedCode.match(/<a href="([^"]+)"/);
-                
-                if (urlMatch && urlMatch[1]) {
-                    const embedUrl = urlMatch[1];
-                    const gameLink = linkMatch && linkMatch[1] ? linkMatch[1] : '#';
-                    
-                    const gameElement = document.createElement('div');
-                    gameElement.className = 'card';
-                    gameElement.innerHTML = `
-                        <div class="itch-embed-container">
-                            <iframe class="itch-embed" src="${embedUrl}"></iframe>
-                            <div class="itch-embed-placeholder">
-                                Loading game preview...<br>
-                                <small>Click to view on itch.io</small>
-                            </div>
-                        </div>
-                        <div class="card-content">
-                            <h极市 3>${game.name}</h3>
-                            <p>Click to view this game on itch.io</p>
-                        </div>
-                    `;
-                    
-                    gameElement.addEventListener('click', () => {
-                        window.open(gameLink, '_blank');
-                    });
-                    
-                    gamesContainer.appendChild(gameElement);
-                    
-                    // Hide placeholder once iframe loads
-                    const iframe = gameElement.querySelector('iframe');
-                    iframe.onload = function() {
-                        gameElement.querySelector('.itch-embed-placeholder').style.display = 'none';
-                    };
-                }
-            });
-        }
-        
-        // Initialize content
-        window.addEventListener('DOMContentLoaded', () => {
-            loadSavedData();
-            
-            // Set your custom banner and logo
-            document.getElementById('banner').src = 'computer size banner.png';
-            document.querySelector('#about-logo img').src = 'desktop_logo-removebg-preview.png';
-        });
-    </script>
+
 </body>
 </html>
